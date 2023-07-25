@@ -4,13 +4,11 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-import com.joaolucas.mapp.model.midia.Imagem;
 
 public class FichaTecnicaObra implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private Imagem imagem;
 	private String tipoImagem;
 	private String codigoPeca;
 	private Date dataAquisicao;
@@ -22,11 +20,10 @@ public class FichaTecnicaObra implements Serializable {
 	public FichaTecnicaObra() {
 	}
 
-	public FichaTecnicaObra(Long id, Imagem imagem, String tipoImagem, String codigoPeca, Date dataAquisicao,
+	public FichaTecnicaObra(Long id, String tipoImagem, String codigoPeca, Date dataAquisicao,
 			Boolean assinada, Boolean datada, String dimensao, String peso) {
 		super();
 		this.id = id;
-		this.imagem = imagem;
 		this.tipoImagem = tipoImagem;
 		this.codigoPeca = codigoPeca;
 		this.dataAquisicao = dataAquisicao;
@@ -44,13 +41,6 @@ public class FichaTecnicaObra implements Serializable {
 		this.id = id;
 	}
 
-	public Imagem getImagem() {
-		return imagem;
-	}
-
-	public void setImagem(Imagem imagem) {
-		this.imagem = imagem;
-	}
 
 	public String getTipoImagem() {
 		return tipoImagem;
@@ -110,7 +100,7 @@ public class FichaTecnicaObra implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(assinada, codigoPeca, dataAquisicao, datada, dimensao, id, imagem, peso, tipoImagem);
+		return Objects.hash(assinada, codigoPeca, dataAquisicao, datada, dimensao, id, peso, tipoImagem);
 	}
 
 	@Override
@@ -125,7 +115,7 @@ public class FichaTecnicaObra implements Serializable {
 		return Objects.equals(assinada, other.assinada) && Objects.equals(codigoPeca, other.codigoPeca)
 				&& Objects.equals(dataAquisicao, other.dataAquisicao) && Objects.equals(datada, other.datada)
 				&& Objects.equals(dimensao, other.dimensao) && Objects.equals(id, other.id)
-				&& Objects.equals(imagem, other.imagem) && Objects.equals(peso, other.peso)
+				&&  Objects.equals(peso, other.peso)
 				&& Objects.equals(tipoImagem, other.tipoImagem);
 	}
 
