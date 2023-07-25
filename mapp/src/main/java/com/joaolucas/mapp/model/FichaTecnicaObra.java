@@ -8,7 +8,7 @@ import java.util.Objects;
 public class FichaTecnicaObra implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private Long id;
+	private String id;
 	private String tipoImagem;
 	private String codigoPeca;
 	private Date dataAquisicao;
@@ -20,7 +20,7 @@ public class FichaTecnicaObra implements Serializable {
 	public FichaTecnicaObra() {
 	}
 
-	public FichaTecnicaObra(Long id, String tipoImagem, String codigoPeca, Date dataAquisicao,
+	public FichaTecnicaObra(String id, String tipoImagem, String codigoPeca, Date dataAquisicao,
 			Boolean assinada, Boolean datada, String dimensao, String peso) {
 		super();
 		this.id = id;
@@ -33,11 +33,11 @@ public class FichaTecnicaObra implements Serializable {
 		this.peso = peso;
 	}
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

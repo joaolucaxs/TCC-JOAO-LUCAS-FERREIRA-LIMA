@@ -3,10 +3,15 @@ package com.joaolucas.mapp.model;
 import java.io.Serializable;
 import java.util.Objects;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "obra")
 public class Peca implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private Long id;
+	@Id
+	private String id;
 	private Artista artesao;
 	private String tituloPeca;
 	private String tipologia;
@@ -20,9 +25,8 @@ public class Peca implements Serializable {
 	public Peca() {
 	};
 
-	public Peca(Long id, Artista artesao, String tituloPeca, String tipologia, String formaAssociativa,
-			String relacaoCultural, String tecnica, String classificacao, String produto,
-			FichaTecnicaObra fichatecnica) {
+	public Peca(String id, Artista artesao, String tituloPeca, String tipologia, String formaAssociativa,
+			String relacaoCultural, String tecnica, String classificacao, String produto, FichaTecnicaObra fichatecnica) {
 		super();
 		this.id = id;
 		this.artesao = artesao;
@@ -36,11 +40,11 @@ public class Peca implements Serializable {
 		this.fichatecnica = fichatecnica;
 	}
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -118,7 +122,7 @@ public class Peca implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(artesao, classificacao, fichatecnica, formaAssociativa, id, produto, relacaoCultural,
+		return Objects.hash(classificacao,  formaAssociativa, id, produto, relacaoCultural,
 				tecnica, tipologia, tituloPeca);
 	}
 
@@ -131,13 +135,14 @@ public class Peca implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Peca other = (Peca) obj;
-		return Objects.equals(artesao, other.artesao) && Objects.equals(classificacao, other.classificacao)
-				&& Objects.equals(fichatecnica, other.fichatecnica)
+		return   Objects.equals(classificacao, other.classificacao)
 				&& Objects.equals(formaAssociativa, other.formaAssociativa) && Objects.equals(id, other.id)
 				&& Objects.equals(produto, other.produto) && Objects.equals(relacaoCultural, other.relacaoCultural)
 				&& Objects.equals(tecnica, other.tecnica) && Objects.equals(tipologia, other.tipologia)
 				&& Objects.equals(tituloPeca, other.tituloPeca);
 	}
+
+
 
 
 }

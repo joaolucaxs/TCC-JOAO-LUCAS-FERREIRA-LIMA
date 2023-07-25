@@ -9,7 +9,7 @@ public class Artista implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Long id;
+	private String id;
 	private String nome;
 	private String apelido;
 	private String telefone;
@@ -20,7 +20,7 @@ public class Artista implements Serializable {
 	public Artista() {
 	}
 
-	public Artista(Long id, String nome, String apelido, String telefone, String email, String cidade) {
+	public Artista(String id, String nome, String apelido, String telefone, String email, String cidade) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -30,11 +30,11 @@ public class Artista implements Serializable {
 		this.cidade = cidade;
 	}
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
