@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.joaolucas.mapp.model.Peca;
 
 @Repository
-public interface PecaRepository extends MongoRepository<Peca, Long>{
+public interface PecaRepository extends MongoRepository<Peca, String>{
 
 	
 }
