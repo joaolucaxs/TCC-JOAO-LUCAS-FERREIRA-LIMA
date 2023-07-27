@@ -4,11 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.joaolucas.mapp.dtos.PecaDTO;
 import com.joaolucas.mapp.model.Peca;
 import com.joaolucas.mapp.repositories.PecaRepository;
+import com.joaolucas.mapp.services.exceptions.DataBaseException;
 import com.joaolucas.mapp.services.exceptions.ResourceNotFoundException;
 
 @Service
@@ -29,6 +32,41 @@ public class PecaService {
 	public Peca insert(Peca obj) {
 		return repo.save(obj);
 	}
+	
+	public void delete(String id) {
+		try {
+			findById(id);
+			repo.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataBaseException(e.getMessage());
+		}
+	}
+
+	public Peca update(String id, Peca obj) {
+		try {
+			Peca newObj = findById(id);
+			updateData(obj, newObj);
+			return repo.save(newObj);
+		} catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException(id);
+		}
+	}
+
+	private void updateData(Peca obj, Peca newObj) {
+		newObj.setArtesao(obj.getArtesao());
+		newObj.setTituloPeca(obj.getTituloPeca());
+		newObj.setTipologia(obj.getTipologia());
+		newObj.setFormaAssociativa(obj.getFormaAssociativa());
+		newObj.setRelacaoCultural(obj.getRelacaoCultural());
+		newObj.setTecnica(obj.getTecnica());
+		newObj.setClassificacao(obj.getClassificacao());
+		newObj.setProduto(obj.getProduto());
+		newObj.setFichatecnica(obj.getFichatecnica());
+
+	}
+
 
 	public Peca fromDTO(PecaDTO objDTO) {
 		return new Peca(objDTO.getId(), objDTO.getArtesao(), objDTO.getTituloPeca(), objDTO.getTipologia(),
