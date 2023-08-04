@@ -2,7 +2,6 @@ package com.joaolucas.mapp.dtos;
 
 import java.io.Serializable;
 
-import com.joaolucas.mapp.model.Artista;
 import com.joaolucas.mapp.model.FichaTecnicaObra;
 import com.joaolucas.mapp.model.Peca;
 
@@ -11,7 +10,7 @@ public class PecaDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private String id;
-	private Artista artesao;
+	private ArtistaDTO artesao;
 	private String tituloPeca;
 	private String tipologia;
 	private String formaAssociativa;
@@ -46,11 +45,11 @@ public class PecaDTO implements Serializable{
 		this.id = id;
 	}
 
-	public Artista getArtesao() {
+	public ArtistaDTO getArtesao() {
 		return artesao;
 	}
 
-	public void setArtesao(Artista artesao) {
+	public void setArtesao(ArtistaDTO artesao) {
 		this.artesao = artesao;
 	}
 

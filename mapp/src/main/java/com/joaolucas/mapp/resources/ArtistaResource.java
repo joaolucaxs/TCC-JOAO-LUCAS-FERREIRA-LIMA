@@ -14,35 +14,36 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.joaolucas.mapp.dtos.PecaDTO;
+import com.joaolucas.mapp.dtos.ArtistaDTO;
+import com.joaolucas.mapp.model.Artista;
 import com.joaolucas.mapp.model.Peca;
-import com.joaolucas.mapp.services.PecaService;
+import com.joaolucas.mapp.services.ArtistaService;
 
 @RestController
-@RequestMapping(value = "/pecas")
-public class PecaResource {
+@RequestMapping(value = "/artistas")
+public class ArtistaResource {
 
 	@Autowired
-	private PecaService service;
+	private ArtistaService service;
 
 	@GetMapping
-	public ResponseEntity<List<PecaDTO>> findAll() {
+	public ResponseEntity<List<ArtistaDTO>> findAll() {
 
-		List<Peca> pecas = service.findAll();
-		List<PecaDTO> pecasDto = pecas.stream().map(peca -> new PecaDTO(peca)).collect(Collectors.toList());
-		return ResponseEntity.ok().body(pecasDto);
+		List<Artista> artistas = service.findAll();
+		List<ArtistaDTO> artistasDto = artistas.stream().map(artista -> new ArtistaDTO(artista)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(artistasDto);
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<PecaDTO> findById(@PathVariable String id) {
+	public ResponseEntity<Artista> findById(@PathVariable String id) {
 
-		Peca peca = service.findById(id);
-		return ResponseEntity.ok().body(new PecaDTO(peca));
+		Artista artista = service.findById(id);
+		return ResponseEntity.ok().body(artista);
 	}
 
 	@PostMapping
-	public ResponseEntity<Peca> insert(@RequestBody PecaDTO objDTO) {
-		Peca obj = service.fromDTO(objDTO);
+	public ResponseEntity<Artista> insert(@RequestBody ArtistaDTO objDTO) {
+		Artista obj = service.fromDTO(objDTO);
 		obj = service.insert(obj);
 		return ResponseEntity.ok().body(obj);
 
@@ -62,8 +63,16 @@ public class PecaResource {
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Peca> update(@PathVariable String id, @RequestBody Peca obj) {
+	public ResponseEntity<Artista> update(@PathVariable String id, @RequestBody Artista obj) {
 		obj = service.update(id, obj);
 		return ResponseEntity.ok().body(obj);
 	}
+	
+	@GetMapping(value = "/{id}/obras")
+	public ResponseEntity<List<Peca>> obras(@PathVariable String id) {
+		Artista artista = service.findById(id);
+		return ResponseEntity.ok().body(artista.getListaObras());
+	}
+	
+	
 }

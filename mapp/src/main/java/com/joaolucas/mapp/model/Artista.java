@@ -5,16 +5,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document
 public class Artista implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Id
 	private String id;
 	private String nome;
 	private String apelido;
 	private String telefone;
 	private String email;
 	private String cidade;
+	
+	@DBRef(lazy = true)
 	private List<Peca> listaObras = new ArrayList<>();
 
 	public Artista() {
