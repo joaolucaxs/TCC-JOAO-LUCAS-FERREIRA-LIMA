@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,17 +15,32 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.joaolucas.mapp.dtos.PecaDTO;
+import com.joaolucas.mapp.model.Artista;
 import com.joaolucas.mapp.model.Peca;
+import com.joaolucas.mapp.services.ArtistaService;
 import com.joaolucas.mapp.services.PecaService;
 
-@RestController
+@Controller
 @RequestMapping(value = "/pecas")
 public class PecaResource {
 
 	@Autowired
 	private PecaService service;
+	
+	@Autowired
+	private ArtistaService artistaService;
+
+	@GetMapping("/findAll")
+    public ModelAndView findAllMv(){
+		List<Peca> pecas = service.findAll();
+		List<PecaDTO> pecasDto = pecas.stream().map(peca -> new PecaDTO(peca)).collect(Collectors.toList());
+		ModelAndView mv = new ModelAndView("obras/listarObras");
+		mv.addObject("pecas", pecasDto);
+		return mv;
+    }
 
 	@GetMapping
 	public ResponseEntity<List<PecaDTO>> findAll() {
@@ -42,16 +59,14 @@ public class PecaResource {
 
 	@PostMapping
 	public ResponseEntity<Peca> insert(@RequestBody PecaDTO objDTO) {
+		Artista artista = service.fromDTO(objDTO.getArtesao());
+		artistaService.insert(artista);
+		
 		Peca obj = service.fromDTO(objDTO);
+		obj.getArtesao().setId(artista.getId());;
 		obj = service.insert(obj);
+		artista.getListaObras().add(obj);
 		return ResponseEntity.ok().body(obj);
-
-		/*
-		 * URI uri =
-		 * ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand
-		 * (obj.getId()).toUri(); return ResponseEntity.created(uri).body(obj);
-		 */
-
 	}
 
 	@DeleteMapping(value = "/{id}")

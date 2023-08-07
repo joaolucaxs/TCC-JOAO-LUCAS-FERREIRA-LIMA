@@ -5,10 +5,10 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +19,7 @@ import com.joaolucas.mapp.model.Artista;
 import com.joaolucas.mapp.model.Peca;
 import com.joaolucas.mapp.services.ArtistaService;
 
-@RestController
+@Controller
 @RequestMapping(value = "/artistas")
 public class ArtistaResource {
 
@@ -41,19 +41,19 @@ public class ArtistaResource {
 		return ResponseEntity.ok().body(artista);
 	}
 
-	@PostMapping
-	public ResponseEntity<Artista> insert(@RequestBody ArtistaDTO objDTO) {
-		Artista obj = service.fromDTO(objDTO);
-		obj = service.insert(obj);
-		return ResponseEntity.ok().body(obj);
-
-		/*
-		 * URI uri =
-		 * ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand
-		 * (obj.getId()).toUri(); return ResponseEntity.created(uri).body(obj);
-		 */
-
-	}
+//	@PostMapping
+//	public ResponseEntity<Artista> insert(@RequestBody ArtistaDTO objDTO) {
+//		Artista obj = service.fromDTO(objDTO);
+//		obj = service.insert(obj);
+//		return ResponseEntity.ok().body(obj);
+//
+//		/*
+//		 * URI uri =
+//		 * ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand
+//		 * (obj.getId()).toUri(); return ResponseEntity.created(uri).body(obj);
+//		 */
+//
+//	}
 
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable String id) {

@@ -44,8 +44,14 @@ public class TestConfig implements CommandLineRunner {
 		
 		Peca peca3 = new Peca(null, new ArtistaDTO(artista1), "Sitio", "Papel", "", "", "", "Arte Popular",
 				"Decorativo", new FichaTecnicaObra("Imagem", "FP 001", new Date(), false, false, "53x73x80", "7kg"));
+		
+		Peca peca4 = new Peca(null, new ArtistaDTO(artista1), "Sitio", "Papel", "", "", "", "Arte Popular",
+				"Decorativo", new FichaTecnicaObra("Imagem", "FP 001", new Date(), false, false, "53x73x80", "7kg"));
+		Peca peca5 = new Peca(null, new ArtistaDTO(artista1), "Sitio", "Papel", "", "", "", "Arte Popular",
+				"Decorativo", new FichaTecnicaObra("Imagem", "FP 001", new Date(), false, false, "53x73x80", "7kg"));
+		
 
-		pecaRepository.saveAll(Arrays.asList(peca1, peca2, peca3));
+		pecaRepository.saveAll(Arrays.asList(peca1, peca2, peca3,peca4, peca5));
 		
 		artista1.getListaObras().addAll(Arrays.asList(peca1, peca3));
 		artista2.getListaObras().addAll(Arrays.asList(peca2));

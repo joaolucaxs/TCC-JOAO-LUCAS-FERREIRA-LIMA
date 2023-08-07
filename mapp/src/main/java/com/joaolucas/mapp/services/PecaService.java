@@ -8,7 +8,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.joaolucas.mapp.dtos.ArtistaDTO;
 import com.joaolucas.mapp.dtos.PecaDTO;
+import com.joaolucas.mapp.model.Artista;
 import com.joaolucas.mapp.model.Peca;
 import com.joaolucas.mapp.repositories.PecaRepository;
 import com.joaolucas.mapp.services.exceptions.DataBaseException;
@@ -36,6 +38,9 @@ public class PecaService {
 	public void delete(String id) {
 		try {
 			findById(id);
+//			Peca peca = findById(id);
+//			Artista artista = fromDTO(peca.getArtesao());
+//			artista.getListaObras().remove(peca);
 			repo.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
 			throw new ResourceNotFoundException(id);
@@ -72,6 +77,11 @@ public class PecaService {
 		return new Peca(objDTO.getId(), objDTO.getArtesao(), objDTO.getTituloPeca(), objDTO.getTipologia(),
 				objDTO.getFormaAssociativa(), objDTO.getRelacaoCultural(), objDTO.getTecnica(),
 				objDTO.getClassificacao(), objDTO.getProduto(), objDTO.getFichatecnica());
+	}
+	
+	public Artista fromDTO(ArtistaDTO objDTO) {
+		return new Artista(objDTO.getId(), objDTO.getNome(), objDTO.getApelido(), objDTO.getTelefone(),
+				objDTO.getEmail(), objDTO.getCidade());
 	}
 
 }
