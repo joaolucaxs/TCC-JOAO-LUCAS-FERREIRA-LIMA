@@ -33,7 +33,7 @@ public class PecaResource {
 	@Autowired
 	private ArtistaService artistaService;
 
-	@GetMapping("/findAll")
+	@GetMapping()
     public ModelAndView findAllMv(){
 		List<Peca> pecas = service.findAll();
 		List<PecaDTO> pecasDto = pecas.stream().map(peca -> new PecaDTO(peca)).collect(Collectors.toList());
@@ -42,13 +42,13 @@ public class PecaResource {
 		return mv;
     }
 
-	@GetMapping
-	public ResponseEntity<List<PecaDTO>> findAll() {
-
-		List<Peca> pecas = service.findAll();
-		List<PecaDTO> pecasDto = pecas.stream().map(peca -> new PecaDTO(peca)).collect(Collectors.toList());
-		return ResponseEntity.ok().body(pecasDto);
-	}
+//	@GetMapping
+//	public ResponseEntity<List<PecaDTO>> findAll() {
+//
+//		List<Peca> pecas = service.findAll();
+//		List<PecaDTO> pecasDto = pecas.stream().map(peca -> new PecaDTO(peca)).collect(Collectors.toList());
+//		return ResponseEntity.ok().body(pecasDto);
+//	}
 
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<PecaDTO> findById(@PathVariable String id) {

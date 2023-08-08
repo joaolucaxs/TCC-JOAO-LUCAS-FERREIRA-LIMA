@@ -18,8 +18,11 @@
 
 		<!-- Barra de Filtragem -->
 		<div class="mb-4">
-			<div class="row">
-				<div class="col-md-4">
+			<div class="d-flex flex-wrap justify-content-center align-items-center">
+				<div class="p-1">
+					<h5>Pesquisar por:</h5>
+				</div>
+				<div class="p-2 col-md-4">
 					<select class="form-select" id="filtro">
 						<option value="tituloPeca">Titulo da Peça</option>
 						<option value="artesao">Nome do Artesão</option>
@@ -35,34 +38,58 @@
 						<option value="datada">Datada</option>
 					</select>
 				</div>
-				<div class="col-md-8">
+				<div class="p-2 col-md-4">
 					<input type="text" class="form-control" id="pesquisa" placeholder="Digite para pesquisar">
 				</div>
+				<div class="p-1">
+					<button class="btn btn-primary">Buscar</button>
+				</div>
+				<div class="p-1">
+					<button class="btn btn-warning">Adicionar Obra</button>
+				</div>
+
 			</div>
 		</div>
 
-
-		<div class="row row-cols-1 row-cols-md-3 g-4">
+		<!-- Listagem de Obras -->
+		<div class="row row-cols-1 row-cols-md-4 g-4">
 			<div class="col" data-th-each="peca : ${pecas}">
-				<div class="card h-100">
-					<img src="..." class="card-img-top" alt="...">
+				<div class="card h-100 rounded-5 border border-1 border-dark ">
+					<img src="/images/obra2.png" class="p-3 card-img-top rounded-top-5" alt="...">
 					<div class="card-body">
-						<h5 class="card-title" data-th-text="${peca.getTituloPeca()}"></h5>
-						<p class="card-text" data-th-text="${peca.getArtesao().getNome()}"></p>
-						<p class="card-text" data-th-text="${peca.getFormaAssociativa()}"></p>
-						<p class="card-text" data-th-text="${peca.getTipologia()}"></p>
-						<p class="card-text" data-th-text="${peca.getRelacaoCultural()}"></p>
-						<p class="card-text" data-th-text="${peca.getTecnica()}"></p>
-						<p class="card-text" data-th-text="${peca.getClassificacao()}"></p>
-						<p class="card-text" data-th-text="${peca.getProduto()}"></p>
-						<p class="card-text" data-th-text="${peca.getFichatecnica().getCodigoPeca()}"></p>
-						<p class="card-text" data-th-text="${peca.getFichatecnica().getDataAquisicao()}"></p>
-						<p class="card-text" data-th-text="${peca.getFichatecnica().getAssinada()}"></p>
-						<p class="card-text" data-th-text="${peca.getFichatecnica().getDatada()}"></p>
-						<p class="card-text" data-th-text="${peca.getFichatecnica().getDimensao()}"></p>
-						<p class="card-text" data-th-text="${peca.getFichatecnica().getPeso()}"></p>
+						<h4 class="card-title text-center mb-4" data-th-text="${peca.getTituloPeca()}"></h4>
+						<p class="card-text"><b>Nome do Artesão:</b> <span
+								data-th-text="${peca.getArtesao().getNome()}"></span></p>
+						<p class="card-text"><b>Forma Associativa:</b> <span
+								data-th-text="${peca.getFormaAssociativa()}"></span></p>
+						<p class="card-text"><b>Tipologia:</b> <span data-th-text="${peca.getTipologia()}"></span></p>
+						<p class="card-text"><b>Relação Cultural:</b> <span
+								data-th-text="${peca.getRelacaoCultural()}"></span></p>
+						<p class="card-text"><b>Técnica:</b> <span data-th-text="${peca.getTecnica()}"></span></p>
+						<p class="card-text"><b>Classificação:</b> <span
+								data-th-text="${peca.getClassificacao()}"></span></p>
+						<p class="card-text"><b>Produto:</b> <span data-th-text="${peca.getProduto()}"></span></p>
+						<p class="card-text"><b>Código da Peça:</b> <span
+								data-th-text="${peca.getFichatecnica().getCodigoPeca()}"></span></p>
+						<p class="card-text"><b>Data de Aquisição:</b> <span
+								data-th-text="${peca.getFichatecnica().getDataAquisicao()}"></span></p>
+						<p class="card-text"><b>Assinada:</b> <span
+								data-th-text="${peca.getFichatecnica().getAssinada()}"></span></p>
+						<p class="card-text"><b>Datada:</b> <span
+								data-th-text="${peca.getFichatecnica().getDatada()}"></span></p>
+						<p class="card-text"><b>Dimensão:</b> <span
+								data-th-text="${peca.getFichatecnica().getDimensao()}"></span></p>
+						<p class="card-text"><b>Peso:</b> <span
+								data-th-text="${peca.getFichatecnica().getPeso()}"></span></p>
+
+					</div>
+					<div class="card-body d-flex justify-content-around align-items-center">
+						<a href="#" class="btn btn-primary">Editar</a>
+						<a href="#" class="btn btn-danger">Deletar</a>
 					</div>
 				</div>
+
+
 			</div>
 		</div>
 	</div>

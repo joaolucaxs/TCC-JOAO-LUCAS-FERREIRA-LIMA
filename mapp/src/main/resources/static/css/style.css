@@ -3,9 +3,36 @@ body{
 }
 
 .painel{
-	margin: 20px;
+	margin: 30px;
 	background-color: #ffffff;
 	border-radius: 30px;
-	padding: 20px;
+	padding-right: 50px; /* Padding no lado direito */
+    padding-bottom: 50px; /* Padding na parte inferior */
+    padding-left: 50px; /* Padding no lado esquerdo */
+	padding-top: 20px; /* Padding no lado esquerdo */
+
 
 }
+
+.btn-primary {
+    background-color: #3D4964;
+    border-color: #3D4964;
+    color: white; /* Alterar a cor do texto */
+}
+
+/* Estilização para o hover */
+.btn-primary:hover {
+    background-color: #1E2434; /* Cor para o hover */
+    border-color: #1E2434; /* Cor para o hover */
+    color: white; /* Manter a cor do texto igual */
+}
+
+.btn-warning{
+    color: white; /* Alterar a cor do texto */
+}
+
+.btn-warning:hover{
+    color: white; /* Alterar a cor do texto */
+}
+
+
