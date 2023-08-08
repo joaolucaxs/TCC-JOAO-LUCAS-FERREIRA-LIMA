@@ -84,4 +84,55 @@ public class PecaService {
 				objDTO.getEmail(), objDTO.getCidade());
 	}
 
+	public List<PecaDTO> findByTituloPeca(String tituloPeca){
+		return repo.findByTituloPecaIgnoreCase(tituloPeca);
+	}
+	public  List<PecaDTO> findByTipologia(String tipologia){
+		return repo.findByTipologiaIgnoreCase(tipologia);
+	}
+	public  List<PecaDTO> findByFormaAssociativa(String formaAssociativa){
+		return repo.findByFormaAssociativaIgnoreCase(formaAssociativa);
+	}
+	
+	public List<PecaDTO> findByRelacaoCultural(String relacaoCultural){
+		return repo.findByRelacaoCulturalIgnoreCase(relacaoCultural);
+	}
+	
+	public List<PecaDTO> findByTecnica(String tecnica){
+		return repo.findByTecnicaIgnoreCase(tecnica);
+	}
+	public List<PecaDTO> findByClassificacao(String classificacao){
+		return repo.findByClassificacaoIgnoreCase(classificacao);
+	}
+	
+	public List<PecaDTO> findByProduto(String produto){
+		return repo.findByProdutoIgnoreCase(produto);
+	}
+	
+//	public List<PecaDTO> findByFichaTecnicaTipoImagem(String tipoImagem){
+//		return repo.findByFichaTecnicaTipoImagem(tipoImagem);
+//	}
+//	
+//	public List<PecaDTO> findByFichaTecnicaCodigoPeca(String codigoPeca){
+//		return repo.findByFichaTecnicaCodigoPeca(codigoPeca);
+//	}
+//	
+//	public List<PecaDTO> findByFichaTecnicaDataAquisicao(Date dataAquisicao){
+//		return repo.findByFichaTecnicaDataAquisicao(dataAquisicao);
+//	}
+//	
+//	public List<PecaDTO> findByFichaTecnicaAssinada(Boolean assinada){
+//		return repo.findByFichaTecnicaAssinada(assinada);
+//	}
+//	
+//	public List<PecaDTO> findByFichaTecnicaDatada(Boolean datada){
+//		return repo.findByFichaTecnicaDatada(datada);
+//	}
+//	public List<PecaDTO> findByFichaTecnicaDimensao(String dimensao){
+//		return repo.findByFichaTecnicaDimensao(dimensao);
+//	}
+//	public List<PecaDTO> findByFichaTecnicaPeso(String peso){
+//		return repo.findByFichaTecnicaPeso(peso);
+//	}
+
 }
