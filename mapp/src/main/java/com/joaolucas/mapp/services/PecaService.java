@@ -94,10 +94,29 @@ public class PecaService {
 		return repo.filtrarPorDataAquisicao(dataAquisicao);
 	}
 
+	public List<PecaDTO> filtrarPorAssinada(Boolean assinada){
+		return repo.filtrarPorAssinada(assinada);
+	}
+
+	public List<PecaDTO> filtrarPorDatada(Boolean datada){
+		return repo.filtrarPorDatada(datada);
+	}
+
 	public LocalDate stringToLocalDate(String data) {
 		DateTimeFormatter formatterInput = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		LocalDate dataAquisicao = LocalDate.parse(data, formatterInput);
 		return dataAquisicao;
+	}
+
+	public boolean stringToBoolean(String input) {
+		String lowerCaseInput = input.toLowerCase(); // Transforma para minúsculas para ignorar caixa
+		lowerCaseInput = lowerCaseInput.replaceAll("[áàâã]", "a"); // Remove acentos de 'a'
+		lowerCaseInput = lowerCaseInput.replaceAll("[éèê]", "e"); // Remove acentos de 'e'
+		lowerCaseInput = lowerCaseInput.replaceAll("[íìî]", "i"); // Remove acentos de 'i'
+		lowerCaseInput = lowerCaseInput.replaceAll("[óòôõ]", "o"); // Remove acentos de 'o'
+		lowerCaseInput = lowerCaseInput.replaceAll("[úùû]", "u"); // Remove acentos de 'u'
+
+		return lowerCaseInput.equals("sim");
 	}
 
 //	public List<PecaDTO> findByFichaTecnicaTipoImagem(String tipoImagem){

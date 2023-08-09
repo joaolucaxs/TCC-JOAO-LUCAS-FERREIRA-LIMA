@@ -24,5 +24,11 @@ public interface PecaRepository extends MongoRepository<Peca, String> {
 
 	@Query("{'fichatecnica.dataAquisicao': ?0}")
 	List<PecaDTO> filtrarPorDataAquisicao(LocalDate dataAquisicao);
+	
+	@Query("{'fichatecnica.assinada': ?0}")
+	List<PecaDTO> filtrarPorAssinada(Boolean assinada);
+	
+	@Query("{'fichatecnica.datada': ?0}")
+	List<PecaDTO> filtrarPorDatada(Boolean datada);
 
 }

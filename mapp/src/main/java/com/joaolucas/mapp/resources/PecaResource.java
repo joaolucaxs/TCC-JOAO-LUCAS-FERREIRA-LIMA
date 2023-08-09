@@ -50,6 +50,12 @@ public class PecaResource {
 		if (filtro.equals("dataAquisicao")) {
 			pecasDto = service.filtrarPorDataAquisicao(service.stringToLocalDate(pesquisa));
 		}
+		if (filtro.equals("assinada")) {
+			pecasDto = service.filtrarPorAssinada(service.stringToBoolean(pesquisa));
+		}
+		if (filtro.equals("datada")) {
+			pecasDto = service.filtrarPorDatada(service.stringToBoolean(pesquisa));
+		}
 
 		ModelAndView mv = new ModelAndView("obras/listarObras");
 		mv.addObject("pecas", pecasDto);
