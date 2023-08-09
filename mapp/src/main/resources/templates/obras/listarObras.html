@@ -76,11 +76,11 @@
 						<p class="card-text"><b>Código da Peça:</b> <span
 								data-th-text="${peca.getFichatecnica().getCodigoPeca()}"></span></p>
 						<p class="card-text"><b>Data de Aquisição:</b> <span
-								data-th-text="${peca.getFichatecnica().getDataAquisicao()}"></span></p>
+								data-th-text="${peca.getFichatecnica().getDataAquisicaoAsStr()}"></span></p>
 						<p class="card-text"><b>Assinada:</b> <span
-								data-th-text="${peca.getFichatecnica().getAssinada()}"></span></p>
+								data-th-text="${peca.getFichatecnica().getAssinada() ? 'Sim' : 'Não'}"></span></p>
 						<p class="card-text"><b>Datada:</b> <span
-								data-th-text="${peca.getFichatecnica().getDatada()}"></span></p>
+								data-th-text="${peca.getFichatecnica().getDatada()} ? 'Sim' : 'Não'"></span></p>
 						<p class="card-text"><b>Dimensão:</b> <span
 								data-th-text="${peca.getFichatecnica().getDimensao()}"></span></p>
 						<p class="card-text"><b>Peso:</b> <span

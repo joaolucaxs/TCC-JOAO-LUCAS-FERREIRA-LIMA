@@ -1,6 +1,6 @@
 package com.joaolucas.mapp.repositories;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -18,14 +18,11 @@ public interface PecaRepository extends MongoRepository<Peca, String> {
 			+ "{'relacaoCultural': {$regex: ?0, $options: 'i'}}, " + "{'tecnica': {$regex: ?0, $options: 'i'}}, "
 			+ "{'classificacao': {$regex: ?0, $options: 'i'}}, " + "{'produto': {$regex: ?0, $options: 'i'}}"
 			+ "{'fichatecnica.codigoPeca': {$regex: ?0, $options: 'i'}}"
-			+ "{'fichatecnica.dimensao': {$regex: ?0, $options: 'i'}}"
-			+ "{'artesao.nome': {$regex: ?0, $options: 'i'}}"
+			+ "{'fichatecnica.dimensao': {$regex: ?0, $options: 'i'}}" + "{'artesao.nome': {$regex: ?0, $options: 'i'}}"
 			+ "]}")
 	List<PecaDTO> filtrarPorCampo(String pesquisa);
 
-
-	List<PecaDTO> findByFichaTecnicaDataAquisicao(Date dataAquisicao);
-	List<PecaDTO> findByFichaTecnicaAssinada(Boolean assinada);
-	List<PecaDTO> findByFichaTecnicaDatada(Boolean datada);
+	@Query("{'fichatecnica.dataAquisicao': ?0}")
+	List<PecaDTO> filtrarPorDataAquisicao(LocalDate dataAquisicao);
 
 }

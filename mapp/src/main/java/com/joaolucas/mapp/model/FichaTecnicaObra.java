@@ -1,7 +1,8 @@
 package com.joaolucas.mapp.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class FichaTecnicaObra implements Serializable {
@@ -9,7 +10,7 @@ public class FichaTecnicaObra implements Serializable {
 
 	private String tipoImagem;
 	private String codigoPeca;
-	private Date dataAquisicao;
+	private LocalDate dataAquisicao;
 	private Boolean assinada;
 	private Boolean datada;
 	private String dimensao;
@@ -18,7 +19,7 @@ public class FichaTecnicaObra implements Serializable {
 	public FichaTecnicaObra() {
 	}
 
-	public FichaTecnicaObra(String tipoImagem, String codigoPeca, Date dataAquisicao, Boolean assinada, Boolean datada,
+	public FichaTecnicaObra(String tipoImagem, String codigoPeca, LocalDate dataAquisicao, Boolean assinada, Boolean datada,
 			String dimensao, String peso) {
 		super();
 		this.tipoImagem = tipoImagem;
@@ -46,13 +47,22 @@ public class FichaTecnicaObra implements Serializable {
 		this.codigoPeca = codigoPeca;
 	}
 
-	public Date getDataAquisicao() {
+	public LocalDate getDataAquisicao() {
 		return dataAquisicao;
 	}
 
-	public void setDataAquisicao(Date dataAquisicao) {
+	public void setDataAquisicao(LocalDate dataAquisicao) {
 		this.dataAquisicao = dataAquisicao;
 	}
+
+	public String getDataAquisicaoAsStr() {
+		return formatDateToString(dataAquisicao);
+	}
+	
+    public static String formatDateToString(LocalDate date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return date.format(formatter);
+    }
 
 	public Boolean getAssinada() {
 		return assinada;

@@ -33,7 +33,7 @@ public class PecaResource {
 	private ArtistaService artistaService;
 
 	@GetMapping()
-	public ModelAndView findAllMv() {
+	public ModelAndView findAll() {
 		List<Peca> pecas = service.findAll();
 		List<PecaDTO> pecasDto = pecas.stream().map(peca -> new PecaDTO(peca)).collect(Collectors.toList());
 		ModelAndView mv = new ModelAndView("obras/listarObras");
@@ -42,29 +42,21 @@ public class PecaResource {
 	}
 
 	@GetMapping(value = "/filtrar")
-	public ModelAndView filtrarObras(@RequestParam(value = "pesquisa") String pesquisa) {
+	public ModelAndView filtrarObras(@RequestParam(value = "filtro") String filtro,
+			@RequestParam(value = "pesquisa") String pesquisa) {
+		
 		List<PecaDTO> pecasDto = service.filtrarPorCampo(pesquisa);
+
+		if (filtro.equals("dataAquisicao")) {
+			pecasDto = service.filtrarPorDataAquisicao(service.stringToLocalDate(pesquisa));
+		}
 
 		ModelAndView mv = new ModelAndView("obras/listarObras");
 		mv.addObject("pecas", pecasDto);
 		return mv;
 	}
 
-//	@GetMapping(value = "/tipologia")
-//	public ResponseEntity<List<PecaDTO>> findByTipologia(@RequestParam(value = "tipologia", defaultValue = "") String tipologia) {
-//
-//		List<PecaDTO> pecas = service.findByTipologia(tipologia);
-//		return ResponseEntity.ok().body(pecas);
-//	}
-
-//	@GetMapping
-//	public ResponseEntity<List<PecaDTO>> findAll() {
-//
-//		List<Peca> pecas = service.findAll();
-//		List<PecaDTO> pecasDto = pecas.stream().map(peca -> new PecaDTO(peca)).collect(Collectors.toList());
-//		return ResponseEntity.ok().body(pecasDto);
-//	}
-
+	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<PecaDTO> findById(@PathVariable String id) {
 

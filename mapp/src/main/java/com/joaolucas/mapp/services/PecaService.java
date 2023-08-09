@@ -1,5 +1,7 @@
 package com.joaolucas.mapp.services;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +36,7 @@ public class PecaService {
 	public Peca insert(Peca obj) {
 		return repo.save(obj);
 	}
-	
+
 	public void delete(String id) {
 		try {
 			findById(id);
@@ -72,13 +74,12 @@ public class PecaService {
 
 	}
 
-
 	public Peca fromDTO(PecaDTO objDTO) {
 		return new Peca(objDTO.getId(), objDTO.getArtesao(), objDTO.getTituloPeca(), objDTO.getTipologia(),
 				objDTO.getFormaAssociativa(), objDTO.getRelacaoCultural(), objDTO.getTecnica(),
 				objDTO.getClassificacao(), objDTO.getProduto(), objDTO.getFichatecnica());
 	}
-	
+
 	public Artista fromDTO(ArtistaDTO objDTO) {
 		return new Artista(objDTO.getId(), objDTO.getNome(), objDTO.getApelido(), objDTO.getTelefone(),
 				objDTO.getEmail(), objDTO.getCidade());
@@ -88,7 +89,17 @@ public class PecaService {
 		return repo.filtrarPorCampo(pesquisa);
 
 	}
-	
+
+	public List<PecaDTO> filtrarPorDataAquisicao(LocalDate dataAquisicao) {
+		return repo.filtrarPorDataAquisicao(dataAquisicao);
+	}
+
+	public LocalDate stringToLocalDate(String data) {
+		DateTimeFormatter formatterInput = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDate dataAquisicao = LocalDate.parse(data, formatterInput);
+		return dataAquisicao;
+	}
+
 //	public List<PecaDTO> findByFichaTecnicaTipoImagem(String tipoImagem){
 //		return repo.findByFichaTecnicaTipoImagem(tipoImagem);
 //	}

@@ -144,7 +144,4 @@ public class Peca implements Serializable {
 				&& Objects.equals(tituloPeca, other.tituloPeca);
 	}
 
-
-
-
 }
