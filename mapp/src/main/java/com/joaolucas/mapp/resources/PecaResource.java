@@ -28,18 +28,34 @@ public class PecaResource {
 
 	@Autowired
 	private PecaService service;
-	
+
 	@Autowired
 	private ArtistaService artistaService;
 
 	@GetMapping()
-    public ModelAndView findAllMv(){
+	public ModelAndView findAllMv() {
 		List<Peca> pecas = service.findAll();
 		List<PecaDTO> pecasDto = pecas.stream().map(peca -> new PecaDTO(peca)).collect(Collectors.toList());
 		ModelAndView mv = new ModelAndView("obras/listarObras");
 		mv.addObject("pecas", pecasDto);
 		return mv;
-    }
+	}
+
+	@GetMapping(value = "/filtrar")
+	public ModelAndView filtrarObras(@RequestParam(value = "pesquisa") String pesquisa) {
+		List<PecaDTO> pecasDto = service.filtrarPorCampo(pesquisa);
+
+		ModelAndView mv = new ModelAndView("obras/listarObras");
+		mv.addObject("pecas", pecasDto);
+		return mv;
+	}
+
+//	@GetMapping(value = "/tipologia")
+//	public ResponseEntity<List<PecaDTO>> findByTipologia(@RequestParam(value = "tipologia", defaultValue = "") String tipologia) {
+//
+//		List<PecaDTO> pecas = service.findByTipologia(tipologia);
+//		return ResponseEntity.ok().body(pecas);
+//	}
 
 //	@GetMapping
 //	public ResponseEntity<List<PecaDTO>> findAll() {
@@ -60,9 +76,10 @@ public class PecaResource {
 	public ResponseEntity<Peca> insert(@RequestBody PecaDTO objDTO) {
 		Artista artista = service.fromDTO(objDTO.getArtesao());
 		artistaService.insert(artista);
-		
+
 		Peca obj = service.fromDTO(objDTO);
-		obj.getArtesao().setId(artista.getId());;
+		obj.getArtesao().setId(artista.getId());
+		;
 		obj = service.insert(obj);
 		artista.getListaObras().add(obj);
 		return ResponseEntity.ok().body(obj);
@@ -80,13 +97,5 @@ public class PecaResource {
 		obj = service.update(id, obj);
 		return ResponseEntity.ok().body(obj);
 	}
-	
-	@GetMapping(value = "/tipologia")
-	public ResponseEntity<List<PecaDTO>> findByTipologia(@RequestParam(value = "tipologia", defaultValue = "") String tipologia) {
 
-		List<PecaDTO> pecas = service.findByTipologia(tipologia);
-		return ResponseEntity.ok().body(pecas);
-	}
-
-	
 }

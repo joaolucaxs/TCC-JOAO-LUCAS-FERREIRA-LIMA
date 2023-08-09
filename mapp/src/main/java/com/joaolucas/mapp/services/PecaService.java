@@ -84,29 +84,9 @@ public class PecaService {
 				objDTO.getEmail(), objDTO.getCidade());
 	}
 
-	public List<PecaDTO> findByTituloPeca(String tituloPeca){
-		return repo.findByTituloPecaIgnoreCase(tituloPeca);
-	}
-	public  List<PecaDTO> findByTipologia(String tipologia){
-		return repo.findByTipologiaIgnoreCase(tipologia);
-	}
-	public  List<PecaDTO> findByFormaAssociativa(String formaAssociativa){
-		return repo.findByFormaAssociativaIgnoreCase(formaAssociativa);
-	}
-	
-	public List<PecaDTO> findByRelacaoCultural(String relacaoCultural){
-		return repo.findByRelacaoCulturalIgnoreCase(relacaoCultural);
-	}
-	
-	public List<PecaDTO> findByTecnica(String tecnica){
-		return repo.findByTecnicaIgnoreCase(tecnica);
-	}
-	public List<PecaDTO> findByClassificacao(String classificacao){
-		return repo.findByClassificacaoIgnoreCase(classificacao);
-	}
-	
-	public List<PecaDTO> findByProduto(String produto){
-		return repo.findByProdutoIgnoreCase(produto);
+	public List<PecaDTO> filtrarPorCampo(String pesquisa) {
+		return repo.filtrarPorCampo(pesquisa);
+
 	}
 	
 //	public List<PecaDTO> findByFichaTecnicaTipoImagem(String tipoImagem){
