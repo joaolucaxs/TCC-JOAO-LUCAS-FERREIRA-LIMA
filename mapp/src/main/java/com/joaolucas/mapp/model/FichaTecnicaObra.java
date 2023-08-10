@@ -8,6 +8,7 @@ import java.util.Objects;
 public class FichaTecnicaObra implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	//private Image imagemCapa;
 	private String tipoImagem;
 	private String codigoPeca;
 	private LocalDate dataAquisicao;
@@ -19,9 +20,11 @@ public class FichaTecnicaObra implements Serializable {
 	public FichaTecnicaObra() {
 	}
 
+	//Image imagemCapa
 	public FichaTecnicaObra(String tipoImagem, String codigoPeca, LocalDate dataAquisicao, Boolean assinada, Boolean datada,
 			String dimensao, String peso) {
 		super();
+		//this.imagemCapa = imagemCapa;
 		this.tipoImagem = tipoImagem;
 		this.codigoPeca = codigoPeca;
 		this.dataAquisicao = dataAquisicao;
@@ -31,16 +34,26 @@ public class FichaTecnicaObra implements Serializable {
 		this.peso = peso;
 	}
 
+//	public Image getTipoImagem() {
+//		return imagemCapa;
+//	}
+//
+//	public void setTipoImagem(Image imagemCapa) {
+//		this.imagemCapa = imagemCapa;
+//	}
+	
+	
+
+	public String getCodigoPeca() {
+		return codigoPeca;
+	}
+
 	public String getTipoImagem() {
 		return tipoImagem;
 	}
 
 	public void setTipoImagem(String tipoImagem) {
 		this.tipoImagem = tipoImagem;
-	}
-
-	public String getCodigoPeca() {
-		return codigoPeca;
 	}
 
 	public void setCodigoPeca(String codigoPeca) {
@@ -98,7 +111,7 @@ public class FichaTecnicaObra implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(assinada, codigoPeca, dataAquisicao, datada, dimensao, peso, tipoImagem);
+		return Objects.hash(tipoImagem,assinada, codigoPeca, dataAquisicao, datada, dimensao, peso);
 	}
 
 	@Override
@@ -112,8 +125,7 @@ public class FichaTecnicaObra implements Serializable {
 		FichaTecnicaObra other = (FichaTecnicaObra) obj;
 		return Objects.equals(assinada, other.assinada) && Objects.equals(codigoPeca, other.codigoPeca)
 				&& Objects.equals(dataAquisicao, other.dataAquisicao) && Objects.equals(datada, other.datada)
-				&& Objects.equals(dimensao, other.dimensao) && Objects.equals(peso, other.peso)
-				&& Objects.equals(tipoImagem, other.tipoImagem);
+				&& Objects.equals(dimensao, other.dimensao) && Objects.equals(peso, other.peso);
 	}
 
 }

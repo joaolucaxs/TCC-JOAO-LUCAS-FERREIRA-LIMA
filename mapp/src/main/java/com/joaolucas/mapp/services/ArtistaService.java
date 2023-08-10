@@ -2,6 +2,7 @@ package com.joaolucas.mapp.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -23,6 +24,23 @@ public class ArtistaService {
 	public List<Artista> findAll() {
 		return repo.findAll();
 	}
+	
+	public List<ArtistaDTO> findAllDto() {
+		 return findAll().stream()
+		            .map(this::convertToDTO)
+		            .collect(Collectors.toList());
+	}
+	
+    private ArtistaDTO convertToDTO(Artista peca) {
+    	ArtistaDTO artistaDTO = new ArtistaDTO();
+    	artistaDTO.setId(peca.getId());
+    	artistaDTO.setNome(peca.getNome());
+    	artistaDTO.setApelido(peca.getApelido());
+    	artistaDTO.setTelefone(peca.getTelefone());
+    	artistaDTO.setEmail(peca.getEmail());
+    	artistaDTO.setCidade(peca.getCidade());
+        return artistaDTO;
+    }
 
 	public Artista findById(String id) {
 		Optional<Artista> obj = repo.findById(id);
