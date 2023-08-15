@@ -1,10 +1,13 @@
 package com.joaolucas.mapp.services;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
+import org.bson.BsonBinarySubType;
+import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -12,7 +15,10 @@ import org.springframework.stereotype.Service;
 
 import com.joaolucas.mapp.dtos.ArtistaDTO;
 import com.joaolucas.mapp.dtos.PecaDTO;
+import com.joaolucas.mapp.dtos.PecaDTOFormulario;
 import com.joaolucas.mapp.model.Artista;
+import com.joaolucas.mapp.model.FichaTecnicaObra;
+import com.joaolucas.mapp.model.Image;
 import com.joaolucas.mapp.model.Peca;
 import com.joaolucas.mapp.repositories.PecaRepository;
 import com.joaolucas.mapp.services.exceptions.DataBaseException;
@@ -94,11 +100,11 @@ public class PecaService {
 		return repo.filtrarPorDataAquisicao(dataAquisicao);
 	}
 
-	public List<PecaDTO> filtrarPorAssinada(Boolean assinada){
+	public List<PecaDTO> filtrarPorAssinada(Boolean assinada) {
 		return repo.filtrarPorAssinada(assinada);
 	}
 
-	public List<PecaDTO> filtrarPorDatada(Boolean datada){
+	public List<PecaDTO> filtrarPorDatada(Boolean datada) {
 		return repo.filtrarPorDatada(datada);
 	}
 
@@ -119,30 +125,29 @@ public class PecaService {
 		return lowerCaseInput.equals("sim");
 	}
 
-//	public List<PecaDTO> findByFichaTecnicaTipoImagem(String tipoImagem){
-//		return repo.findByFichaTecnicaTipoImagem(tipoImagem);
-//	}
-//	
-//	public List<PecaDTO> findByFichaTecnicaCodigoPeca(String codigoPeca){
-//		return repo.findByFichaTecnicaCodigoPeca(codigoPeca);
-//	}
-//	
-//	public List<PecaDTO> findByFichaTecnicaDataAquisicao(Date dataAquisicao){
-//		return repo.findByFichaTecnicaDataAquisicao(dataAquisicao);
-//	}
-//	
-//	public List<PecaDTO> findByFichaTecnicaAssinada(Boolean assinada){
-//		return repo.findByFichaTecnicaAssinada(assinada);
-//	}
-//	
-//	public List<PecaDTO> findByFichaTecnicaDatada(Boolean datada){
-//		return repo.findByFichaTecnicaDatada(datada);
-//	}
-//	public List<PecaDTO> findByFichaTecnicaDimensao(String dimensao){
-//		return repo.findByFichaTecnicaDimensao(dimensao);
-//	}
-//	public List<PecaDTO> findByFichaTecnicaPeso(String peso){
-//		return repo.findByFichaTecnicaPeso(peso);
-//	}
+	public Peca novaObra(Peca obj) {
+		return repo.save(obj);
+	}
+
+	public Peca fromDTOFormulario(PecaDTOFormulario objDTO, ArtistaDTO artista) throws IOException {
+		Peca peca = new Peca();
+		peca.setId(objDTO.getId());
+		peca.setArtesao(artista);
+		peca.setTituloPeca(objDTO.getTituloPeca());
+		peca.setTipologia(objDTO.getTipologia());
+		peca.setFormaAssociativa(objDTO.getFormaAssociativa());
+		peca.setRelacaoCultural(objDTO.getRelacaoCultural());
+		peca.setTecnica(objDTO.getTecnica());
+		peca.setClassificacao(objDTO.getClassificacao());
+		peca.setProduto(objDTO.getProduto());
+
+		Image imagemCapa = new Image(new Binary(BsonBinarySubType.BINARY, objDTO.getImagemPecaFile().getBytes()));
+		FichaTecnicaObra fichaTecnicaObra = new FichaTecnicaObra(imagemCapa, objDTO.getCodigoPeca(),
+				objDTO.getDataAquisicao(), objDTO.getAssinada(), objDTO.getDatada(), objDTO.getDimensao(),
+				objDTO.getPeso());
+
+		peca.setFichatecnica(fichaTecnicaObra);
+		return peca;
+	}
 
 }

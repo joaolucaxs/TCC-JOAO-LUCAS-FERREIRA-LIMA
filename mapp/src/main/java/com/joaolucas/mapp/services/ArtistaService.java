@@ -86,6 +86,10 @@ public class ArtistaService {
 		return new Artista(objDTO.getId(), objDTO.getNome(), objDTO.getApelido(), objDTO.getTelefone(),
 				objDTO.getEmail(), objDTO.getCidade());
 	}
+
+	public ArtistaDTO findByNome(String artesao) {
+		return repo.findByNome(artesao);
+	}
 	
 
 }

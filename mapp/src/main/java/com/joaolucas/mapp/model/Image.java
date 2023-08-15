@@ -1,63 +1,35 @@
 package com.joaolucas.mapp.model;
 
 import java.io.Serializable;
+import java.util.Base64;
 import java.util.Objects;
+
+import org.bson.types.Binary;
 
 public class Image implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private String fileName;
-	private String fileType;
-	private String fileDownloadURI;
-	private long size;
-
+	private Binary image;
+	
 	public Image() {
 
 	}
 
-	public Image(String fileName, String fileType, String fileDownloadURI, long size) {
-		super();
-		this.fileName = fileName;
-		this.fileType = fileType;
-		this.fileDownloadURI = fileDownloadURI;
-		this.size = size;
+	public Image(Binary image) {
+		this.image = image;
 	}
 
-	public String getFileName() {
-		return fileName;
+	public Binary getImage() {
+		return image;
 	}
 
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
-
-	public String getFileType() {
-		return fileType;
-	}
-
-	public void setFileType(String fileType) {
-		this.fileType = fileType;
-	}
-
-	public String getFileDownloadURI() {
-		return fileDownloadURI;
-	}
-
-	public void setFileDownloadURI(String fileDownloadURI) {
-		this.fileDownloadURI = fileDownloadURI;
-	}
-
-	public long getSize() {
-		return size;
-	}
-
-	public void setSize(long size) {
-		this.size = size;
+	public void setImage(Binary image) {
+		this.image = image;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(fileDownloadURI, fileName, fileType, size);
+		return Objects.hash(image);
 	}
 
 	@Override
@@ -69,9 +41,11 @@ public class Image implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Image other = (Image) obj;
-		return Objects.equals(fileDownloadURI, other.fileDownloadURI) && Objects.equals(fileName, other.fileName)
-				&& Objects.equals(fileType, other.fileType) && size == other.size;
+		return Objects.equals(image, other.image);
 	}
 
-	
+	public String getImagemBinaryStr() {
+		return Base64.getEncoder().encodeToString(image.getData());
+	}
+
 }

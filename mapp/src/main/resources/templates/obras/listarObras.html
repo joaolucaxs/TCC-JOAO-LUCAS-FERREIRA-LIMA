@@ -47,7 +47,7 @@
 						<button type="submit" class="btn btn-primary" id="btnBuscar">Buscar</button>
 					</div>
 					<div class="p-1">
-						<button class="btn btn-warning">Adicionar Obra</button>
+						<a class="btn btn-warning" href="/pecas/novaObra" role="button">Adicionar Obra</a>
 					</div>
 
 				</div>
@@ -59,7 +59,8 @@
 		<div class="row row-cols-1 row-cols-md-4 g-4">
 			<div class="col" data-th-each="peca : ${pecas}">
 				<div class="card h-100 rounded-5 border border-1 border-dark ">
-					<img src="/images/obra2.png" class="p-3 card-img-top rounded-top-5" alt="...">
+					<img th:src="${'data:image/png;base64,' + peca.getFichatecnica().getImagemCapa().getImagemBinaryStr()}" class="
+						p-3 card-img-top rounded-top-5" alt="Imagem da Capa">
 					<div class="card-body">
 						<h4 class="card-title text-center mb-4" data-th-text="${peca.getTituloPeca()}"></h4>
 						<p class="card-text"><b>Nome do Artesão:</b> <span

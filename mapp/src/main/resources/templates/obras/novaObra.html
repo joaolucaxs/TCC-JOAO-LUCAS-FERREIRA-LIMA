@@ -16,19 +16,54 @@
 
 	<div class="painel">
 		<h1 class="text-center my-3">Nova Obra</h1>
-		<form class="row g-3">
+
+		<form class="row g-3" th:action="@{/pecas/novaObra}" method="post" enctype="multipart/form-data">
+			<div class="col-md-6">
+
+				<div class="mb-3">
+					<label for="validationServerTituloObra" class="form-label"><b>Título da Peça:</b></label>
+					<input type="text" class="form-control is-invalid" id="validationServerTituloObra" name="tituloPeca"
+						placeholder="Título da Peça"
+						aria-describedby="inputGroupPrepend3 validationServerTituloObraFeedBack" required>
+					<div id="validationServerTituloObraFeedBack" class="invalid-feedback">
+						Título da Peça Obrigatório.
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6">
+
+				<div class="mb-3">
+					<label for="validationServerCodigoObra" class="form-label"><b>Código da Peça:</b></label>
+					<input type="text" class="form-control is-invalid" id="validationServerCodigoObra" name="codigoPeca"
+						placeholder="Código da Peça"
+						aria-describedby="inputGroupPrepend3 validationServerCodigoObraFeedBack" required>
+					<div id="validationServerCodigoObraFeedBack" class="invalid-feedback">
+						Código da Peça Obrigatório.
+					</div>
+				</div>
+			</div>
+			
+			
+			
 			<div class="col-md-6">
 				<div class="mb-3">
 					<label for="formFile" class="form-label"><b>Imagem da Capa:</b></label>
-					<input class="form-control" type="file" id="formFile" accept=".jpg, .png, .jpeg"
-						data-browse="Escolha a imagem">
+					<input type="file" id="formFile" class="form-control is-invalid" data-browse="Escolha a imagem"
+						aria-label="file example" name="imagemPecaFile" accept="image/*" required>
+					<div class="invalid-feedback">Imagem da Peça Obrigatório.</div>
 				</div>
 			</div>
+			
+			
+			
+			
 			<div class="col-md-6 ">
 				<div class="mb-3">
 					<label for="artesao" class="form-label"><b>Artesão:</b></label>
 					<div class="mb-3 d-flex justify-content-between align-items-center">
-						<select class="form-select me-3" aria-label="Default select example" id="form-artesao" name="artesao">
+						<select class="form-select me-3" aria-label="Default select example" id="form-artesao"
+							name="artesao">
 							<option th:each="artista : ${artesaos}" th:text="${artista.getNome()}"></option>
 						</select>
 						<button class="btn btn-primary me-3">
@@ -51,7 +86,6 @@
 			</div>
 
 			<div class="col-md-6">
-
 				<div class="mb-3">
 					<label for="exampleFormControlInput1" class="form-label"><b>Relação Cultural:</b></label>
 					<input type="text" class="form-control" id="exampleFormControlInput1" name="relacaoCultural"
@@ -59,23 +93,7 @@
 				</div>
 			</div>
 
-			<div class="col-md-6">
 
-				<div class="mb-3">
-					<label for="exampleFormControlInput1" class="form-label"><b>Título da Peça:</b></label>
-					<input type="text" class="form-control" id="exampleFormControlInput1" name="tituloPeca"
-						placeholder="Título da Peça">
-				</div>
-			</div>
-
-			<div class="col-md-6">
-
-				<div class="mb-3">
-					<label for="exampleFormControlInput1" class="form-label"><b>Código da Peça:</b></label>
-					<input type="text" class="form-control" id="exampleFormControlInput1" name="codigoPeca"
-						placeholder="Código da Peça">
-				</div>
-			</div>
 
 			<div class="col-md-6">
 
@@ -136,9 +154,8 @@
 				<div class="mb-3">
 					<label for="assinada" class="form-label"><b>Assinada:</b></label>
 					<select class="form-select" aria-label="Default select example" id="assinada" name="assinada">
-						<option selected>Sim ou não</option>
-						<option value="1">Sim</option>
-						<option value="0">Não</option>
+						<option value="true">Sim</option>
+						<option value="false">Não</option>
 					</select>
 				</div>
 			</div>
@@ -147,15 +164,17 @@
 				<div class="mb-3">
 					<label for="datada" class="form-label"><b>Datada:</b></label>
 					<select class="form-select" aria-label="Default select example" id="datada" name="datada">
-						<option selected>Sim ou não</option>
-						<option value="1">Sim</option>
-						<option value="0">Não</option>
+						<option value="true">Sim</option>
+						<option value="false">Não</option>
 					</select>
 				</div>
 			</div>
+			<div class="col-md-6">
+			</div>
+			<div class="col-md-6 d-flex justify-content-end">
+				<a class="btn btn-danger mb-3 " href="/pecas" role="button">Cancelar</a>
+				<button class="btn btn-primary mb-3 ms-2" type="submit" id="salvarOBra">Salvar Obra</button>
 
-			<div class="col-12">
-				<button class="btn btn-primary" type="submit" id="salvarOBra">Salvar Obra</button>
 			</div>
 		</form>
 	</div>

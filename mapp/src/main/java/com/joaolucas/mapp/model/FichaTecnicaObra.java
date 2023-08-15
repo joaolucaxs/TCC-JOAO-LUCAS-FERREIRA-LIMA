@@ -8,8 +8,7 @@ import java.util.Objects;
 public class FichaTecnicaObra implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	//private Image imagemCapa;
-	private String tipoImagem;
+	private Image imagemCapa;
 	private String codigoPeca;
 	private LocalDate dataAquisicao;
 	private Boolean assinada;
@@ -20,12 +19,10 @@ public class FichaTecnicaObra implements Serializable {
 	public FichaTecnicaObra() {
 	}
 
-	//Image imagemCapa
-	public FichaTecnicaObra(String tipoImagem, String codigoPeca, LocalDate dataAquisicao, Boolean assinada, Boolean datada,
+	public FichaTecnicaObra(Image imagemCapa, String codigoPeca, LocalDate dataAquisicao, Boolean assinada, Boolean datada,
 			String dimensao, String peso) {
 		super();
-		//this.imagemCapa = imagemCapa;
-		this.tipoImagem = tipoImagem;
+		this.imagemCapa = imagemCapa;
 		this.codigoPeca = codigoPeca;
 		this.dataAquisicao = dataAquisicao;
 		this.assinada = assinada;
@@ -34,26 +31,16 @@ public class FichaTecnicaObra implements Serializable {
 		this.peso = peso;
 	}
 
-//	public Image getTipoImagem() {
-//		return imagemCapa;
-//	}
-//
-//	public void setTipoImagem(Image imagemCapa) {
-//		this.imagemCapa = imagemCapa;
-//	}
-	
-	
+	public Image getImagemCapa() {
+		return imagemCapa;
+	}
 
+	public void setImagemCapa(Image imagemCapa) {
+		this.imagemCapa = imagemCapa;
+	}
+	
 	public String getCodigoPeca() {
 		return codigoPeca;
-	}
-
-	public String getTipoImagem() {
-		return tipoImagem;
-	}
-
-	public void setTipoImagem(String tipoImagem) {
-		this.tipoImagem = tipoImagem;
 	}
 
 	public void setCodigoPeca(String codigoPeca) {
@@ -69,10 +56,10 @@ public class FichaTecnicaObra implements Serializable {
 	}
 
 	public String getDataAquisicaoAsStr() {
-		return formatDateToString(dataAquisicao);
+		return formatDateToString(getDataAquisicao());
 	}
 	
-    public static String formatDateToString(LocalDate date) {
+    private static String formatDateToString(LocalDate date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return date.format(formatter);
     }
@@ -111,7 +98,7 @@ public class FichaTecnicaObra implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(tipoImagem,assinada, codigoPeca, dataAquisicao, datada, dimensao, peso);
+		return Objects.hash(imagemCapa,assinada, codigoPeca, dataAquisicao, datada, dimensao, peso);
 	}
 
 	@Override
