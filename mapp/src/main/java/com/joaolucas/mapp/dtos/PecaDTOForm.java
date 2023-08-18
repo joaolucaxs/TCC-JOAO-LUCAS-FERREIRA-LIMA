@@ -1,16 +1,14 @@
 package com.joaolucas.mapp.dtos;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
-import com.joaolucas.mapp.model.FichaTecnicaObra;
-import com.joaolucas.mapp.model.Peca;
+import org.springframework.web.multipart.MultipartFile;
 
-public class PecaDTO implements Serializable{
+public class PecaDTOForm implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
-	private String id;
-	private ArtistaDTO artesao;
+
 	private String tituloPeca;
 	private String tipologia;
 	private String formaAssociativa;
@@ -18,39 +16,17 @@ public class PecaDTO implements Serializable{
 	private String tecnica;
 	private String classificacao;
 	private String produto;
-	private FichaTecnicaObra fichatecnica;
+	private String codigoPeca;
+	private LocalDate dataAquisicao;
+	private Boolean assinada;
+	private Boolean datada;
+	private String dimensao;
+	private String peso;
+	private MultipartFile imagemPecaFile;
 
-	public PecaDTO() {
 
-	}
+	public PecaDTOForm() {
 
-	public PecaDTO(Peca obj) {
-		id = obj.getId();
-		artesao = obj.getArtesao();
-		tituloPeca = obj.getTituloPeca();
-		tipologia = obj.getTipologia();
-		formaAssociativa = obj.getFormaAssociativa();
-		relacaoCultural = obj.getRelacaoCultural();
-		tecnica = obj.getTecnica();
-		classificacao = obj.getClassificacao();
-		produto = obj.getProduto();
-		fichatecnica = obj.getFichatecnica();
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public ArtistaDTO getArtesao() {
-		return artesao;
-	}
-
-	public void setArtesao(ArtistaDTO artesao) {
-		this.artesao = artesao;
 	}
 
 	public String getTituloPeca() {
@@ -109,13 +85,61 @@ public class PecaDTO implements Serializable{
 		this.produto = produto;
 	}
 
-	public FichaTecnicaObra getFichatecnica() {
-		return fichatecnica;
+	public String getCodigoPeca() {
+		return codigoPeca;
 	}
 
-	public void setFichatecnica(FichaTecnicaObra fichatecnica) {
-		this.fichatecnica = fichatecnica;
+	public void setCodigoPeca(String codigoPeca) {
+		this.codigoPeca = codigoPeca;
+	}
+
+	public LocalDate getDataAquisicao() {
+		return dataAquisicao;
+	}
+
+	public void setDataAquisicao(LocalDate dataAquisicao) {
+		this.dataAquisicao = dataAquisicao;
+	}
+
+	public Boolean getAssinada() {
+		return assinada;
+	}
+
+	public void setAssinada(Boolean assinada) {
+		this.assinada = assinada;
+	}
+
+	public Boolean getDatada() {
+		return datada;
+	}
+
+	public void setDatada(Boolean datada) {
+		this.datada = datada;
+	}
+
+	public String getDimensao() {
+		return dimensao;
+	}
+
+	public void setDimensao(String dimensao) {
+		this.dimensao = dimensao;
+	}
+
+	public String getPeso() {
+		return peso;
+	}
+
+	public void setPeso(String peso) {
+		this.peso = peso;
 	}
 	
-	
+	public MultipartFile getImagemPecaFile() {
+	    return imagemPecaFile;
+	}
+
+	public void setImagemPecaFile(MultipartFile imagemPecaFile) {
+	    this.imagemPecaFile = imagemPecaFile;
+	}
+
+
 }

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.joaolucas.mapp.dtos.ArtistaDTO;
 import com.joaolucas.mapp.model.Artista;
@@ -41,19 +40,6 @@ public class ArtistaResource {
 		return ResponseEntity.ok().body(artista);
 	}
 
-//	@PostMapping
-//	public ResponseEntity<Artista> insert(@RequestBody ArtistaDTO objDTO) {
-//		Artista obj = service.fromDTO(objDTO);
-//		obj = service.insert(obj);
-//		return ResponseEntity.ok().body(obj);
-//
-//		/*
-//		 * URI uri =
-//		 * ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand
-//		 * (obj.getId()).toUri(); return ResponseEntity.created(uri).body(obj);
-//		 */
-//
-//	}
 
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable String id) {

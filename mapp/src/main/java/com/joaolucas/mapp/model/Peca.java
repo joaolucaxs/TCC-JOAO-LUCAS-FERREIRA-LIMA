@@ -6,15 +6,13 @@ import java.util.Objects;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.joaolucas.mapp.dtos.ArtistaDTO;
-
 @Document(collection = "obra")
 public class Peca implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	private String id;
-	private ArtistaDTO artesao;
+	private Artista artesao;
 	private String tituloPeca;
 	private String tipologia;
 	private String formaAssociativa;
@@ -27,7 +25,7 @@ public class Peca implements Serializable {
 	public Peca() {
 	};
 
-	public Peca(String id, ArtistaDTO artesao, String tituloPeca, String tipologia, String formaAssociativa,
+	public Peca(String id, Artista artesao, String tituloPeca, String tipologia, String formaAssociativa,
 			String relacaoCultural, String tecnica, String classificacao, String produto, FichaTecnicaObra fichatecnica) {
 		super();
 		this.id = id;
@@ -50,11 +48,11 @@ public class Peca implements Serializable {
 		this.id = id;
 	}
 
-	public ArtistaDTO getArtesao() {
+	public Artista getArtesao() {
 		return artesao;
 	}
 
-	public void setArtesao(ArtistaDTO artesao) {
+	public void setArtesao(Artista artesao) {
 		this.artesao = artesao;
 	}
 

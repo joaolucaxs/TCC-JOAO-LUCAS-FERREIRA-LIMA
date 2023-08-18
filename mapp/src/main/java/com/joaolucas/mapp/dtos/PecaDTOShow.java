@@ -1,16 +1,14 @@
 package com.joaolucas.mapp.dtos;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 
-import org.springframework.web.multipart.MultipartFile;
-
+import com.joaolucas.mapp.model.FichaTecnicaObra;
 import com.joaolucas.mapp.model.Peca;
 
-public class PecaDTOFormulario implements Serializable {
+public class PecaDTOShow implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-
+	
 	private String id;
 	private String artesao;
 	private String tituloPeca;
@@ -20,20 +18,13 @@ public class PecaDTOFormulario implements Serializable {
 	private String tecnica;
 	private String classificacao;
 	private String produto;
-	private String codigoPeca;
-	private LocalDate dataAquisicao;
-	private Boolean assinada;
-	private Boolean datada;
-	private String dimensao;
-	private String peso;
-	private MultipartFile imagemPecaFile;
+	private FichaTecnicaObra fichatecnica;
 
-
-	public PecaDTOFormulario() {
+	public PecaDTOShow() {
 
 	}
 
-	public PecaDTOFormulario(Peca obj) {
+	public PecaDTOShow(Peca obj) {
 		id = obj.getId();
 		artesao = obj.getArtesao().getNome();
 		tituloPeca = obj.getTituloPeca();
@@ -43,13 +34,7 @@ public class PecaDTOFormulario implements Serializable {
 		tecnica = obj.getTecnica();
 		classificacao = obj.getClassificacao();
 		produto = obj.getProduto();
-		codigoPeca = obj.getFichatecnica().getCodigoPeca();
-		dataAquisicao = obj.getFichatecnica().getDataAquisicao();
-		assinada = obj.getFichatecnica().getAssinada();
-		datada = obj.getFichatecnica().getDatada();
-		dimensao = obj.getFichatecnica().getDimensao();
-		peso = obj.getFichatecnica().getPeso();
-		obj.getFichatecnica().getImagemCapa();
+		fichatecnica = obj.getFichatecnica();
 	}
 
 	public String getId() {
@@ -124,61 +109,13 @@ public class PecaDTOFormulario implements Serializable {
 		this.produto = produto;
 	}
 
-	public String getCodigoPeca() {
-		return codigoPeca;
+	public FichaTecnicaObra getFichatecnica() {
+		return fichatecnica;
 	}
 
-	public void setCodigoPeca(String codigoPeca) {
-		this.codigoPeca = codigoPeca;
-	}
-
-	public LocalDate getDataAquisicao() {
-		return dataAquisicao;
-	}
-
-	public void setDataAquisicao(LocalDate dataAquisicao) {
-		this.dataAquisicao = dataAquisicao;
-	}
-
-	public Boolean getAssinada() {
-		return assinada;
-	}
-
-	public void setAssinada(Boolean assinada) {
-		this.assinada = assinada;
-	}
-
-	public Boolean getDatada() {
-		return datada;
-	}
-
-	public void setDatada(Boolean datada) {
-		this.datada = datada;
-	}
-
-	public String getDimensao() {
-		return dimensao;
-	}
-
-	public void setDimensao(String dimensao) {
-		this.dimensao = dimensao;
-	}
-
-	public String getPeso() {
-		return peso;
-	}
-
-	public void setPeso(String peso) {
-		this.peso = peso;
+	public void setFichatecnica(FichaTecnicaObra fichatecnica) {
+		this.fichatecnica = fichatecnica;
 	}
 	
-	public MultipartFile getImagemPecaFile() {
-	    return imagemPecaFile;
-	}
-
-	public void setImagemPecaFile(MultipartFile imagemPecaFile) {
-	    this.imagemPecaFile = imagemPecaFile;
-	}
-
-
+	
 }

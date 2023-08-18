@@ -13,10 +13,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.joaolucas.mapp.dtos.ArtistaDTO;
-import com.joaolucas.mapp.dtos.PecaDTO;
-import com.joaolucas.mapp.dtos.PecaDTOFormulario;
-import com.joaolucas.mapp.model.Artista;
+import com.joaolucas.mapp.dtos.PecaDTOForm;
 import com.joaolucas.mapp.model.FichaTecnicaObra;
 import com.joaolucas.mapp.model.Image;
 import com.joaolucas.mapp.model.Peca;
@@ -46,9 +43,8 @@ public class PecaService {
 	public void delete(String id) {
 		try {
 			findById(id);
-//			Peca peca = findById(id);
-//			Artista artista = fromDTO(peca.getArtesao());
-//			artista.getListaObras().remove(peca);
+			Peca peca = findById(id);
+			peca.getArtesao().getListaObras().remove(peca);
 			repo.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
 			throw new ResourceNotFoundException(id);
@@ -79,32 +75,21 @@ public class PecaService {
 		newObj.setFichatecnica(obj.getFichatecnica());
 
 	}
-
-	public Peca fromDTO(PecaDTO objDTO) {
-		return new Peca(objDTO.getId(), objDTO.getArtesao(), objDTO.getTituloPeca(), objDTO.getTipologia(),
-				objDTO.getFormaAssociativa(), objDTO.getRelacaoCultural(), objDTO.getTecnica(),
-				objDTO.getClassificacao(), objDTO.getProduto(), objDTO.getFichatecnica());
-	}
-
-	public Artista fromDTO(ArtistaDTO objDTO) {
-		return new Artista(objDTO.getId(), objDTO.getNome(), objDTO.getApelido(), objDTO.getTelefone(),
-				objDTO.getEmail(), objDTO.getCidade());
-	}
-
-	public List<PecaDTO> filtrarPorCampo(String pesquisa) {
+	
+	public List<Peca> filtrarPorCampo(String pesquisa) {
 		return repo.filtrarPorCampo(pesquisa);
 
 	}
 
-	public List<PecaDTO> filtrarPorDataAquisicao(LocalDate dataAquisicao) {
+	public List<Peca> filtrarPorDataAquisicao(LocalDate dataAquisicao) {
 		return repo.filtrarPorDataAquisicao(dataAquisicao);
 	}
 
-	public List<PecaDTO> filtrarPorAssinada(Boolean assinada) {
+	public List<Peca> filtrarPorAssinada(Boolean assinada) {
 		return repo.filtrarPorAssinada(assinada);
 	}
 
-	public List<PecaDTO> filtrarPorDatada(Boolean datada) {
+	public List<Peca> filtrarPorDatada(Boolean datada) {
 		return repo.filtrarPorDatada(datada);
 	}
 
@@ -129,10 +114,8 @@ public class PecaService {
 		return repo.save(obj);
 	}
 
-	public Peca fromDTOFormulario(PecaDTOFormulario objDTO, ArtistaDTO artista) throws IOException {
+	public Peca fromDTOFormulario(PecaDTOForm objDTO) throws IOException {
 		Peca peca = new Peca();
-		peca.setId(objDTO.getId());
-		peca.setArtesao(artista);
 		peca.setTituloPeca(objDTO.getTituloPeca());
 		peca.setTipologia(objDTO.getTipologia());
 		peca.setFormaAssociativa(objDTO.getFormaAssociativa());
@@ -149,5 +132,8 @@ public class PecaService {
 		peca.setFichatecnica(fichaTecnicaObra);
 		return peca;
 	}
+
+	
+	
 
 }

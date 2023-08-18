@@ -1,16 +1,9 @@
 package com.joaolucas.mapp.config;
 
-import java.time.LocalDate;
-import java.util.Arrays;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
-import com.joaolucas.mapp.dtos.ArtistaDTO;
-import com.joaolucas.mapp.model.Artista;
-import com.joaolucas.mapp.model.FichaTecnicaObra;
-import com.joaolucas.mapp.model.Peca;
 import com.joaolucas.mapp.repositories.ArtistaRepository;
 import com.joaolucas.mapp.repositories.PecaRepository;
 
@@ -27,13 +20,13 @@ public class TestConfig implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 		//pecaRepository.deleteAll();
-		artistaRepository.deleteAll();
+		//artistaRepository.deleteAll();
 		
-		Artista artista1 = new Artista(null, "Lenilda Leal", "lele", "(28) 98123-1675", "lenilda@gmail.com",
-				"Campina Grande");
-		Artista artista2 = new Artista(null, "Dogival Silva", "dodo", "(87) 96125-5655", "dogival@gmail.com", "Sousa");
-
-		artistaRepository.saveAll(Arrays.asList(artista1, artista2));
+//		Artista artista1 = new Artista(null, "Lenilda Leal", "lele", "(28) 98123-1675", "lenilda@gmail.com",
+//				"Campina Grande");
+//		Artista artista2 = new Artista(null, "Dogival Silva", "dodo", "(87) 96125-5655", "dogival@gmail.com", "Sousa");
+//
+//		artistaRepository.saveAll(Arrays.asList(artista1, artista2));
 //		
 //		Peca peca1 = new Peca(null, new ArtistaDTO(artista1), "Vendedor de Algodão Doce", "Fios", "", "", "", "Arte Popular",
 //				"Decorativo", new FichaTecnicaObra("Imagem", "FP 001", LocalDate.of(2023, 8, 15), true, true, "07x18x07", "2kg"));

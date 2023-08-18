@@ -4,7 +4,6 @@ import com.joaolucas.mapp.model.Artista;
 
 public class ArtistaDTO {
 
-	private String id;
 	private String nome;
 	private String apelido;
 	private String telefone;
@@ -15,21 +14,11 @@ public class ArtistaDTO {
 	}
 
 	public ArtistaDTO(Artista obj) {
-		super();
-		this.id = obj.getId();
 		this.nome = obj.getNome();
 		this.apelido = obj.getApelido();
 		this.telefone = obj.getTelefone();
 		this.email = obj.getEmail();
 		this.cidade = obj.getCidade();
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public String getNome() {

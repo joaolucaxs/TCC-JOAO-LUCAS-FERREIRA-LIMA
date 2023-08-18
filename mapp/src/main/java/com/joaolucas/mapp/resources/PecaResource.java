@@ -1,26 +1,24 @@
 package com.joaolucas.mapp.resources;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.joaolucas.mapp.dtos.ArtistaDTO;
-import com.joaolucas.mapp.dtos.PecaDTO;
-import com.joaolucas.mapp.dtos.PecaDTOFormulario;
+import com.joaolucas.mapp.dtos.PecaDTOForm;
+import com.joaolucas.mapp.dtos.PecaDTOShow;
 import com.joaolucas.mapp.model.Artista;
 import com.joaolucas.mapp.model.Peca;
 import com.joaolucas.mapp.services.ArtistaService;
@@ -31,36 +29,37 @@ import com.joaolucas.mapp.services.PecaService;
 public class PecaResource {
 
 	@Autowired
-	private PecaService service;
+	private PecaService obraService;
 
 	@Autowired
 	private ArtistaService artistaService;
 
 	@GetMapping()
 	public ModelAndView findAll() {
-		List<Peca> pecas = service.findAll();
-		List<PecaDTO> pecasDto = pecas.stream().map(peca -> new PecaDTO(peca)).collect(Collectors.toList());
+		List<Peca> pecas = obraService.findAll();
+		List<PecaDTOShow> pecasDto = pecas.stream().map(peca -> new PecaDTOShow(peca)).collect(Collectors.toList());
 		ModelAndView mv = new ModelAndView("obras/listarObras");
 		mv.addObject("pecas", pecasDto);
 		return mv;
 	}
 
-
 	@GetMapping(value = "/filtrar")
 	public ModelAndView filtrarObras(@RequestParam(value = "filtro") String filtro,
 			@RequestParam(value = "pesquisa") String pesquisa) {
 
-		List<PecaDTO> pecasDto = service.filtrarPorCampo(pesquisa);
+		List<Peca> pecas = obraService.filtrarPorCampo(pesquisa);
 
 		if (filtro.equals("dataAquisicao")) {
-			pecasDto = service.filtrarPorDataAquisicao(service.stringToLocalDate(pesquisa));
+			pecas = obraService.filtrarPorDataAquisicao(obraService.stringToLocalDate(pesquisa));
 		}
 		if (filtro.equals("assinada")) {
-			pecasDto = service.filtrarPorAssinada(service.stringToBoolean(pesquisa));
+			pecas = obraService.filtrarPorAssinada(obraService.stringToBoolean(pesquisa));
 		}
 		if (filtro.equals("datada")) {
-			pecasDto = service.filtrarPorDatada(service.stringToBoolean(pesquisa));
+			pecas = obraService.filtrarPorDatada(obraService.stringToBoolean(pesquisa));
 		}
+
+		List<PecaDTOShow> pecasDto = pecas.stream().map(peca -> new PecaDTOShow(peca)).collect(Collectors.toList());
 
 		ModelAndView mv = new ModelAndView("obras/listarObras");
 		mv.addObject("pecas", pecasDto);
@@ -68,62 +67,109 @@ public class PecaResource {
 	}
 
 	@GetMapping(value = "/novaObra")
-	public ModelAndView novaObraFormulario() {
+	public ModelAndView novaObra() {
 		ModelAndView mv = new ModelAndView("obras/novaObra");
-		List<ArtistaDTO> artistas = artistaService.findAllDto();
-		mv.addObject("artesaos", artistas);
 		return mv;
 	}
 
 	@PostMapping(value = "/novaObra")
-	public String inserirObra(PecaDTOFormulario objDTO, @RequestParam("imagemPecaFile") MultipartFile imagemPecaFile)
+	public String inserirObra(PecaDTOForm objDTO, @RequestParam("imagemPecaFile") MultipartFile imagemPecaFile)
 			throws IOException {
 
-		ArtistaDTO artistaDTO = artistaService.findByNome(objDTO.getArtesao());
-		Artista artista = service.fromDTO(artistaDTO);
-		artistaService.insert(artista);
+		Peca newObra = obraService.fromDTOFormulario(objDTO);
+		obraService.novaObra(newObra);
+		return "redirect:/pecas/novaObra/" + newObra.getId();
+	}
 
-		Peca newObra = service.fromDTOFormulario(objDTO, artistaDTO);
-		service.novaObra(newObra);
-		artista.getListaObras().add(newObra);
+	@GetMapping(value = "/novaObra/{id}")
+	public ModelAndView novaObraFormulario(@PathVariable String id) {
+		ModelAndView mv = new ModelAndView("obras/artistaForm");
+		List<ArtistaDTO> artistas = artistaService.findAllDto();
+		Peca newObra = obraService.findById(id);
+		mv.addObject("artesaos", artistas);
+		mv.addObject("peca", newObra);
+		return mv;
+	}
+
+	@PostMapping(value = "/novaObra/{id}")
+	public String inserirArtistaObra(ArtistaDTO artistaDTO, @PathVariable String id) {
+
+		Peca newObra = obraService.findById(id);
+		Artista artista = artistaService.fromDTO(artistaDTO);
+		artistaService.insert(artista);
+		newObra.setArtesao(artista);
+		obraService.novaObra(newObra);
+		artista.getListaObras().addAll(Arrays.asList(newObra));
+		artistaService.insert(artista);
 		return "redirect:/pecas";
 	}
+	
+	@GetMapping(value = "/editarObra/{id}")
+	public ModelAndView editarObra(@PathVariable String id) {
+		Peca editObra = obraService.findById(id);
+		ModelAndView mv = new ModelAndView("obras/editarObra");
+		mv.addObject("peca", editObra);
+		return mv;
+	}
+
+
+	@GetMapping(value = "/delete/{id}")
+	public String delete(@PathVariable String id) {
+		obraService.delete(id);
+		ResponseEntity.noContent().build();
+		return "redirect:/pecas";
+	}
+
+//	@PostMapping(value = "/novaObra")
+//	public String inserirObra(PecaDTOForm objDTO, @RequestParam("imagemPecaFile") MultipartFile imagemPecaFile)
+//			throws IOException {
+//
+//		ArtistaDTO artistaDTO = artistaService.findByNome(objDTO.getArtesao());
+//		Artista artista = artistaService.fromDTO(artistaDTO);
+//		artistaService.insert(artista);
+//
+//		Peca newObra = obraService.fromDTOFormulario(objDTO, artistaDTO);
+//		obraService.novaObra(newObra);
+//		artista.getListaObras().add(newObra);
+//		artistaService.insert(artista);
+//		return "redirect:/pecas";
+//	}
 
 //	@PostMapping
 //	public ResponseEntity<Peca> insert(@RequestBody PecaDTO objDTO) {
 //		
 //		
 //		
-//		Artista artista = service.fromDTO(objDTO.getArtesao());
+//		Artista artista = obraService.fromDTO(objDTO.getArtesao());
 //		artistaService.insert(artista);
 //
-//		Peca obj = service.fromDTO(objDTO);
+//		Peca obj = obraService.fromDTO(objDTO);
 //		obj.getArtesao().setId(artista.getId());
 //		;
-//		obj = service.insert(obj);
+//		obj = obraService.insert(obj);
 //		artista.getListaObras().add(obj);
 //		return ResponseEntity.ok().body(obj);
 //	}
 //	
-
-	@GetMapping(value = "/{id}")
-	public ResponseEntity<PecaDTO> findById(@PathVariable String id) {
-
-		Peca peca = service.findById(id);
-		return ResponseEntity.ok().body(new PecaDTO(peca));
-	}
-
-	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Void> delete(@PathVariable String id) {
-		service.delete(id);
-		return ResponseEntity.noContent().build();
-
-	}
-
-	@PutMapping(value = "/{id}")
-	public ResponseEntity<Peca> update(@PathVariable String id, @RequestBody Peca obj) {
-		obj = service.update(id, obj);
-		return ResponseEntity.ok().body(obj);
-	}
+//
+//	@GetMapping(value = "/{id}")
+//	public ResponseEntity<PecaDTOShow> findById(@PathVariable String id) {
+//
+//		Peca peca = obraService.findById(id);
+//		return ResponseEntity.ok().body(new PecaDTOShow(peca));
+//	}
+//
+//	@DeleteMapping(value = "/{id}")
+//	public ResponseEntity<Void> delete(@PathVariable String id) {
+//		obraService.delete(id);
+//		return ResponseEntity.noContent().build();
+//
+//	}
+//
+//	@PutMapping(value = "/{id}")
+//	public ResponseEntity<Peca> update(@PathVariable String id, @RequestBody Peca obj) {
+//		obj = obraService.update(id, obj);
+//		return ResponseEntity.ok().body(obj);
+//	}
 
 }

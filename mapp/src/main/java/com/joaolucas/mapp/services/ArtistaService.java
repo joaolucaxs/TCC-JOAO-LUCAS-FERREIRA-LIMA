@@ -24,23 +24,20 @@ public class ArtistaService {
 	public List<Artista> findAll() {
 		return repo.findAll();
 	}
-	
+
 	public List<ArtistaDTO> findAllDto() {
-		 return findAll().stream()
-		            .map(this::convertToDTO)
-		            .collect(Collectors.toList());
+		return findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
 	}
-	
-    private ArtistaDTO convertToDTO(Artista peca) {
-    	ArtistaDTO artistaDTO = new ArtistaDTO();
-    	artistaDTO.setId(peca.getId());
-    	artistaDTO.setNome(peca.getNome());
-    	artistaDTO.setApelido(peca.getApelido());
-    	artistaDTO.setTelefone(peca.getTelefone());
-    	artistaDTO.setEmail(peca.getEmail());
-    	artistaDTO.setCidade(peca.getCidade());
-        return artistaDTO;
-    }
+
+	private ArtistaDTO convertToDTO(Artista peca) {
+		ArtistaDTO artistaDTO = new ArtistaDTO();
+		artistaDTO.setNome(peca.getNome());
+		artistaDTO.setApelido(peca.getApelido());
+		artistaDTO.setTelefone(peca.getTelefone());
+		artistaDTO.setEmail(peca.getEmail());
+		artistaDTO.setCidade(peca.getCidade());
+		return artistaDTO;
+	}
 
 	public Artista findById(String id) {
 		Optional<Artista> obj = repo.findById(id);
@@ -50,7 +47,7 @@ public class ArtistaService {
 	public Artista insert(Artista obj) {
 		return repo.save(obj);
 	}
-	
+
 	public void delete(String id) {
 		try {
 			findById(id);
@@ -81,15 +78,19 @@ public class ArtistaService {
 
 	}
 
-
 	public Artista fromDTO(ArtistaDTO objDTO) {
-		return new Artista(objDTO.getId(), objDTO.getNome(), objDTO.getApelido(), objDTO.getTelefone(),
-				objDTO.getEmail(), objDTO.getCidade());
+		Artista artista = new Artista();
+		artista.setNome(objDTO.getNome());
+		artista.setApelido(objDTO.getApelido());
+		artista.setCidade(objDTO.getCidade());
+		artista.setEmail(objDTO.getEmail());
+		artista.setTelefone(objDTO.getTelefone());
+
+		return artista;
 	}
 
 	public ArtistaDTO findByNome(String artesao) {
 		return repo.findByNome(artesao);
 	}
-	
 
 }

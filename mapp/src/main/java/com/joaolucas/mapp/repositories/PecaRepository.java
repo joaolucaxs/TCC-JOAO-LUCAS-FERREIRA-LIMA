@@ -7,7 +7,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.joaolucas.mapp.dtos.PecaDTO;
 import com.joaolucas.mapp.model.Peca;
 
 @Repository
@@ -20,15 +19,16 @@ public interface PecaRepository extends MongoRepository<Peca, String> {
 			+ "{'fichatecnica.codigoPeca': {$regex: ?0, $options: 'i'}}"
 			+ "{'fichatecnica.dimensao': {$regex: ?0, $options: 'i'}}" + "{'artesao.nome': {$regex: ?0, $options: 'i'}}"
 			+ "]}")
-	List<PecaDTO> filtrarPorCampo(String pesquisa);
+	
+	List<Peca> filtrarPorCampo(String pesquisa);
 
 	@Query("{'fichatecnica.dataAquisicao': ?0}")
-	List<PecaDTO> filtrarPorDataAquisicao(LocalDate dataAquisicao);
+	List<Peca> filtrarPorDataAquisicao(LocalDate dataAquisicao);
 	
 	@Query("{'fichatecnica.assinada': ?0}")
-	List<PecaDTO> filtrarPorAssinada(Boolean assinada);
+	List<Peca> filtrarPorAssinada(Boolean assinada);
 	
 	@Query("{'fichatecnica.datada': ?0}")
-	List<PecaDTO> filtrarPorDatada(Boolean datada);
+	List<Peca> filtrarPorDatada(Boolean datada);
 
 }
