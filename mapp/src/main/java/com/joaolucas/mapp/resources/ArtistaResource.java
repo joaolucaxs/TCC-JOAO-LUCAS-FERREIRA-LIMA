@@ -30,6 +30,11 @@ public class ArtistaResource {
 
 		List<Artista> artistas = service.findAll();
 		List<ArtistaDTO> artistasDto = artistas.stream().map(artista -> new ArtistaDTO(artista)).collect(Collectors.toList());
+		for (Artista artista : artistas) {
+			for (Peca peca : artista.getListaObras()) {
+				System.out.println(peca.getTituloPeca());
+			}
+		}
 		return ResponseEntity.ok().body(artistasDto);
 	}
 

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.joaolucas.mapp.dtos.ArtistaDTO;
 import com.joaolucas.mapp.dtos.PecaDTOForm;
 import com.joaolucas.mapp.dtos.PecaDTOShow;
 import com.joaolucas.mapp.model.Artista;
@@ -84,7 +83,7 @@ public class PecaResource {
 	@GetMapping(value = "/novaObra/{id}")
 	public ModelAndView novaObraFormulario(@PathVariable String id) {
 		ModelAndView mv = new ModelAndView("obras/artistaForm");
-		List<ArtistaDTO> artistas = artistaService.findAllDto();
+		List<Artista> artistas = artistaService.findAll();
 		Peca newObra = obraService.findById(id);
 		mv.addObject("artesaos", artistas);
 		mv.addObject("peca", newObra);
@@ -92,18 +91,22 @@ public class PecaResource {
 	}
 
 	@PostMapping(value = "/novaObra/{id}")
-	public String inserirArtistaObra(ArtistaDTO artistaDTO, @PathVariable String id) {
+	public String inserirArtistaObra(Artista artista, @PathVariable String id) {
 
 		Peca newObra = obraService.findById(id);
-		Artista artista = artistaService.fromDTO(artistaDTO);
-		artistaService.insert(artista);
+		if (artista.getId() == null) {
+			artistaService.insert(artista);
+		}
 		newObra.setArtesao(artista);
 		obraService.novaObra(newObra);
 		artista.getListaObras().addAll(Arrays.asList(newObra));
-		artistaService.insert(artista);
+		artistaService.update(artista.getId(), artista);
+		for (Peca peca : artista.getListaObras()) {
+			System.out.println(peca.getTituloPeca());
+		}
 		return "redirect:/pecas";
 	}
-	
+
 	@GetMapping(value = "/editarObra/{id}")
 	public ModelAndView editarObra(@PathVariable String id) {
 		Peca editObra = obraService.findById(id);
@@ -111,7 +114,6 @@ public class PecaResource {
 		mv.addObject("peca", editObra);
 		return mv;
 	}
-
 
 	@GetMapping(value = "/delete/{id}")
 	public String delete(@PathVariable String id) {
