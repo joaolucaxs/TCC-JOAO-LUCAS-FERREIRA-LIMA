@@ -15,16 +15,21 @@
 <body>
 
 	<div class="painel">
-		<h1 class="text-center my-3">Editar Obra</h1>
-
-		<form class="row g-3" th:action="@{/pecas/editarObra{id}(id=${peca.getId()})}" method="put" enctype="multipart/form-data" id="formObra">
+		<h1 class="text-center my-3">Editar Obra: <span data-th-text="${peca.getTituloPeca()}"></span></h1>
+		<div class="d-flex justify-content-center align-items-center h-100">
+			<img th:src="${'data:image/*;base64,' + peca.getFichatecnica().getImagemCapa().getImagemBinaryStr()}"
+				class="p-3 img-fluid" id="imagem-capa" alt="Imagem da Capa">
+		</div>
+		<form class="row g-3" th:action="@{/pecas/editarObra/{id}(id=${peca.getId()})}" method="put"
+			enctype="multipart/form-data" id="formObra">
 			<div class="col-md-6">
 
 				<div class="mb-3">
 					<label for="validationServerNomeArtesao" class="form-label"><b>Título da Peça:</b></label>
 					<input type="text" class="form-control is-invalid" id="validationServerNomeArtesao"
 						name="tituloPeca" placeholder="Título da Peça"
-						aria-describedby="inputGroupPrepend3 validationServerNomeArtesaoFeedBack" required>
+						aria-describedby="inputGroupPrepend3 validationServerNomeArtesaoFeedBack" required
+						th:value="${peca.getTituloPeca()}">
 					<div id="validationServerNomeArtesaoFeedBack" class="invalid-feedback">
 						Título da Peça Obrigatório.
 					</div>
@@ -37,7 +42,8 @@
 					<label for="validationServerCodigoObra" class="form-label"><b>Código da Peça:</b></label>
 					<input type="text" class="form-control is-invalid" id="validationServerCodigoObra" name="codigoPeca"
 						placeholder="Código da Peça"
-						aria-describedby="inputGroupPrepend3 validationServerCodigoObraFeedBack" required>
+						aria-describedby="inputGroupPrepend3 validationServerCodigoObraFeedBack" required
+						th:value="${peca.getFichatecnica().getCodigoPeca()}">
 					<div id="validationServerCodigoObraFeedBack" class="invalid-feedback">
 						Código da Peça Obrigatório.
 					</div>
@@ -45,12 +51,12 @@
 			</div>
 
 
-
 			<div class="col-md-6">
 				<div class="mb-3">
-					<label for="formFile" class="form-label"><b>Imagem da Capa:</b></label>
-					<input type="file" id="formFile" class="form-control is-invalid" data-browse="Escolha a imagem"
-						aria-label="file example" name="imagemPecaFile" accept="image/*" required>
+					<label for="validationServerImagemObra" class="form-label"><b>Imagem da Capa:</b></label>
+					<input type="file" id="validationServerImagemObra" class="form-control is-invalid"
+						data-browse="Escolha a imagem" aria-label="file example" name="imagemPecaFile" accept="image/*"
+						required th:value="${imageFile}">
 					<div class="invalid-feedback">Imagem da Peça Obrigatório.</div>
 				</div>
 			</div>
@@ -58,71 +64,71 @@
 			<div class="col-md-6">
 
 				<div class="mb-3">
-					<label for="exampleFormControlInput1" class="form-label"><b>Forma Associativa:</b></label>
-					<input type="text" class="form-control" id="exampleFormControlInput1" name="formaAssociativa"
-						placeholder="Forma Associativa">
+					<label for="validationServerFormaAss" class="form-label"><b>Forma Associativa:</b></label>
+					<input type="text" class="form-control" id="validationServerFormaAss" name="formaAssociativa "
+						placeholder="Forma Associativa" th:value="${peca.getFormaAssociativa()}">
 				</div>
 			</div>
 
 			<div class="col-md-6">
 
 				<div class="mb-3">
-					<label for="exampleFormControlInput1" class="form-label"><b>Tipologia:</b></label>
-					<input type="text" class="form-control" id="exampleFormControlInput1" name="tipologia"
-						placeholder="Tipologia">
+					<label for="validationServerTipologia" class="form-label"><b>Tipologia:</b></label>
+					<input type="text" class="form-control" id="validationServerTipologia" name="tipologia"
+						placeholder="Tipologia" th:value="${peca.getTipologia()}">
 				</div>
 			</div>
 
 			<div class="col-md-6">
 				<div class="mb-3">
-					<label for="exampleFormControlInput1" class="form-label"><b>Relação Cultural:</b></label>
-					<input type="text" class="form-control" id="exampleFormControlInput1" name="relacaoCultural"
-						placeholder="Relação Cultural">
-				</div>
-			</div>
-
-			<div class="col-md-6">
-
-				<div class="mb-3">
-					<label for="exampleFormControlInput1" class="form-label"><b>Classificação:</b></label>
-					<input type="text" class="form-control" id="exampleFormControlInput1" name="classificacao"
-						placeholder="Classificação">
+					<label for="validationServerRelacaoCultural" class="form-label"><b>Relação Cultural:</b></label>
+					<input type="text" class="form-control" id="validationServerRelacaoCultural" name="relacaoCultural"
+						placeholder="Relação Cultural" th:value="${peca.getRelacaoCultural()}">
 				</div>
 			</div>
 
 			<div class="col-md-6">
 
 				<div class="mb-3">
-					<label for="exampleFormControlInput1" class="form-label"><b>Técnica:</b></label>
-					<input type="text" class="form-control" id="exampleFormControlInput1" name="tecnica"
-						placeholder="Técnica">
+					<label for="validationServerClassificacao" class="form-label"><b>Classificação:</b></label>
+					<input type="text" class="form-control" id="validationServerClassificacao" name="classificacao"
+						placeholder="Classificação" th:value="${peca.getClassificacao()}">
 				</div>
 			</div>
 
 			<div class="col-md-6">
 
 				<div class="mb-3">
-					<label for="exampleFormControlInput1" class="form-label"><b>Produto:</b></label>
-					<input type="text" class="form-control" id="exampleFormControlInput1" name="produto"
-						placeholder="Produto">
+					<label for="validationServerTecnica" class="form-label"><b>Técnica:</b></label>
+					<input type="text" class="form-control" id="validationServerTecnica" name="tecnica"
+						placeholder="Técnica" th:value="${peca.getTecnica()}">
 				</div>
 			</div>
 
 			<div class="col-md-6">
 
 				<div class="mb-3">
-					<label for="exampleFormControlInput1" class="form-label"><b>Dimensão:</b></label>
-					<input type="text" class="form-control" id="exampleFormControlInput1" name="dimensao"
-						placeholder="Dimensão">
+					<label for="validationServerProduto" class="form-label"><b>Produto:</b></label>
+					<input type="text" class="form-control" id="validationServerProduto" name="produto"
+						placeholder="Produto" th:value="${peca.getProduto()}">
 				</div>
 			</div>
 
 			<div class="col-md-6">
 
 				<div class="mb-3">
-					<label for="exampleFormControlInput1" class="form-label"><b>Peso:</b></label>
-					<input type="text" class="form-control" id="exampleFormControlInput1" name="peso"
-						placeholder="Peso">
+					<label for="validationServerDimensao" class="form-label"><b>Dimensão:</b></label>
+					<input type="text" class="form-control" id="validationServerDimensao" name="dimensao"
+						placeholder="Dimensão" th:value="${peca.getFichatecnica().getDimensao()}">
+				</div>
+			</div>
+
+			<div class="col-md-6">
+
+				<div class="mb-3">
+					<label for="validationServerPeso" class="form-label"><b>Peso:</b></label>
+					<input type="text" class="form-control" id="validationServerPeso" name="peso" placeholder="Peso"
+						th:value="${peca.getFichatecnica().getPeso()}">
 				</div>
 			</div>
 
@@ -132,7 +138,8 @@
 					<label for="validationServerDataAquisicao" class="form-label"><b>Data de Aquisição:</b></label>
 					<input type="date" class="form-control is-invalid" id="validationServerDataAquisicao"
 						name="dataAquisicao" placeholder="Data de Aquisição"
-						aria-describedby="inputGroupPrepend3 validationServerDataAquisicaoFeedBack" required>
+						aria-describedby="inputGroupPrepend3 validationServerDataAquisicaoFeedBack" required
+						th:value="${peca.getFichatecnica().getDataAquisicao()}">
 					<div id="validationServerDataAquisicaoFeedBack" class="invalid-feedback">
 						Data de Aquisicao Obrigatório.
 					</div>
@@ -142,8 +149,9 @@
 			<div class="col-md-6">
 
 				<div class="mb-3">
-					<label for="assinada" class="form-label"><b>Assinada:</b></label>
-					<select class="form-select" aria-label="Default select example" id="assinada" name="assinada">
+					<label for="validationServerAssinada" class="form-label"><b>Assinada:</b></label>
+					<select class="form-select" aria-label="Default select example" id="validationServerAssinada"
+						name="assinada">
 						<option value="true">Sim</option>
 						<option value="false">Não</option>
 					</select>
@@ -152,8 +160,9 @@
 			<div class="col-md-6">
 
 				<div class="mb-3">
-					<label for="datada" class="form-label"><b>Datada:</b></label>
-					<select class="form-select" aria-label="Default select example" id="datada" name="datada">
+					<label for="validationServerDatada" class="form-label"><b>Datada:</b></label>
+					<select class="form-select" aria-label="Default select example" id="validationServerDatada"
+						name="datada">
 						<option value="true">Sim</option>
 						<option value="false">Não</option>
 					</select>
@@ -164,7 +173,6 @@
 			<div class="col d-flex justify-content-end">
 				<a class="btn btn-danger mb-3 " href="/pecas" role="button">Cancelar</a>
 				<button class="btn btn-primary mb-3 ms-2" type="submit" id="salvarOBra">Associar Artista</button>
-
 			</div>
 		</form>
 
@@ -176,6 +184,37 @@
 			crossorigin="anonymous"></script>
 
 
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				const imageInput = document.getElementById("validationServerImagemObra");
+				const previewImage = document.getElementById("imagem-capa");
+				const oldImageUrl = previewImage.src; // Salva a URL da imagem anterior
+
+				imageInput.addEventListener("change", function () {
+					const file = imageInput.files[0];
+
+					if (file) {
+						const reader = new FileReader();
+						reader.onload = function (event) {
+							previewImage.src = event.target.result;
+							previewImage.style.display = "block";
+						};
+						reader.readAsDataURL(file);
+					} else {
+						// Define a imagem anterior se nenhum arquivo for selecionado
+						previewImage.src = oldImageUrl;
+						previewImage.style.display = "block";
+					}
+				});
+
+				const uploadForm = document.getElementById("uploadForm");
+				uploadForm.addEventListener("submit", function (event) {
+					event.preventDefault();
+					// Aqui você pode enviar o formulário com a imagem para o servidor
+					// e lidar com o processo de salvamento.
+				});
+			});
+		</script>
 
 </body>
 

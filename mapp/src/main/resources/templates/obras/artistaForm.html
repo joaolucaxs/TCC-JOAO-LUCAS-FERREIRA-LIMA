@@ -18,8 +18,7 @@
 		<h1 class="text-center my-3">Artista Associado da Obra: <span data-th-text="${peca.getTituloPeca()}"></span>
 		</h1>
 
-		<form class="row g-3" th:action="@{/pecas/novaObra/{id}(id=${peca.getId()})}" method="post"
-			enctype="multipart/form-data" id="formObra">
+		<form class="row g-3" th:action="@{/pecas/novaObra/{id}(id=${peca.getId()})}" method="post" id="formArtista">
 
 
 			<div class="col-md-6 ">
@@ -52,15 +51,6 @@
 					<div id="validationServerNomeArtesaoFeedBack" class="invalid-feedback">
 						Nome do Artesão Obrigatório.
 					</div>
-				</div>
-			</div>
-
-
-			<div class="col-md-6">
-
-				<div class="mb-3">
-					<label for="validationServerId" class="form-label"><b>Id:</b></label>
-					<input type="text" class="form-control" id="validationServerId" name="id" placeholder="Id" readonly>
 				</div>
 			</div>
 
@@ -103,6 +93,7 @@
 				<button class="btn btn-primary mb-3 ms-2" type="submit" id="salvarOBra">Salvar Obra</button>
 
 			</div>
+			<input type="hidden" id="validationServerId" name="id">
 		</form>
 
 
@@ -116,8 +107,31 @@
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-						<form class="col" id="formArtista">
-							<div class="col">
+						<form class="row g-3"
+							th:action="@{/pecas/novaObra/{id}/editarArtista/{idArtista}(id=${peca.getId()})(idArtista=${artista.getId()})}"
+							method="post" id="formArtistaEdit">
+
+
+							<div class="col-md-6 ">
+								<div class="mb-3">
+									<label for="artesao" class="form-label"><b>Artesão:</b></label>
+									<div class="mb-3 d-flex justify-content-between align-items-center">
+										<select class="form-select me-3" aria-label="Default select example"
+											id="form-artesao" name="artesao" onchange="updateArtistDetails()">
+											<option value="0">-</option>
+											<option th:each="artista : ${artesaos}" th:text="${artista.getNome()}"
+												th:attr="data-nome=${artista.getNome()},data-id=${artista.getId()}, data-apelido=${artista.getApelido()}, data-telefone=${artista.getTelefone()}, data-email=${artista.getEmail()}, data-cidade=${artista.getCidade()}">
+											</option>
+										</select>
+										<button type="button" class="btn btn-primary me-3" data-bs-toggle="modal"
+											data-bs-target="#modalEditarArtista">
+											<i class="bi bi-pencil"></i>
+										</button>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-6">
 
 								<div class="mb-3">
 									<label for="validationServerNomeArtesao" class="form-label"><b>Nome
@@ -125,45 +139,56 @@
 									<input type="text" class="form-control is-invalid" id="validationServerNomeArtesao"
 										name="nome" placeholder="Nome do Artesão"
 										aria-describedby="inputGroupPrepend3 validationServerNomeArtesaoFeedBack"
-										required>
+										required readonly>
 									<div id="validationServerNomeArtesaoFeedBack" class="invalid-feedback">
 										Nome do Artesão Obrigatório.
 									</div>
 								</div>
 							</div>
-							<div class="col">
+
+
+							<div class="col-md-6">
 
 								<div class="mb-3">
-									<label for="exampleFormControlInput1" class="form-label"><b>Apelido:</b></label>
-									<input type="text" class="form-control" id="exampleFormControlInput1" name="apelido"
-										placeholder="Apelido">
+									<label for="validationServerApelido" class="form-label"><b>Apelido:</b></label>
+									<input type="text" class="form-control" id="validationServerApelido" name="apelido"
+										placeholder="Apelido" readonly>
 								</div>
 							</div>
-							<div class="col">
+							<div class="col-md-6">
 
 								<div class="mb-3">
-									<label for="exampleFormControlInput1" class="form-label"><b>Telefone:</b></label>
-									<input type="text" class="form-control" id="exampleFormControlInput1"
-										name="telefone" placeholder="Telefone">
+									<label for="validationServerTelefone" class="form-label"><b>Telefone:</b></label>
+									<input type="text" class="form-control" id="validationServerTelefone"
+										name="telefone" placeholder="Telefone" readonly>
 								</div>
 							</div>
-							<div class="col">
+							<div class="col-md-6">
 
 								<div class="mb-3">
-									<label for="exampleFormControlInput1" class="form-label"><b>Email:</b></label>
-									<input type="text" class="form-control" id="exampleFormControlInput1" name="email"
-										placeholder="Email">
+									<label for="validationServerEmail" class="form-label"><b>Email:</b></label>
+									<input type="text" class="form-control" id="validationServerEmail" name="email"
+										placeholder="Email" readonly>
 								</div>
 							</div>
-							<div class="col">
+							<div class="col-md-6">
 
 								<div class="mb-3">
-									<label for="exampleFormControlInput1" class="form-label"><b>Cidade:</b></label>
-									<input type="text" class="form-control" id="exampleFormControlInput1" name="cidade"
-										placeholder="Cidade">
+									<label for="validationServerCidade" class="form-label"><b>Cidade:</b></label>
+									<input type="text" class="form-control" id="validationServerCidade" name="cidade"
+										placeholder="Cidade" readonly>
 								</div>
 							</div>
+
+							<div class="col d-flex justify-content-end">
+								<a class="btn btn-danger mb-3 " href="/pecas" role="button">Cancelar</a>
+								<button class="btn btn-primary mb-3 ms-2" type="submit" id="salvarOBra">Salvar
+									Obra</button>
+
+							</div>
+							<input type="hidden" id="validationServerId" name="id">
 						</form>
+
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -183,6 +208,9 @@
 			crossorigin="anonymous"></script>
 
 		<script>
+			// Chamada inicial para deixar os campos editáveis
+			updateArtistDetails();
+
 			function updateArtistDetails() {
 				const select = document.getElementById("form-artesao");
 				const nomeInput = document.getElementById("validationServerNomeArtesao");
@@ -190,7 +218,7 @@
 				const telefoneInput = document.getElementById("validationServerTelefone");
 				const emailInput = document.getElementById("validationServerEmail");
 				const cidadeInput = document.getElementById("validationServerCidade");
-				const idInput = document.getElementById("validationServerId");
+				//const idInput = document.getElementById("validationServerId");
 
 				const selectedOption = select.options[select.selectedIndex];
 				const isArtistaSelected = selectedOption.value !== "0";
@@ -200,7 +228,7 @@
 				telefoneInput.readOnly = isArtistaSelected;
 				emailInput.readOnly = isArtistaSelected;
 				cidadeInput.readOnly = isArtistaSelected;
-				idInput.readOnly = isArtistaSelected;
+				//idInput.readOnly = true;
 
 				if (isArtistaSelected) {
 					const nome = selectedOption.getAttribute("data-nome");
@@ -208,14 +236,14 @@
 					const telefone = selectedOption.getAttribute("data-telefone");
 					const email = selectedOption.getAttribute("data-email");
 					const cidade = selectedOption.getAttribute("data-cidade");
-					const id = selectedOption.getAttribute("data-id");
+					//const id = selectedOption.getAttribute("data-id");
 
 					nomeInput.value = nome;
 					apelidoInput.value = apelido;
 					telefoneInput.value = telefone;
 					emailInput.value = email;
 					cidadeInput.value = cidade;
-					idInput.value = id;
+					//idInput.value = id; // Definindo o valor do campo oculto com o ID do artista selecionado
 
 				} else {
 					nomeInput.value = "";
@@ -223,7 +251,8 @@
 					telefoneInput.value = "";
 					emailInput.value = "";
 					cidadeInput.value = "";
-					idInput.value = "";
+					//idInput.value = null; // Definindo o valor do campo oculto c
+
 				}
 			}
 		</script>

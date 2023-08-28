@@ -60,9 +60,8 @@
 			<div class="col" data-th-each="peca : ${pecas}">
 				<div class="card h-100 rounded-5 border border-1 border-dark ">
 					<div class="d-flex justify-content-center align-items-center h-100">
-						<img th:src="${'data:image/png;base64,' + peca.getFichatecnica().getImagemCapa().getImagemBinaryStr()}"
-							class="
-						p-3 img-fluid h-100" alt="Imagem da Capa">
+						<img th:src="${'data:image/*;base64,' + peca.getFichatecnica().getImagemCapa().getImagemBinaryStr()}"
+							class="p-3 img-fluid" id = "imagem-capa" alt="Imagem da Capa">
 					</div>
 					<div class="card-body">
 						<h4 class="card-title text-center mb-4" data-th-text="${peca.getTituloPeca()}"></h4>

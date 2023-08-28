@@ -1,3 +1,5 @@
+
+
 body{
 	background-color: #DDDDDD;
 }
@@ -10,8 +12,10 @@ body{
     padding-bottom: 50px; /* Padding na parte inferior */
     padding-left: 50px; /* Padding no lado esquerdo */
 	padding-top: 20px; /* Padding no lado esquerdo */
+}
 
-
+#imagem-capa{
+    max-height: 300px; /* Ajuste para a altura máxima desejada */
 }
 
 .btn-primary {

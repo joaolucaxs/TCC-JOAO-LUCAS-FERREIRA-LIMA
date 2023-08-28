@@ -75,7 +75,6 @@ public class ArtistaService {
 		newObj.setTelefone(obj.getTelefone());
 		newObj.setEmail(obj.getEmail());
 		newObj.setCidade(obj.getCidade());
-
 	}
 
 	public Artista fromDTO(ArtistaDTO objDTO) {
