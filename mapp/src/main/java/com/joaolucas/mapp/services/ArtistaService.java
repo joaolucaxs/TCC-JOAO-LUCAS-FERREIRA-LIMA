@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import com.joaolucas.mapp.dtos.ArtistaDTO;
 import com.joaolucas.mapp.model.Artista;
+import com.joaolucas.mapp.model.Peca;
 import com.joaolucas.mapp.repositories.ArtistaRepository;
+import com.joaolucas.mapp.repositories.PecaRepository;
 import com.joaolucas.mapp.services.exceptions.DataBaseException;
 import com.joaolucas.mapp.services.exceptions.ResourceNotFoundException;
 
@@ -20,6 +22,9 @@ public class ArtistaService {
 
 	@Autowired
 	private ArtistaRepository repo;
+
+	@Autowired
+	private PecaRepository repoObra;
 
 	public List<Artista> findAll() {
 		return repo.findAll();
@@ -59,22 +64,35 @@ public class ArtistaService {
 		}
 	}
 
-	public Artista update(String id, Artista obj) {
+	public Artista update(String idOldArtista, Artista newEditArtista) {
 		try {
-			Artista newObj = findById(id);
-			updateData(obj, newObj);
-			return repo.save(newObj);
+			Artista oldArtista = findById(idOldArtista);
+			updateData(oldArtista, newEditArtista);
+			return repo.save(oldArtista);
 		} catch (EmptyResultDataAccessException e) {
-			throw new ResourceNotFoundException(id);
+			throw new ResourceNotFoundException(idOldArtista);
 		}
 	}
 
-	private void updateData(Artista obj, Artista newObj) {
-		newObj.setNome(obj.getNome());
-		newObj.setApelido(obj.getApelido());
-		newObj.setTelefone(obj.getTelefone());
-		newObj.setEmail(obj.getEmail());
-		newObj.setCidade(obj.getCidade());
+	private void updateData(Artista oldArtista, Artista newEditArtista) {
+		oldArtista.setNome(newEditArtista.getNome());
+		oldArtista.setApelido(newEditArtista.getApelido());
+		oldArtista.setTelefone(newEditArtista.getTelefone());
+		oldArtista.setEmail(newEditArtista.getEmail());
+		oldArtista.setCidade(newEditArtista.getCidade());
+
+		updateObras(oldArtista);
+
+	}
+
+	public void updateObras(Artista artistaUpdateObras) {
+
+		List<Peca> atualizarObras = artistaUpdateObras.getListaObras();
+
+		for (Peca peca : atualizarObras) {
+			peca.setArtesao(artistaUpdateObras);
+			repoObra.save(peca);
+		}
 	}
 
 	public Artista fromDTO(ArtistaDTO objDTO) {

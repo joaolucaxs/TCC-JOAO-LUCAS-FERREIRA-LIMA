@@ -2,19 +2,15 @@ package com.joaolucas.mapp.resources;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.bson.BsonBinarySubType;
-import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,7 +20,6 @@ import com.joaolucas.mapp.dtos.PecaDTOForm;
 import com.joaolucas.mapp.dtos.PecaDTOShow;
 import com.joaolucas.mapp.model.Artista;
 import com.joaolucas.mapp.model.Peca;
-import com.joaolucas.mapp.resources.util.BinaryToMultiPartFile;
 import com.joaolucas.mapp.services.ArtistaService;
 import com.joaolucas.mapp.services.PecaService;
 
@@ -82,12 +77,12 @@ public class PecaResource {
 
 		Peca newObra = obraService.fromDTOFormulario(objDTO);
 		obraService.novaObra(newObra);
-		return "redirect:/pecas/novaObra/" + newObra.getId();
+		return "redirect:/pecas/novaObra/" + newObra.getId() + "/associarArtista";
 	}
 
-	@GetMapping(value = "/novaObra/{id}")
+	@GetMapping(value = "/novaObra/{id}/associarArtista")
 	public ModelAndView novaObraFormulario(@PathVariable String id) {
-		ModelAndView mv = new ModelAndView("obras/artistaForm");
+		ModelAndView mv = new ModelAndView("artistas/novaObraArtistaForm");
 		List<Artista> artistas = artistaService.findAll();
 		Peca newObra = obraService.findById(id);
 		mv.addObject("artesaos", artistas);
@@ -95,9 +90,9 @@ public class PecaResource {
 		return mv;
 	}
 
-	@PostMapping(value = "/novaObra/{id}")
+	@PostMapping(value = "/novaObra/{id}/associarArtista")
 	public String inserirArtistaObra(Artista artista, @PathVariable String id) {
-		
+		System.out.println(artista.getId());
 		Peca newObra = obraService.findById(id);
 		if (artista.getId().isBlank()) {
 			artista.setId(null);
@@ -110,38 +105,104 @@ public class PecaResource {
 		obraService.novaObra(newObra);
 		return "redirect:/pecas";
 	}
-	
-	
+
+	@GetMapping(value = "/novaObra/{idObra}/associarArtista/artista/editarArtista/{idArtista}")
+	public ModelAndView editarArtista(@PathVariable String idObra, @PathVariable String idArtista) {
+		ModelAndView mv = new ModelAndView("artistas/editarArtistaFormNewObra");
+		Artista artista = artistaService.findById(idArtista);
+		Peca obra = obraService.findById(idObra);
+		mv.addObject("artesao", artista);
+		mv.addObject("obra", obra);
+		return mv;
+	}
+
+	@PostMapping(value = "/novaObra/{idObra}/associarArtista/artista/editarArtista/{idArtista}")
+	public String editarArtista(Artista artista, @PathVariable String idObra, @PathVariable String idArtista) {
+
+		artistaService.update(idArtista, artista);
+		return "redirect:/pecas/novaObra/" + idObra + "/associarArtista";
+	}
+
 	@GetMapping(value = "/editarObra/{id}")
 	public ModelAndView editarObra(@PathVariable String id) {
 		Peca editObra = obraService.findById(id);
 		ModelAndView mv = new ModelAndView("obras/editarObra");
-		byte[] imageData = Base64.getDecoder().decode(editObra.getFichatecnica().getImagemCapa().getImagemBinaryStr());
-		Binary binaryImage = new Binary(BsonBinarySubType.BINARY, imageData);
-		MultipartFile imageFile = new BinaryToMultiPartFile(binaryImage);
-		mv.addObject("imageFile", imageFile);
 		mv.addObject("peca", editObra);
 		return mv;
 	}
-	
 
-	@PutMapping(value = "/editarObra/{id}")
-	public String editarObra(@PathVariable String id, PecaDTOForm objDTO, @RequestParam("imagemPecaFile") MultipartFile imagemPecaFile)
-			throws IOException {
+	@PostMapping(value = "/editarObra/{id}")
+	public String editarObra(@PathVariable String id, PecaDTOForm objDTO,
+			@RequestParam("imagemPecaFile") MultipartFile imagemPecaFile) throws IOException {
 
+		Peca obraPersisted = obraService.findById(id);
 		Peca newObraEdited = obraService.fromDTOFormulario(objDTO);
+		if (imagemPecaFile.isEmpty()) {
+			newObraEdited.getFichatecnica().setImagemCapa(obraPersisted.getFichatecnica().getImagemCapa());
+		}
 		obraService.update(id, newObraEdited);
+		return "redirect:/pecas/editarObra/" + id + "/associarArtista";
+	}
+
+	@GetMapping(value = "/editarObra/{id}/associarArtista")
+	public ModelAndView editarObraFormulario(@PathVariable String id) {
+		ModelAndView mv = new ModelAndView("artistas/editarObraArtistaForm");
+		List<Artista> artistas = artistaService.findAll();
+		Peca newObra = obraService.findById(id);
+		mv.addObject("artesaos", artistas);
+		mv.addObject("peca", newObra);
+		return mv;
+	}
+
+	@PostMapping(value = "/editarObra/{id}/associarArtista")
+	public String editarArtistaObra(Artista artista, @PathVariable String id) {
+
+		Peca editedObra = obraService.findById(id);
+
+		if (artista.getId().isBlank()) {
+			artista.setId(null);
+			artistaService.insert(artista);
+		}
+
+		var artistaAssociado = artistaService.findById(artista.getId()); // Verifica se mudou o artesão
+		var artistaOld = editedObra.getArtesao();
+		
+		if (!editedObra.getArtesao().equals(artistaAssociado)) {
+			editedObra.getArtesao().getListaObras().remove(editedObra);
+		}
+
+		if (!artistaAssociado.getListaObras().contains(editedObra)) {
+			artistaAssociado.getListaObras().addAll(Arrays.asList(editedObra));
+		}
+
+		artistaService.insert(artistaAssociado);
+		artistaService.insert(editedObra.getArtesao());
+		artistaService.insert(artistaOld);
+		artistaService.updateObras(artistaAssociado);
+		artistaService.updateObras(editedObra.getArtesao());
+		artistaService.updateObras(artistaOld);
+
+		editedObra.setArtesao(artistaAssociado);
+		obraService.novaObra(editedObra);
 		return "redirect:/pecas";
 	}
-	
-//	@PutMapping(value = "/{id}")
-//	public ResponseEntity<Peca> update(@PathVariable String id, @RequestBody Peca obj) {
-//		obj = obraService.update(id, obj);
-//		return ResponseEntity.ok().body(obj);
-//	}
 
-	
-	
+	@GetMapping(value = "/editarObra/{idObra}/associarArtista/artista/editarArtista/{idArtista}")
+	public ModelAndView editarArtista2(@PathVariable String idObra, @PathVariable String idArtista) {
+		ModelAndView mv = new ModelAndView("artistas/editarArtistaFormEditObra");
+		Artista artista = artistaService.findById(idArtista);
+		Peca obra = obraService.findById(idObra);
+		mv.addObject("artesao", artista);
+		mv.addObject("obra", obra);
+		return mv;
+	}
+
+	@PostMapping(value = "/editarObra/{idObra}/associarArtista/artista/editarArtista/{idArtista}")
+	public String editarArtista2(Artista artista, @PathVariable String idObra, @PathVariable String idArtista) {
+
+		artistaService.update(idArtista, artista);
+		return "redirect:/pecas/editarObra/" + idObra + "/associarArtista";
+	}
 
 	@GetMapping(value = "/delete/{id}")
 	public String delete(@PathVariable String id) {
@@ -149,7 +210,6 @@ public class PecaResource {
 		ResponseEntity.noContent().build();
 		return "redirect:/pecas";
 	}
-
 
 //	@PostMapping(value = "/novaObra")
 //	public String inserirObra(PecaDTOForm objDTO, @RequestParam("imagemPecaFile") MultipartFile imagemPecaFile)

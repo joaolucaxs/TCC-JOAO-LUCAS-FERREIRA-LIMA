@@ -20,7 +20,7 @@
 			<img th:src="${'data:image/*;base64,' + peca.getFichatecnica().getImagemCapa().getImagemBinaryStr()}"
 				class="p-3 img-fluid" id="imagem-capa" alt="Imagem da Capa">
 		</div>
-		<form class="row g-3" th:action="@{/pecas/editarObra/{id}(id=${peca.getId()})}" method="put"
+		<form class="row g-3" th:action="@{/pecas/editarObra/{id}(id=${peca.getId()})}" method="post"
 			enctype="multipart/form-data" id="formObra">
 			<div class="col-md-6">
 
@@ -54,10 +54,9 @@
 			<div class="col-md-6">
 				<div class="mb-3">
 					<label for="validationServerImagemObra" class="form-label"><b>Imagem da Capa:</b></label>
-					<input type="file" id="validationServerImagemObra" class="form-control is-invalid"
+					<input type="file" id="validationServerImagemObra" class="form-control"
 						data-browse="Escolha a imagem" aria-label="file example" name="imagemPecaFile" accept="image/*"
-						required th:value="${imageFile}">
-					<div class="invalid-feedback">Imagem da Peça Obrigatório.</div>
+						 th:value="${imageFile}">
 				</div>
 			</div>
 

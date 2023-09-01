@@ -64,7 +64,6 @@ public class PecaService {
 	}
 
 	private void updateData(Peca obj, Peca newObj) {
-		newObj.setArtesao(obj.getArtesao());
 		newObj.setTituloPeca(obj.getTituloPeca());
 		newObj.setTipologia(obj.getTipologia());
 		newObj.setFormaAssociativa(obj.getFormaAssociativa());
@@ -73,7 +72,6 @@ public class PecaService {
 		newObj.setClassificacao(obj.getClassificacao());
 		newObj.setProduto(obj.getProduto());
 		newObj.setFichatecnica(obj.getFichatecnica());
-
 	}
 	
 	public List<Peca> filtrarPorCampo(String pesquisa) {

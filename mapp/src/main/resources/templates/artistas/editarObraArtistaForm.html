@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<title>Formulario Artista</title>
+
+</head>
+
+<body>
+
+	<div class="painel">
+		<h1 class="text-center my-3">Artista Associado da Obra: <span data-th-text="${peca.getTituloPeca()}"></span>
+		</h1>
+		<form class="row g-3" th:action="@{/pecas/editarObra/{id}/associarArtista(id=${peca.getId()})}"
+			th:attr="data-idObra=${peca.getId()}" method="post" id="formArtista">
+			<div class="col-md-6">
+				<div class="mb-3">
+					<label for="artesao" class="form-label"><b>Artesão:</b></label>
+					<div class="mb-3 d-flex justify-content-between align-items-center">
+						<select class="form-select me-3" aria-label="Default select example" id="form-artesao"
+							name="artesao" onchange="updateArtistDetails()">
+							<option value="0">-</option>
+							<option th:each="artista : ${artesaos}" th:text="${artista.getNome()}"
+								th:attr="data-nome=${artista.getNome()},data-id=${artista.getId()}, data-apelido=${artista.getApelido()}, data-telefone=${artista.getTelefone()}, data-email=${artista.getEmail()}, data-cidade=${artista.getCidade()}"
+								th:selected="${artista.getId() == peca.getArtesao().getId()}">
+							</option>
+						</select>
+						<a id="editButtonLink" style="display: none;">
+							<button type="button" class="btn btn-primary me-3">
+								<i class="bi bi-pencil"></i>
+							</button>
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6">
+
+				<div class="mb-3">
+					<label for="validationServerNomeArtesao" class="form-label"><b>Nome
+							do Artesão:</b></label>
+					<input type="text" class="form-control is-invalid" id="validationServerNomeArtesao" name="nome"
+						placeholder="Nome do Artesão"
+						aria-describedby="inputGroupPrepend3 validationServerNomeArtesaoFeedBack" required readonly
+						th:value="${peca.getArtesao()}">
+					<div id="validationServerNomeArtesaoFeedBack" class="invalid-feedback">
+						Nome do Artesão Obrigatório.
+					</div>
+				</div>
+			</div>
+
+
+			<div class="col-md-6">
+
+				<div class="mb-3">
+					<label for="validationServerApelido" class="form-label"><b>Apelido:</b></label>
+					<input type="text" class="form-control" id="validationServerApelido" name="apelido"
+						placeholder="Apelido" readonly>
+				</div>
+			</div>
+			<div class="col-md-6">
+
+				<div class="mb-3">
+					<label for="validationServerTelefone" class="form-label"><b>Telefone:</b></label>
+					<input type="text" class="form-control" id="validationServerTelefone" name="telefone"
+						placeholder="Telefone" readonly>
+				</div>
+			</div>
+			<div class="col-md-6">
+
+				<div class="mb-3">
+					<label for="validationServerEmail" class="form-label"><b>Email:</b></label>
+					<input type="text" class="form-control" id="validationServerEmail" name="email" placeholder="Email"
+						readonly>
+				</div>
+			</div>
+			<div class="col-md-6">
+
+				<div class="mb-3">
+					<label for="validationServerCidade" class="form-label"><b>Cidade:</b></label>
+					<input type="text" class="form-control" id="validationServerCidade" name="cidade"
+						placeholder="Cidade" readonly>
+				</div>
+			</div>
+
+
+			<input type="hidden" id="validationServerId" name="id">
+			<div class="col d-flex justify-content-end">
+				<a class="btn btn-danger mb-3 " href="/pecas" role="button">Cancelar</a>
+				<button class="btn btn-primary mb-3 ms-2" type="submit" id="salvarOBra">Salvar Obra</button>
+
+			</div>
+		</form>
+
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+		integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
+		integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
+		crossorigin="anonymous"></script>
+
+	<script>
+		// Chamada inicial para deixar os campos editáveis
+		updateArtistDetails();
+
+		function updateArtistDetails() {
+
+			const editButtonLink = document.getElementById("editButtonLink");
+			const select = document.getElementById("form-artesao");
+			const nomeInput = document.getElementById("validationServerNomeArtesao");
+			const apelidoInput = document.getElementById("validationServerApelido");
+			const telefoneInput = document.getElementById("validationServerTelefone");
+			const emailInput = document.getElementById("validationServerEmail");
+			const cidadeInput = document.getElementById("validationServerCidade");
+			const idObra = document.getElementById("formArtista").getAttribute("data-idObra");
+
+			const idInput = document.getElementById("validationServerId");
+
+			const selectedOption = select.options[select.selectedIndex];
+			const isArtistaSelected = selectedOption.value !== "0";
+
+			nomeInput.readOnly = isArtistaSelected;
+			apelidoInput.readOnly = isArtistaSelected;
+			telefoneInput.readOnly = isArtistaSelected;
+			emailInput.readOnly = isArtistaSelected;
+			cidadeInput.readOnly = isArtistaSelected;
+			idInput.readOnly = true;
+
+			if (isArtistaSelected) {
+				const nome = selectedOption.getAttribute("data-nome");
+				const apelido = selectedOption.getAttribute("data-apelido");
+				const telefone = selectedOption.getAttribute("data-telefone");
+				const email = selectedOption.getAttribute("data-email");
+				const cidade = selectedOption.getAttribute("data-cidade");
+				const id = selectedOption.getAttribute("data-id");
+
+				nomeInput.value = nome;
+				apelidoInput.value = apelido;
+				telefoneInput.value = telefone;
+				emailInput.value = email;
+				cidadeInput.value = cidade;
+				idInput.value = id;
+				editButtonLink.style.display = "block";
+				editButtonLink.href = `/pecas/editarObra/${idObra}/associarArtista/artista/editarArtista/${id}`;
+
+			} else {
+				nomeInput.value = "";
+				apelidoInput.value = "";
+				telefoneInput.value = "";
+				emailInput.value = "";
+				cidadeInput.value = "";
+				idInput.value = null; // Definindo o valor do campo oculto
+				editButtonLink.style.display = "none";
+				editButtonLink.href = `IMPLEMENTAR CANCELAR AQUI`;
+
+			}
+		}
+	</script>
+
+</body>
+
+</html>
