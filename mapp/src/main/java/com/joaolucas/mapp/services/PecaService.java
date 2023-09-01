@@ -17,6 +17,7 @@ import com.joaolucas.mapp.dtos.PecaDTOForm;
 import com.joaolucas.mapp.model.FichaTecnicaObra;
 import com.joaolucas.mapp.model.Image;
 import com.joaolucas.mapp.model.Peca;
+import com.joaolucas.mapp.repositories.ArtistaRepository;
 import com.joaolucas.mapp.repositories.PecaRepository;
 import com.joaolucas.mapp.services.exceptions.DataBaseException;
 import com.joaolucas.mapp.services.exceptions.ResourceNotFoundException;
@@ -26,6 +27,12 @@ public class PecaService {
 
 	@Autowired
 	private PecaRepository repo;
+	
+	@Autowired
+	private ArtistaRepository repoArtista;
+	
+	@Autowired
+	private ArtistaService serviceArtista;
 
 	public List<Peca> findAll() {
 		return repo.findAll();
@@ -45,6 +52,8 @@ public class PecaService {
 			findById(id);
 			Peca peca = findById(id);
 			peca.getArtesao().getListaObras().remove(peca);
+			serviceArtista.updateObras(peca.getArtesao());
+			repoArtista.save(peca.getArtesao());
 			repo.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
 			throw new ResourceNotFoundException(id);

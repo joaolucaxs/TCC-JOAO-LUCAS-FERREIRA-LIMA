@@ -207,7 +207,6 @@ public class PecaResource {
 	@GetMapping(value = "/delete/{id}")
 	public String delete(@PathVariable String id) {
 		obraService.delete(id);
-		ResponseEntity.noContent().build();
 		return "redirect:/pecas";
 	}
 

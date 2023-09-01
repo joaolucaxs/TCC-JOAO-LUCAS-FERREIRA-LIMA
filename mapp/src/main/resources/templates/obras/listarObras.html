@@ -61,7 +61,7 @@
 				<div class="card h-100 rounded-5 border border-1 border-dark ">
 					<div class="d-flex justify-content-center align-items-center h-100">
 						<img th:src="${'data:image/*;base64,' + peca.getFichatecnica().getImagemCapa().getImagemBinaryStr()}"
-							class="p-3 img-fluid" id = "imagem-capa" alt="Imagem da Capa">
+							class="p-3 img-fluid" id="imagem-capa" alt="Imagem da Capa">
 					</div>
 					<div class="card-body">
 						<h4 class="card-title text-center mb-4" data-th-text="${peca.getTituloPeca()}"></h4>
@@ -92,9 +92,35 @@
 					</div>
 					<div class="card-body d-flex justify-content-around align-items-center">
 						<button type="button" class="btn btn-danger" data-bs-toggle="modal"
-							data-bs-target="#staticBackdrop">
+							th:attr="data-bs-target='#modalDeletar' + ${peca.id}">
 							Deletar
 						</button>
+
+						<!-- Modal Deletar Obra-->
+						<div class="modal fade" th:id="'modalDeletar' + ${peca.id}" data-bs-backdrop="static"
+							data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalDeletarLabel"
+							aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h1 class="modal-title fs-5" id="staticBackdropLabel">Deletar Obra</h1>
+										<button type="button" class="btn-close" data-bs-dismiss="modal"
+											aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										Deseja realmente deletar essa obra? <span
+											data-th-text="${peca.getTituloPeca()}"></span>
+									</div>
+									<div class="modal-footer">
+										<form th:action="@{/pecas/delete/{id}(id=${peca.getId()})}" method="get">
+											<button type="submit" class="btn btn-primary">Sim</button>
+											<button type="button" class="btn btn-danger"
+												data-bs-dismiss="modal">Não</button>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
 						<a th:href="@{'/pecas/editarObra/'+${peca.getId()}}" class="btn btn-primary">Editar</a>
 
 						<!--						<a href="#" class="btn btn-primary">Editar</a>-->
@@ -102,28 +128,7 @@
 					</div>
 				</div>
 
-				<!-- Modal Deletar Obra-->
-				<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
-					tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-					<div class="modal-dialog modal-dialog-centered">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h1 class="modal-title fs-5" id="staticBackdropLabel">Deletar Obra</h1>
-								<button type="button" class="btn-close" data-bs-dismiss="modal"
-									aria-label="Close"></button>
-							</div>
-							<div class="modal-body">
-								Deseja realmente cancelar essa obra?
-							</div>
-							<div class="modal-footer">
-								<form th:action="@{/pecas/delete/{id}(id=${peca.getId()})}" method="get">
-									<button type="submit" class="btn btn-primary">Sim</button>
-									<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Não</button>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
+
 
 			</div>
 		</div>
