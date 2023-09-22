@@ -122,8 +122,7 @@ public class Peca implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(classificacao,  formaAssociativa, id, produto, relacaoCultural,
-				tecnica, tipologia, tituloPeca);
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -135,11 +134,11 @@ public class Peca implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Peca other = (Peca) obj;
-		return   Objects.equals(classificacao, other.classificacao)
-				&& Objects.equals(formaAssociativa, other.formaAssociativa) && Objects.equals(id, other.id)
-				&& Objects.equals(produto, other.produto) && Objects.equals(relacaoCultural, other.relacaoCultural)
-				&& Objects.equals(tecnica, other.tecnica) && Objects.equals(tipologia, other.tipologia)
-				&& Objects.equals(tituloPeca, other.tituloPeca);
+		return Objects.equals(id, other.id);
 	}
+
+	
+	
+	
 
 }

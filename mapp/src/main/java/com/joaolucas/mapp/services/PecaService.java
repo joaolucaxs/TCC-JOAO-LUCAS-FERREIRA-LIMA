@@ -61,6 +61,31 @@ public class PecaService {
 			throw new DataBaseException(e.getMessage());
 		}
 	}
+	
+	public void cancelarNovaObra(String id) {
+		try {
+			findById(id);
+			repo.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataBaseException(e.getMessage());
+		}
+	}
+	
+
+	public void cancelarEdicaoObra(String id, Peca oldPecaData) {
+		try {
+			Peca canceledPecaData = findById(id);
+			updateData(oldPecaData, canceledPecaData);
+			repo.save(canceledPecaData);
+		} catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataBaseException(e.getMessage());
+		}
+	}
+
 
 	public Peca update(String id, Peca obj) {
 		try {

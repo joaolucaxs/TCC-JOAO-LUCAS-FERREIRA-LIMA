@@ -17,7 +17,7 @@
 		<h1 class="text-center my-3">Editar Artista: <span data-th-text="${artesao.getNome()}"></span>
 		</h1>
 		<form class="row g-3"
-			th:action="@{/pecas/novaObra/{idObra}/associarArtista/artista/editarArtista/{idArtista}(idObra=${obra.getId()}, idArtista=${artesao.getId()})}"
+			th:action="@{/pecas/novaObra/associarArtista/artista/editarArtista/{idArtista}(idArtista=${artesao.getId()})}"
 			method="post" id="formArtista">
 			<div class="col-md-6">
 
@@ -68,8 +68,14 @@
 				</div>
 			</div>
 
+			<div class="col-md-6">
+
+
+			</div>
+
 			<div class="col d-flex justify-content-end">
-				<button class="btn btn-danger mb-3 " onclick="goBack()">Cancelar</button>
+				<a class="btn btn-danger mb-3 " th:href="@{/pecas/novaObra/associarArtista}"
+					role="button">Cancelar</a>
 				<button class="btn btn-primary mb-3 ms-2" type="submit" id="salvarArtista">Salvar Edição de
 					Artista</button>
 			</div>
@@ -85,12 +91,6 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
 		integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
 		crossorigin="anonymous"></script>
-
-	<script>
-		function goBack() {
-			window.history.back();
-		}
-	</script>
 
 </body>
 

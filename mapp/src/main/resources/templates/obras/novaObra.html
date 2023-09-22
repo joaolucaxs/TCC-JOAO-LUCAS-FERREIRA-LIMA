@@ -211,6 +211,20 @@
 		});
 	</script>
 
+	<script>
+		// Função para formatar uma data no formato 'dd/MM/yyyy'
+		function formatDate(dateString) {
+			const options = {year: 'numeric', month: '2-digit', day: '2-digit'};
+			return new Date(dateString).toLocaleDateString('pt-BR', options);
+		}
+
+		// Selecione o campo de entrada de data
+		const dateInput = document.getElementById('validationServerDataAquisicao');
+
+		// Formate a data no campo de entrada quando a página carregar
+		dateInput.value = formatDate(dateInput.value);
+	</script>
+
 
 </body>
 

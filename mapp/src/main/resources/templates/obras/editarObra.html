@@ -151,8 +151,8 @@
 					<label for="validationServerAssinada" class="form-label"><b>Assinada:</b></label>
 					<select class="form-select" aria-label="Default select example" id="validationServerAssinada"
 						name="assinada">
-						<option value="true">Sim</option>
-						<option value="false">Não</option>
+						<option value="true" th:selected="${peca.getFichatecnica().getAssinada() == true}">Sim</option>
+						<option value="false" th:selected="${peca.getFichatecnica().getAssinada() == false}">Não</option>
 					</select>
 				</div>
 			</div>
@@ -162,8 +162,8 @@
 					<label for="validationServerDatada" class="form-label"><b>Datada:</b></label>
 					<select class="form-select" aria-label="Default select example" id="validationServerDatada"
 						name="datada">
-						<option value="true">Sim</option>
-						<option value="false">Não</option>
+						<option value="true" th:selected="${peca.getFichatecnica().getDatada() == true}">Sim</option>
+						<option value="false" th:selected="${peca.getFichatecnica().getDatada() == false}">Não</option>
 					</select>
 				</div>
 			</div>

@@ -1,6 +1,7 @@
 package com.joaolucas.mapp.services;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -108,6 +109,14 @@ public class ArtistaService {
 
 	public ArtistaDTO findByNome(String artesao) {
 		return repo.findByNome(artesao);
+	}
+	
+
+	public boolean equals(Artista obj, Artista other) {
+		return Objects.equals(obj.getApelido(), other.getApelido()) && Objects.equals(obj.getCidade(), other.getCidade())
+				&& Objects.equals(obj.getEmail(), other.getEmail()) && Objects.equals(obj.getId(), other.getId())
+			 && Objects.equals(obj.getNome(), other.getNome())
+				&& Objects.equals(obj.getTelefone(), other.getTelefone());
 	}
 
 }

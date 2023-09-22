@@ -21,7 +21,7 @@ public class Artista implements Serializable {
 	private String telefone;
 	private String email;
 	private String cidade;
-	
+
 	@DBRef(lazy = true)
 	private List<Peca> listaObras = new ArrayList<>();
 
@@ -90,9 +90,10 @@ public class Artista implements Serializable {
 		return listaObras;
 	}
 
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(apelido, cidade, email, id, nome, telefone);
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -104,17 +105,17 @@ public class Artista implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Artista other = (Artista) obj;
-		return Objects.equals(apelido, other.apelido) && Objects.equals(cidade, other.cidade)
-				&& Objects.equals(email, other.email) && Objects.equals(id, other.id)
-				&& Objects.equals(nome, other.nome) && Objects.equals(telefone, other.telefone);
+		return Objects.equals(id, other.id);
 	}
+	
+	
 
 	@Override
 	public String toString() {
 		return "Artista [id=" + id + ", nome=" + nome + ", apelido=" + apelido + ", telefone=" + telefone + ", email="
 				+ email + ", cidade=" + cidade + ", listaObras=" + getListaObras() + "]";
 	}
-	
-	
+
+
 
 }

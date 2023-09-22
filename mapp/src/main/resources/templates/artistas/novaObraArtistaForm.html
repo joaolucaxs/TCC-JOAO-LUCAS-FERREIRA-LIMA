@@ -18,8 +18,7 @@
 		<h1 class="text-center my-3">Artista Associado da Obra: <span data-th-text="${peca.getTituloPeca()}"></span>
 		</h1>
 
-		<form class="row g-3" th:action="@{/pecas/novaObra/{id}/associarArtista(id=${peca.getId()})}"
-			th:attr="data-idObra=${peca.getId()}" method="post" id="formArtista">
+		<form class="row g-3" th:action="@{/pecas/novaObra/associarArtista}" method="post" id="formArtista">
 			<div class="col-md-6">
 				<div class="mb-3">
 					<label for="artesao" class="form-label"><b>Artesão:</b></label>
@@ -92,9 +91,8 @@
 
 			<input type="hidden" id="validationServerId" name="id">
 			<div class="col d-flex justify-content-end">
-				<a class="btn btn-danger mb-3 " href="/pecas" role="button">Cancelar</a>
+				<a class="btn btn-danger mb-3 " href=/pecas role="button">Cancelar</a>
 				<button class="btn btn-primary mb-3 ms-2" type="submit" id="salvarOBra">Salvar Obra</button>
-
 			</div>
 		</form>
 
@@ -120,7 +118,6 @@
 			const telefoneInput = document.getElementById("validationServerTelefone");
 			const emailInput = document.getElementById("validationServerEmail");
 			const cidadeInput = document.getElementById("validationServerCidade");
-			const idObra = document.getElementById("formArtista").getAttribute("data-idObra");
 
 			const idInput = document.getElementById("validationServerId");
 
@@ -149,8 +146,8 @@
 				cidadeInput.value = cidade;
 				idInput.value = id;
 				editButtonLink.style.display = "block";
-				editButtonLink.href = `/pecas/novaObra/${idObra}/associarArtista/artista/editarArtista/${id}`;
-				
+				editButtonLink.href = `/pecas/novaObra/associarArtista/artista/editarArtista/${id}`;
+
 			} else {
 				nomeInput.value = "";
 				apelidoInput.value = "";
