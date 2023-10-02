@@ -20,17 +20,18 @@
 			<img th:src="${'data:image/*;base64,' + peca.getFichatecnica().getImagemCapa().getImagemBinaryStr()}"
 				class="p-3 img-fluid" id="imagem-capa" alt="Imagem da Capa">
 		</div>
-		<form class="row g-3" th:action="@{/pecas/editarObra/{id}(id=${peca.getId()})}" method="post"
+		<form class="row g-3 needs-validation was-validated" th:action="@{/pecas/editarObra/{id}(id=${peca.getId()})}" method="post"
 			enctype="multipart/form-data" id="formObra">
 			<div class="col-md-6">
 
 				<div class="mb-3">
-					<label for="validationServerNomeArtesao" class="form-label"><b>Título da Peça:</b></label>
-					<input type="text" class="form-control is-invalid" id="validationServerNomeArtesao"
-						name="tituloPeca" placeholder="Título da Peça"
-						aria-describedby="inputGroupPrepend3 validationServerNomeArtesaoFeedBack" required
+					<label for="validationServerTitulo" class="form-label"><b>Título da Peça:</b> <abbr
+							class="text-danger" title="Obrigatório">*</abbr></label>
+					<input type="text" class="form-control" id="validationServerTitulo" name="tituloPeca"
+						placeholder="Título da Peça"
+						aria-describedby="inputGroupPrepend3 validationServerTituloFeedBack" required
 						th:value="${peca.getTituloPeca()}">
-					<div id="validationServerNomeArtesaoFeedBack" class="invalid-feedback">
+					<div id="validationServerTituloFeedBack" class="invalid-feedback">
 						Título da Peça Obrigatório.
 					</div>
 				</div>
@@ -39,8 +40,9 @@
 			<div class="col-md-6">
 
 				<div class="mb-3">
-					<label for="validationServerCodigoObra" class="form-label"><b>Código da Peça:</b></label>
-					<input type="text" class="form-control is-invalid" id="validationServerCodigoObra" name="codigoPeca"
+					<label for="validationServerCodigoObra" class="form-label"><b>Código da Peça:</b><abbr
+							class="text-danger" title="Obrigatório">*</abbr></label>
+					<input type="text" class="form-control" id="validationServerCodigoObra" name="codigoPeca"
 						placeholder="Código da Peça"
 						aria-describedby="inputGroupPrepend3 validationServerCodigoObraFeedBack" required
 						th:value="${peca.getFichatecnica().getCodigoPeca()}">
@@ -53,90 +55,22 @@
 
 			<div class="col-md-6">
 				<div class="mb-3">
-					<label for="validationServerImagemObra" class="form-label"><b>Imagem da Capa:</b></label>
+					<label for="validationServerImagemObra" class="form-label"><b>Imagem da Capa:</b> <abbr
+							class="text-danger" title="Obrigatório">*</abbr></label>
 					<input type="file" id="validationServerImagemObra" class="form-control"
 						data-browse="Escolha a imagem" aria-label="file example" name="imagemPecaFile" accept="image/*"
-						 th:value="${imageFile}">
+						th:value="${imageFile}">
 				</div>
 			</div>
+
 
 			<div class="col-md-6">
 
 				<div class="mb-3">
-					<label for="validationServerFormaAss" class="form-label"><b>Forma Associativa:</b></label>
-					<input type="text" class="form-control" id="validationServerFormaAss" name="formaAssociativa "
-						placeholder="Forma Associativa" th:value="${peca.getFormaAssociativa()}">
-				</div>
-			</div>
-
-			<div class="col-md-6">
-
-				<div class="mb-3">
-					<label for="validationServerTipologia" class="form-label"><b>Tipologia:</b></label>
-					<input type="text" class="form-control" id="validationServerTipologia" name="tipologia"
-						placeholder="Tipologia" th:value="${peca.getTipologia()}">
-				</div>
-			</div>
-
-			<div class="col-md-6">
-				<div class="mb-3">
-					<label for="validationServerRelacaoCultural" class="form-label"><b>Relação Cultural:</b></label>
-					<input type="text" class="form-control" id="validationServerRelacaoCultural" name="relacaoCultural"
-						placeholder="Relação Cultural" th:value="${peca.getRelacaoCultural()}">
-				</div>
-			</div>
-
-			<div class="col-md-6">
-
-				<div class="mb-3">
-					<label for="validationServerClassificacao" class="form-label"><b>Classificação:</b></label>
-					<input type="text" class="form-control" id="validationServerClassificacao" name="classificacao"
-						placeholder="Classificação" th:value="${peca.getClassificacao()}">
-				</div>
-			</div>
-
-			<div class="col-md-6">
-
-				<div class="mb-3">
-					<label for="validationServerTecnica" class="form-label"><b>Técnica:</b></label>
-					<input type="text" class="form-control" id="validationServerTecnica" name="tecnica"
-						placeholder="Técnica" th:value="${peca.getTecnica()}">
-				</div>
-			</div>
-
-			<div class="col-md-6">
-
-				<div class="mb-3">
-					<label for="validationServerProduto" class="form-label"><b>Produto:</b></label>
-					<input type="text" class="form-control" id="validationServerProduto" name="produto"
-						placeholder="Produto" th:value="${peca.getProduto()}">
-				</div>
-			</div>
-
-			<div class="col-md-6">
-
-				<div class="mb-3">
-					<label for="validationServerDimensao" class="form-label"><b>Dimensão:</b></label>
-					<input type="text" class="form-control" id="validationServerDimensao" name="dimensao"
-						placeholder="Dimensão" th:value="${peca.getFichatecnica().getDimensao()}">
-				</div>
-			</div>
-
-			<div class="col-md-6">
-
-				<div class="mb-3">
-					<label for="validationServerPeso" class="form-label"><b>Peso:</b></label>
-					<input type="text" class="form-control" id="validationServerPeso" name="peso" placeholder="Peso"
-						th:value="${peca.getFichatecnica().getPeso()}">
-				</div>
-			</div>
-
-			<div class="col-md-6">
-
-				<div class="mb-3">
-					<label for="validationServerDataAquisicao" class="form-label"><b>Data de Aquisição:</b></label>
-					<input type="date" class="form-control is-invalid" id="validationServerDataAquisicao"
-						name="dataAquisicao" placeholder="Data de Aquisição"
+					<label for="validationServerDataAquisicao" class="form-label"><b>Data de Aquisição:</b><abbr
+							class="text-danger" title="Obrigatório">*</abbr></label>
+					<input type="date" class="form-control" id="validationServerDataAquisicao" name="dataAquisicao"
+						placeholder="Data de Aquisição"
 						aria-describedby="inputGroupPrepend3 validationServerDataAquisicaoFeedBack" required
 						th:value="${peca.getFichatecnica().getDataAquisicao()}">
 					<div id="validationServerDataAquisicaoFeedBack" class="invalid-feedback">
@@ -148,11 +82,116 @@
 			<div class="col-md-6">
 
 				<div class="mb-3">
+					<label for="validationServerFormaAss" class="form-label"><b>Forma Associativa:</b></label>
+					<input type="text" class="form-control" id="validationServerFormaAss" name="formaAssociativa "
+						placeholder="Forma Associativa" th:value="${peca.getFormaAssociativa()}"
+						aria-describedby="inputGroupPrepend3 validationServerFormaAssFeedBack" required>
+					<div id="validationServerFormaAssFeedBack" class="invalid-feedback">
+						Forma Associativa da Peça Obrigatória.
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6">
+
+				<div class="mb-3">
+					<label for="validationServerTipologia" class="form-label"><b>Tipologia:</b></label>
+					<input type="text" class="form-control" id="validationServerTipologia" name="tipologia"
+						placeholder="Tipologia" th:value="${peca.getTipologia()}"
+						aria-describedby="inputGroupPrepend3 validationServerTipologiaFeedBack" required>
+					<div id="validationServerTipologiaFeedBack" class="invalid-feedback">
+						Tipologia da Peça Obrigatória.
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6">
+				<div class="mb-3">
+					<label for="validationServerRelacaoCultural" class="form-label"><b>Relação Cultural:</b></label>
+					<input type="text" class="form-control" id="validationServerRelacaoCultural" name="relacaoCultural"
+						placeholder="Relação Cultural" th:value="${peca.getRelacaoCultural()}"
+						aria-describedby="inputGroupPrepend3 validationServerRelacaoCulturalFeedBack" required>
+					<div id="validationServerRelacaoCulturalFeedBack" class="invalid-feedback">
+						Relação Cultural da Peça Obrigatória.
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6">
+
+				<div class="mb-3">
+					<label for="validationServerClassificacao" class="form-label"><b>Classificação:</b></label>
+					<input type="text" class="form-control" id="validationServerClassificacao" name="classificacao"
+						placeholder="Classificação" th:value="${peca.getClassificacao()}"
+						aria-describedby="inputGroupPrepend3 validationServerClassificacaoFeedBack" required>
+					<div id="validationServerClassificacaoFeedBack" class="invalid-feedback">
+						Classificação da Peça Obrigatória.
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6">
+
+				<div class="mb-3">
+					<label for="validationServerTecnica" class="form-label"><b>Técnica:</b></label>
+					<input type="text" class="form-control" id="validationServerTecnica" name="tecnica"
+						placeholder="Técnica" th:value="${peca.getTecnica()}"
+						aria-describedby="inputGroupPrepend3 validationServerTecnicaFeedBack" required>
+					<div id="validationServerTecnicaFeedBack" class="invalid-feedback">
+						Técnica da Peça Obrigatória.
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6">
+
+				<div class="mb-3">
+					<label for="validationServerProduto" class="form-label"><b>Produto:</b></label>
+					<input type="text" class="form-control" id="validationServerProduto" name="produto"
+						placeholder="Produto" th:value="${peca.getProduto()}"
+						aria-describedby="inputGroupPrepend3 validationServerProdutoFeedBack" required>
+					<div id="validationServerProdutoFeedBack" class="invalid-feedback">
+						Produto da Peça Obrigatório.
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6">
+
+				<div class="mb-3">
+					<label for="validationServerDimensao" class="form-label"><b>Dimensão:</b></label>
+					<input type="text" class="form-control" id="validationServerDimensao" name="dimensao"
+						placeholder="Dimensão" th:value="${peca.getFichatecnica().getDimensao()}"
+						aria-describedby="inputGroupPrepend3 validationServerDimensaoFeedBack" required>
+					<div id="validationServerDimensaoFeedBack" class="invalid-feedback">
+						Dimensão da Peça Obrigatória.
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6">
+
+				<div class="mb-3">
+					<label for="validationServerPeso" class="form-label"><b>Peso:</b></label>
+					<input type="text" class="form-control" id="validationServerPeso" name="peso" placeholder="Peso"
+						th:value="${peca.getFichatecnica().getPeso()}"
+						aria-describedby="inputGroupPrepend3 validationServerPesoFeedBack" required>
+					<div id="validationServerPesoFeedBack" class="invalid-feedback">
+						Peso da Peça Obrigatório.
+					</div>
+				</div>
+			</div>
+
+
+			<div class="col-md-6">
+
+				<div class="mb-3">
 					<label for="validationServerAssinada" class="form-label"><b>Assinada:</b></label>
 					<select class="form-select" aria-label="Default select example" id="validationServerAssinada"
 						name="assinada">
 						<option value="true" th:selected="${peca.getFichatecnica().getAssinada() == true}">Sim</option>
-						<option value="false" th:selected="${peca.getFichatecnica().getAssinada() == false}">Não</option>
+						<option value="false" th:selected="${peca.getFichatecnica().getAssinada() == false}">Não
+						</option>
 					</select>
 				</div>
 			</div>
@@ -213,6 +252,28 @@
 					// e lidar com o processo de salvamento.
 				});
 			});
+		</script>
+
+		<script>
+			// Example starter JavaScript for disabling form submissions if there are invalid fields
+			(() => {
+				'use strict'
+
+				// Fetch all the forms we want to apply custom Bootstrap validation styles to
+				const forms = document.querySelectorAll('.needs-validation')
+
+				// Loop over them and prevent submission
+				Array.from(forms).forEach(form => {
+					form.addEventListener('submit', event => {
+						if (!form.checkValidity()) {
+							event.preventDefault()
+							event.stopPropagation()
+						}
+
+						form.classList.add('was-validated')
+					}, false)
+				})
+			})()
 		</script>
 
 </body>

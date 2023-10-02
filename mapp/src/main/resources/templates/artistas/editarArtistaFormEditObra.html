@@ -16,15 +16,15 @@
 	<div class="painel">
 		<h1 class="text-center my-3">Editar Artista: <span data-th-text="${artesao.getNome()}"></span>
 		</h1>
-		<form class="row g-3"
+		<form class="row g-3 needs-validation was-validated"
 			th:action="@{/pecas/editarObra/{idObra}/associarArtista/artista/editarArtista/{idArtista}(idObra=${obra.getId()}, idArtista=${artesao.getId()})}"
 			method="post" id="formArtista">
 			<div class="col-md-6">
 
 				<div class="mb-3">
 					<label for="validationServerNomeArtesao" class="form-label"><b>Nome
-							do Artesão:</b></label>
-					<input type="text" class="form-control is-invalid" id="validationServerNomeArtesao" name="nome"
+							do Artesão </b> <abbr class="text-danger" title="Obrigatório">*</abbr></label>
+					<input type="text" class="form-control" id="validationServerNomeArtesao" name="nome"
 						placeholder="Nome do Artesão"
 						aria-describedby="inputGroupPrepend3 validationServerNomeArtesaoFeedBack" required
 						th:value="${artesao.getNome()}">
@@ -38,41 +38,62 @@
 			<div class="col-md-6">
 
 				<div class="mb-3">
-					<label for="validationServerApelido" class="form-label"><b>Apelido:</b></label>
+					<label for="validationServerApelido" class="form-label"><b>Apelido</b></label>
 					<input type="text" class="form-control" id="validationServerApelido" name="apelido"
-						placeholder="Apelido" th:value="${artesao.getApelido()}">
+						placeholder="Apelido" aria-describedby="inputGroupPrepend3 validationServerApelido" required
+						th:value="${artesao.getApelido()}">
+					<div id="validationServerApelidoFeedBack" class="invalid-feedback">
+						Apelido do Artesão Obrigatório.
+					</div>
 				</div>
+
 			</div>
 			<div class="col-md-6">
 
 				<div class="mb-3">
-					<label for="validationServerTelefone" class="form-label"><b>Telefone:</b></label>
+					<label for="validationServerTelefone" class="form-label"><b>Telefone</b></label>
 					<input type="text" class="form-control" id="validationServerTelefone" name="telefone"
-						placeholder="Telefone" th:value="${artesao.getTelefone()}">
+						placeholder="Telefone" aria-describedby="inputGroupPrepend3 validationServerTelefoneFeedBack"
+						required th:value="${artesao.getTelefone()}">
+					<div id="validationServerTelefoneFeedBack" class="invalid-feedback">
+						Telefone do Artesão Obrigatório.
+					</div>
 				</div>
+
 			</div>
 			<div class="col-md-6">
 
 				<div class="mb-3">
-					<label for="validationServerEmail" class="form-label"><b>Email:</b></label>
+					<label for="validationServerEmail" class="form-label"><b>Email</b></label>
 					<input type="text" class="form-control" id="validationServerEmail" name="email" placeholder="Email"
+						aria-describedby="inputGroupPrepend3 validationServerEmailFeedBack" required
 						th:value="${artesao.getEmail()}">
+					<div id="validationServerEmailFeedBack" class="invalid-feedback">
+						Email do Artesão Obrigatório.
+					</div>
 				</div>
+
 			</div>
 			<div class="col-md-6">
 
 				<div class="mb-3">
-					<label for="validationServerCidade" class="form-label"><b>Cidade:</b></label>
+					<label for="validationServerCidade" class="form-label"><b>Cidade</b></label>
 					<input type="text" class="form-control" id="validationServerCidade" name="cidade"
-						placeholder="Cidade" th:value="${artesao.getCidade()}">
+						placeholder="Cidade" aria-describedby="inputGroupPrepend3 validationServerCidadeFeedBack"
+						required th:value="${artesao.getCidade()}">
+					<div id="validationServerCidadeFeedBack" class="invalid-feedback">
+						Cidade do Artesão Obrigatório.
+					</div>
 				</div>
+
 			</div>
 			<div class="col-md-6">
 
 
 			</div>
 			<div class="col d-flex justify-content-end">
-				<a class="btn btn-danger mb-3 " th:href="@{/pecas/editarObra/{idObra}/associarArtista(idObra=${obra.getId()})}"
+				<a class="btn btn-danger mb-3 "
+					th:href="@{/pecas/editarObra/{idObra}/associarArtista(idObra=${obra.getId()})}"
 					role="button">Cancelar</a>
 				<button class="btn btn-primary mb-3 ms-2" type="submit" id="salvarArtista">Salvar Edição de
 					Artista</button>
@@ -90,6 +111,27 @@
 		integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
 		crossorigin="anonymous"></script>
 
+	<script>
+		// Example starter JavaScript for disabling form submissions if there are invalid fields
+		(() => {
+			'use strict'
+
+			// Fetch all the forms we want to apply custom Bootstrap validation styles to
+			const forms = document.querySelectorAll('.needs-validation')
+
+			// Loop over them and prevent submission
+			Array.from(forms).forEach(form => {
+				form.addEventListener('submit', event => {
+					if (!form.checkValidity()) {
+						event.preventDefault()
+						event.stopPropagation()
+					}
+
+					form.classList.add('was-validated')
+				}, false)
+			})
+		})()
+	</script>
 </body>
 
 </html>

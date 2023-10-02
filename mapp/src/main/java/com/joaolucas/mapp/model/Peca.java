@@ -6,6 +6,9 @@ import java.util.Objects;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 @Document(collection = "obra")
 public class Peca implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -13,6 +16,8 @@ public class Peca implements Serializable {
 	@Id
 	private String id;
 	private Artista artesao;
+	@NotNull(message = "Titulo da peça deve ser obrigatório")
+	@NotBlank(message = "Titulo da peça não pode ser em branco")
 	private String tituloPeca;
 	private String tipologia;
 	private String formaAssociativa;

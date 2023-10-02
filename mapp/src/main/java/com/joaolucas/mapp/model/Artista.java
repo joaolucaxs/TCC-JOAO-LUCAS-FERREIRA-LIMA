@@ -9,6 +9,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 @Document
 public class Artista implements Serializable {
 
@@ -16,6 +19,8 @@ public class Artista implements Serializable {
 
 	@Id
 	private String id;
+	@NotNull(message = "Nome do Artista deve ser obrigatório")
+	@NotBlank(message = "Nome do Artista não pode ser em branco")
 	private String nome;
 	private String apelido;
 	private String telefone;

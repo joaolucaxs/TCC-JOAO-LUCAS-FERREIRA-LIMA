@@ -5,11 +5,18 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class FichaTecnicaObra implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@NotNull(message = "Imagem de Capa deve ser obrigatória")
 	private Image imagemCapa;
+	@NotNull(message = "Código da Peça deve ser obrigatório")
+	@NotBlank(message = "Código da Peça não pode ser em branco")
 	private String codigoPeca;
+	@NotNull(message = "Data de Aquisição da Peça deve ser obrigatório")
 	private LocalDate dataAquisicao;
 	private Boolean assinada;
 	private Boolean datada;

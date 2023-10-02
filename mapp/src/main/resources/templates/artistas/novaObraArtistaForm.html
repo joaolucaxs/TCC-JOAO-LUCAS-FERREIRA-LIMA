@@ -18,14 +18,15 @@
 		<h1 class="text-center my-3">Artista Associado da Obra: <span data-th-text="${peca.getTituloPeca()}"></span>
 		</h1>
 
-		<form class="row g-3" th:action="@{/pecas/novaObra/associarArtista}" method="post" id="formArtista">
+		<form class="row g-3 needs-validation" th:action="@{/pecas/novaObra/associarArtista}" method="post"
+			id="formArtista">
 			<div class="col-md-6">
 				<div class="mb-3">
 					<label for="artesao" class="form-label"><b>Artesão:</b></label>
 					<div class="mb-3 d-flex justify-content-between align-items-center">
 						<select class="form-select me-3" aria-label="Default select example" id="form-artesao"
 							name="artesao" onchange="updateArtistDetails()">
-							<option value="0">-</option>
+							<option value="0">Adicionar Artista</option>
 							<option th:each="artista : ${artesaos}" th:text="${artista.getNome()}"
 								th:attr="data-nome=${artista.getNome()},data-id=${artista.getId()}, data-apelido=${artista.getApelido()}, data-telefone=${artista.getTelefone()}, data-email=${artista.getEmail()}, data-cidade=${artista.getCidade()}">
 							</option>
@@ -43,8 +44,8 @@
 
 				<div class="mb-3">
 					<label for="validationServerNomeArtesao" class="form-label"><b>Nome
-							do Artesão:</b></label>
-					<input type="text" class="form-control is-invalid" id="validationServerNomeArtesao" name="nome"
+							do Artesão </b> <abbr class="text-danger" title="Obrigatório">*</abbr></label>
+					<input type="text" class="form-control" id="validationServerNomeArtesao" name="nome"
 						placeholder="Nome do Artesão"
 						aria-describedby="inputGroupPrepend3 validationServerNomeArtesaoFeedBack" required readonly
 						th:value="${peca.getArtesao()}">
@@ -58,33 +59,48 @@
 			<div class="col-md-6">
 
 				<div class="mb-3">
-					<label for="validationServerApelido" class="form-label"><b>Apelido:</b></label>
+					<label for="validationServerApelido" class="form-label"><b>Apelido</b></label>
 					<input type="text" class="form-control" id="validationServerApelido" name="apelido"
-						placeholder="Apelido" readonly>
+						placeholder="Apelido" aria-describedby="inputGroupPrepend3 validationServerApelidoFeedBack"
+						required readonly>
+					<div id="validationServerApelidoFeedBack" class="invalid-feedback">
+						Apelido do Artesão Obrigatório.
+					</div>
 				</div>
 			</div>
 			<div class="col-md-6">
 
 				<div class="mb-3">
-					<label for="validationServerTelefone" class="form-label"><b>Telefone:</b></label>
+					<label for="validationServerTelefone" class="form-label"><b>Telefone</b></label>
 					<input type="text" class="form-control" id="validationServerTelefone" name="telefone"
-						placeholder="Telefone" readonly>
+						placeholder="Telefone" aria-describedby="inputGroupPrepend3 validationServerTelefoneFeedBack"
+						required readonly>
+					<div id="validationServerTelefoneFeedBack" class="invalid-feedback">
+						Telefone do Artesão Obrigatório.
+					</div>
 				</div>
 			</div>
 			<div class="col-md-6">
 
 				<div class="mb-3">
-					<label for="validationServerEmail" class="form-label"><b>Email:</b></label>
+					<label for="validationServerEmail" class="form-label"><b>Email</b></label>
 					<input type="text" class="form-control" id="validationServerEmail" name="email" placeholder="Email"
-						readonly>
+						aria-describedby="inputGroupPrepend3 validationServerEmailFeedBack" required readonly>
+					<div id="validationServerEmailFeedBack" class="invalid-feedback">
+						Email do Artesão Obrigatório.
+					</div>
 				</div>
 			</div>
 			<div class="col-md-6">
 
 				<div class="mb-3">
-					<label for="validationServerCidade" class="form-label"><b>Cidade:</b></label>
+					<label for="validationServerCidade" class="form-label"><b>Cidade</b></label>
 					<input type="text" class="form-control" id="validationServerCidade" name="cidade"
-						placeholder="Cidade" readonly>
+						placeholder="Cidade" aria-describedby="inputGroupPrepend3 validationServerCidadeFeedBack"
+						required readonly>
+					<div id="validationServerCidadeFeedBack" class="invalid-feedback">
+						Cidade do Artesão Obrigatório.
+					</div>
 				</div>
 			</div>
 
@@ -118,7 +134,7 @@
 			const telefoneInput = document.getElementById("validationServerTelefone");
 			const emailInput = document.getElementById("validationServerEmail");
 			const cidadeInput = document.getElementById("validationServerCidade");
-
+			const formulario = document.getElementById("formArtista")
 			const idInput = document.getElementById("validationServerId");
 
 			const selectedOption = select.options[select.selectedIndex];
@@ -146,6 +162,7 @@
 				cidadeInput.value = cidade;
 				idInput.value = id;
 				editButtonLink.style.display = "block";
+				formulario.classList.add('was-validated')
 				editButtonLink.href = `/pecas/novaObra/associarArtista/artista/editarArtista/${id}`;
 
 			} else {
@@ -155,11 +172,59 @@
 				emailInput.value = "";
 				cidadeInput.value = "";
 				idInput.value = null; // Definindo o valor do campo oculto
+				formulario.classList.remove('was-validated')
 				editButtonLink.style.display = "none";
-				editButtonLink.href = `IMPLEMENTAR CANCELAR AQUI`;
+				editButtonLink.href = `/pecas`;
 
 			}
+
 		}
+		// Função para remover a classe 'was-validated' do formulário
+		function resetValidation(form) {
+			form.classList.remove('was-validated');
+		}
+
+		// Função para adicionar a classe 'was-validated' e acionar a validação do Bootstrap
+		function enableValidation(form) {
+			form.classList.add('was-validated');
+			// Aciona a validação do Bootstrap manualmente
+			if (!form.checkValidity()) {
+				event.preventDefault();
+				event.stopPropagation();
+			}
+		}
+
+		// Evento para ativar as validações quando o botão de envio é clicado
+		document.getElementById('salvarOBra').addEventListener('click', function () {
+			enableValidation(document.getElementById('formArtista'));
+		});
+
+		// Evento para resetar a validação quando o formulário é resetado
+		document.getElementById('formArtista').addEventListener('reset', function () {
+			resetValidation(this);
+		});
+	</script>
+
+	<script>
+		// Example starter JavaScript for disabling form submissions if there are invalid fields
+		(() => {
+			'use strict'
+
+			// Fetch all the forms we want to apply custom Bootstrap validation styles to
+			const forms = document.querySelectorAll('.needs-validation')
+
+			// Loop over them and prevent submission
+			Array.from(forms).forEach(form => {
+				form.addEventListener('submit', event => {
+					if (!form.checkValidity()) {
+						event.preventDefault()
+						event.stopPropagation()
+					}
+
+					form.classList.add('was-validated')
+				}, false)
+			})
+		})()
 	</script>
 
 </body>

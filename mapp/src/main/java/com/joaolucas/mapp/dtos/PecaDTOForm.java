@@ -5,10 +5,15 @@ import java.time.LocalDate;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class PecaDTOForm implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@NotNull(message = "Titulo da peça deve ser obrigatório")
+	@NotBlank(message = "Titulo da peça não pode ser em branco")
 	private String tituloPeca;
 	private String tipologia;
 	private String formaAssociativa;
@@ -16,12 +21,16 @@ public class PecaDTOForm implements Serializable {
 	private String tecnica;
 	private String classificacao;
 	private String produto;
+	@NotNull(message = "Código da Peça deve ser obrigatório")
+	@NotBlank(message = "Código da Peça não pode ser em branco")
 	private String codigoPeca;
+	@NotNull(message = "Data de Aquisição da Peça deve ser obrigatório")
 	private LocalDate dataAquisicao;
 	private Boolean assinada;
 	private Boolean datada;
 	private String dimensao;
 	private String peso;
+	@NotNull(message = "Imagem de Capa deve ser obrigatória")
 	private MultipartFile imagemPecaFile;
 
 
