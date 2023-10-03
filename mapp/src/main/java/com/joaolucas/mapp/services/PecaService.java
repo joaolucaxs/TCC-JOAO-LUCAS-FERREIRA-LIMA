@@ -27,10 +27,10 @@ public class PecaService {
 
 	@Autowired
 	private PecaRepository repo;
-	
+
 	@Autowired
 	private ArtistaRepository repoArtista;
-	
+
 	@Autowired
 	private ArtistaService serviceArtista;
 
@@ -61,7 +61,7 @@ public class PecaService {
 			throw new DataBaseException(e.getMessage());
 		}
 	}
-	
+
 	public void cancelarNovaObra(String id) {
 		try {
 			findById(id);
@@ -72,7 +72,6 @@ public class PecaService {
 			throw new DataBaseException(e.getMessage());
 		}
 	}
-	
 
 	public void cancelarEdicaoObra(String id, Peca oldPecaData) {
 		try {
@@ -85,7 +84,6 @@ public class PecaService {
 			throw new DataBaseException(e.getMessage());
 		}
 	}
-
 
 	public Peca update(String id, Peca obj) {
 		try {
@@ -107,8 +105,9 @@ public class PecaService {
 		newObj.setProduto(obj.getProduto());
 		newObj.setFichatecnica(obj.getFichatecnica());
 	}
-	
+
 	public List<Peca> filtrarPorCampo(String pesquisa) {
+
 		return repo.filtrarPorCampo(pesquisa);
 
 	}
@@ -164,8 +163,5 @@ public class PecaService {
 		peca.setFichatecnica(fichaTecnicaObra);
 		return peca;
 	}
-
-	
-	
 
 }

@@ -78,10 +78,9 @@ public class PecaResource {
 		mv.addObject("peca", editObra);
 		return mv;
 	}
-	
+
 	@GetMapping(value = "/novaObra")
 	public ModelAndView novaObra() {
-
 		ModelAndView mv = new ModelAndView("obras/novaObra");
 		return mv;
 	}
@@ -109,7 +108,11 @@ public class PecaResource {
 	}
 
 	@PostMapping(value = "/novaObra/associarArtista")
-	public String inserirArtistaObra(@Valid Artista artista) {
+	public String inserirArtistaObra(@Valid Artista artista, BindingResult result) {
+
+		if (result.hasErrors()) {
+			return "redirect:/pecas";
+		}
 
 		Peca newObra = auxPecaNew;
 
@@ -140,7 +143,11 @@ public class PecaResource {
 	}
 
 	@PostMapping(value = "/novaObra/associarArtista/artista/editarArtista/{idArtista}")
-	public String editarArtista(@Valid Artista artista, @PathVariable String idArtista) {
+	public String editarArtista(@Valid Artista artista, @PathVariable String idArtista, BindingResult result) {
+
+		if (result.hasErrors()) {
+			return "redirect:/pecas";
+		}
 
 		artistaService.update(idArtista, artista);
 		return "redirect:/pecas/novaObra/associarArtista";
@@ -156,7 +163,12 @@ public class PecaResource {
 
 	@PostMapping(value = "/editarObra/{id}")
 	public String editarObra(@PathVariable String id, @Valid PecaDTOForm objDTO,
-			@RequestParam("imagemPecaFile") @Valid MultipartFile imagemPecaFile) throws IOException {
+			@RequestParam("imagemPecaFile") @Valid MultipartFile imagemPecaFile, BindingResult result)
+			throws IOException {
+
+		if (result.hasErrors()) {
+			return "redirect:/pecas";
+		}
 
 		Peca obraPersisted = obraService.findById(id);
 		auxPecaEdition = obraPersisted;
@@ -181,7 +193,11 @@ public class PecaResource {
 	}
 
 	@PostMapping(value = "/editarObra/{id}/associarArtista")
-	public String editarArtistaObra(@Valid Artista artista, @PathVariable String id) {
+	public String editarArtistaObra(@Valid Artista artista, @PathVariable String id, BindingResult result) {
+
+		if (result.hasErrors()) {
+			return "redirect:/pecas";
+		}
 
 		Peca editedObra = auxPecaEdition;
 
@@ -224,7 +240,12 @@ public class PecaResource {
 	}
 
 	@PostMapping(value = "/editarObra/{idObra}/associarArtista/artista/editarArtista/{idArtista}")
-	public String editarArtista2(@Valid Artista artista, @PathVariable String idObra, @PathVariable String idArtista) {
+	public String editarArtista2(@Valid Artista artista, @PathVariable String idObra, @PathVariable String idArtista,
+			BindingResult result) {
+
+		if (result.hasErrors()) {
+			return "redirect:/pecas";
+		}
 
 		artistaService.update(idArtista, artista);
 

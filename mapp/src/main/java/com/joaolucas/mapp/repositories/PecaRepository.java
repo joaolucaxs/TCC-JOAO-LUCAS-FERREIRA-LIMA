@@ -17,17 +17,15 @@ public interface PecaRepository extends MongoRepository<Peca, String> {
 			+ "{'relacaoCultural': {$regex: ?0, $options: 'i'}}, " + "{'tecnica': {$regex: ?0, $options: 'i'}}, "
 			+ "{'classificacao': {$regex: ?0, $options: 'i'}}, " + "{'produto': {$regex: ?0, $options: 'i'}}"
 			+ "{'fichatecnica.codigoPeca': {$regex: ?0, $options: 'i'}}"
-			+ "{'fichatecnica.dimensao': {$regex: ?0, $options: 'i'}}" + "{'artesao.nome': {$regex: ?0, $options: 'i'}}"
-			+ "]}")
-	
+			+ "{'artesao.nome': {$regex: ?0, $options: 'i'}}" + "]}")
 	List<Peca> filtrarPorCampo(String pesquisa);
 
 	@Query("{'fichatecnica.dataAquisicao': ?0}")
 	List<Peca> filtrarPorDataAquisicao(LocalDate dataAquisicao);
-	
+
 	@Query("{'fichatecnica.assinada': ?0}")
 	List<Peca> filtrarPorAssinada(Boolean assinada);
-	
+
 	@Query("{'fichatecnica.datada': ?0}")
 	List<Peca> filtrarPorDatada(Boolean datada);
 
