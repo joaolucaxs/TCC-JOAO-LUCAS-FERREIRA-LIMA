@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+	<link rel="stylesheet" href="/css/style.css">
+	<title>Visualizar Obra</title>
+
+</head>
+
+<body>
+	<div class="painelView">
+		<div class="row row-cols-1 row-cols-md-1 justify-content-around">
+			<div class="card h-100 rounded-5 border border-1 border-dark ">
+				<div class="flex flex-col items-center">
+					<h1 id="imageTitle mb-2" class="text-center flex-grow lg:text-3xl align-middle text-hamdarkgray"
+						data-th-text="${peca.getTituloPeca()}">
+					</h1>
+					<span data-th-text="${peca.getFichatecnica().getCodigoPeca()}"
+						class="text-hamdarkgray lg:text-2xl"></span>
+				</div>
+				<div class="d-flex justify-content-center align-items-center h-100">
+					<img th:src="${'data:image/*;base64,' + peca.getFichatecnica().getImagemCapa().getImagemBinaryStr()}"
+						class="p-3 img-fluid rounderd-start" id="imagem-capa" alt="Imagem da Capa">
+				</div>
+
+
+				<div class="accordion" id="accordionExample">
+					<div class="accordion-item">
+						<h2 class="accordion-header">
+							<button class="accordion-button" type="button" data-bs-toggle="collapse"
+								data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+								Identificação e Criação
+							</button>
+						</h2>
+						<div id="collapseOne" class="accordion-collapse collapse show"
+							data-bs-parent="#accordionExample">
+							<div class="accordion-body">
+								<div class="row d-flex justify-content-around align-items-center">
+									<div class="col-md-4">
+										<p class="card-text"><b>Código da Peça:</b> <span
+												data-th-text="${peca.getFichatecnica().getCodigoPeca()}"></span></p>
+										<p class="card-text"><b>Nome da Peça:</b> <span
+												data-th-text="${peca.getTituloPeca()}"></span></p>
+										<p class="card-text"><b>Nome do Artesão:</b> <span
+												data-th-text="${peca.getArtesao().getNome()}"></span></p>
+										<p class="card-text"><b>Forma Associativa:</b> <span
+												data-th-text="${peca.getFormaAssociativa()}"></span></p>
+										<p class="card-text"><b>Tipologia:</b> <span
+												data-th-text="${peca.getTipologia()}"></span>
+										</p>
+										<p class="card-text"><b>Relação Cultural:</b> <span
+												data-th-text="${peca.getRelacaoCultural()}"></span></p>
+										<p class="card-text"><b>Técnica:</b> <span
+												data-th-text="${peca.getTecnica()}"></span>
+										</p>
+										<p class="card-text"><b>Classificação:</b> <span
+												data-th-text="${peca.getClassificacao()}"></span></p>
+
+										<p class="card-text"><b>Produto:</b> <span
+												data-th-text="${peca.getProduto()}"></span>
+										</p>
+
+										<p class="card-text"><b>Data de Aquisição:</b> <span
+												data-th-text="${peca.getFichatecnica().getDataAquisicaoAsStr()}"></span>
+										</p>
+										<p class="card-text"><b>Assinada:</b> <span
+												data-th-text="${peca.getFichatecnica().getAssinada() ? 'Sim' : 'Não'}"></span>
+										</p>
+										<p class="card-text"><b>Datada:</b> <span
+												data-th-text="${peca.getFichatecnica().getDatada()} ? 'Sim' : 'Não'"></span>
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="accordion-item">
+						<h2 class="accordion-header">
+							<button class="accordion-button" type="button" data-bs-toggle="collapse"
+								data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+								Descrição Física
+							</button>
+						</h2>
+						<div id="collapseTwo" class="accordion-collapse collapse show"
+							data-bs-parent="#accordionExample">
+							<div class="accordion-body">
+								<div class="row d-flex justify-content-around align-items-center">
+									<div class="col-md-4">
+										<p class="card-text"><b>Dimensão:</b> <span
+												data-th-text="${peca.getFichatecnica().getDimensao()}"></span></p>
+										<p class="card-text"><b>Peso:</b> <span
+												data-th-text="${peca.getFichatecnica().getPeso()}"></span></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="accordion-item">
+						<h2 class="accordion-header">
+							<button class="accordion-button" type="button" data-bs-toggle="collapse"
+								data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+								Mídias Associadas
+							</button>
+						</h2>
+						<div id="collapseThree" class="accordion-collapse collapse show"
+							data-bs-parent="#accordionExample">
+							<div class="accordion-body">
+								<div class="row d-flex justify-content-around align-items-center">
+									<div class="col-md-4">
+										<p class="card-text"><b>Mídia 1</b></p>
+										<p class="card-text"><b>Mídia 2</b></p>
+										<p class="card-text"><b>Mídia 3</b></p>
+										<p class="card-text"><b>Mídia 4</b></p>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card-body d-flex justify-content-around align-items-center">
+					<button type="button" class="btn btn-danger" data-bs-toggle="modal"
+						th:attr="data-bs-target='#modalDeletar' + ${peca.id}">
+						Deletar
+					</button>
+
+					<!-- Modal Deletar Obra-->
+					<div class="modal fade" th:id="'modalDeletar' + ${peca.id}" data-bs-backdrop="static"
+						data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalDeletarLabel" aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h1 class="modal-title fs-5" id="staticBackdropLabel">Deletar Obra</h1>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"
+										aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									Deseja realmente deletar essa obra?
+								</div>
+								<div class="modal-footer">
+									<form th:action="@{/pecas/delete/{id}(id=${peca.getId()})}" method="get">
+										<button type="submit" class="btn btn-primary">Sim</button>
+										<button type="button" class="btn btn-danger"
+											data-bs-dismiss="modal">Não</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<a th:href="@{'/pecas/editarObra/'+${peca.getId()}}" class="btn btn-primary">Editar</a>
+
+					<!--						<a href="#" class="btn btn-primary">Editar</a>-->
+					<!--						<a href="#" class="btn btn-danger">Deletar</a>-->
+				</div>
+
+
+			</div>
+		</div>
+
+
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+			integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+			crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
+			integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
+			crossorigin="anonymous"></script>
+
+</body>
+
+</html>

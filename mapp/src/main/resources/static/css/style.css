@@ -14,8 +14,29 @@ body{
 	padding-top: 20px; /* Padding no lado esquerdo */
 }
 
+.painelView{
+	background-color: #ffffff;
+	border-radius: 30px;
+	padding: 50px;
+	margin:2%;
+}
+.items-center {
+    align-items: center;
+}
+.flex-col {
+    flex-direction: column;
+}
+.flex {
+	margin-top: 10px;
+    display: flex;
+}
 #imagem-capa{
     max-height: 300px; /* Ajuste para a altura máxima desejada */
+}
+
+
+#imagem-capa-view{
+    max-height: 200px; /* Ajuste para a altura máxima desejada */
 }
 
 .btn-primary {
@@ -37,6 +58,10 @@ body{
 
 .btn-warning:hover{
     color: white; /* Alterar a cor do texto */
+}
+
+.accordion{
+	padding:20px;
 }
 
 

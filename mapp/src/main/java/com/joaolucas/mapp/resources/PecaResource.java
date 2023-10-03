@@ -71,6 +71,14 @@ public class PecaResource {
 		return mv;
 	}
 
+	@GetMapping(value = "/{id}")
+	public ModelAndView visualizarObra(@PathVariable String id) {
+		Peca editObra = obraService.findById(id);
+		ModelAndView mv = new ModelAndView("obras/visualizarObra");
+		mv.addObject("peca", editObra);
+		return mv;
+	}
+	
 	@GetMapping(value = "/novaObra")
 	public ModelAndView novaObra() {
 

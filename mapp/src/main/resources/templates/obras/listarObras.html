@@ -58,77 +58,19 @@
 		<!-- Listagem de Obras -->
 		<div class="row row-cols-1 row-cols-md-4 g-4">
 			<div class="col" data-th-each="peca : ${pecas}">
-				<div class="card h-100 rounded-5 border border-1 border-dark ">
-					<div class="d-flex justify-content-center align-items-center h-100">
-						<img th:src="${'data:image/*;base64,' + peca.getFichatecnica().getImagemCapa().getImagemBinaryStr()}"
-							class="p-3 img-fluid" id="imagem-capa" alt="Imagem da Capa">
-					</div>
-					<div class="card-body">
-						<h4 class="card-title text-center mb-4" data-th-text="${peca.getTituloPeca()}"></h4>
-						<p class="card-text"><b>Nome do Artesão:</b> <span data-th-text="${peca.getArtesao()}"></span>
-						</p>
-						<p class="card-text"><b>Forma Associativa:</b> <span
-								data-th-text="${peca.getFormaAssociativa()}"></span></p>
-						<p class="card-text"><b>Tipologia:</b> <span data-th-text="${peca.getTipologia()}"></span></p>
-						<p class="card-text"><b>Relação Cultural:</b> <span
-								data-th-text="${peca.getRelacaoCultural()}"></span></p>
-						<p class="card-text"><b>Técnica:</b> <span data-th-text="${peca.getTecnica()}"></span></p>
-						<p class="card-text"><b>Classificação:</b> <span
-								data-th-text="${peca.getClassificacao()}"></span></p>
-						<p class="card-text"><b>Produto:</b> <span data-th-text="${peca.getProduto()}"></span></p>
-						<p class="card-text"><b>Código da Peça:</b> <span
-								data-th-text="${peca.getFichatecnica().getCodigoPeca()}"></span></p>
-						<p class="card-text"><b>Data de Aquisição:</b> <span
-								data-th-text="${peca.getFichatecnica().getDataAquisicaoAsStr()}"></span></p>
-						<p class="card-text"><b>Assinada:</b> <span
-								data-th-text="${peca.getFichatecnica().getAssinada() ? 'Sim' : 'Não'}"></span></p>
-						<p class="card-text"><b>Datada:</b> <span
-								data-th-text="${peca.getFichatecnica().getDatada()} ? 'Sim' : 'Não'"></span></p>
-						<p class="card-text"><b>Dimensão:</b> <span
-								data-th-text="${peca.getFichatecnica().getDimensao()}"></span></p>
-						<p class="card-text"><b>Peso:</b> <span
-								data-th-text="${peca.getFichatecnica().getPeso()}"></span></p>
+				<a th:href="@{'/pecas/'+${peca.getId()}}" class="text-decoration-none">
+					<div class="card h-100 rounded-3">
+						<div class="d-flex justify-content-center align-items-center h-100">
 
-					</div>
-					<div class="card-body d-flex justify-content-around align-items-center">
-						<button type="button" class="btn btn-danger" data-bs-toggle="modal"
-							th:attr="data-bs-target='#modalDeletar' + ${peca.id}">
-							Deletar
-						</button>
+							<img th:src="${'data:image/*;base64,' + peca.getFichatecnica().getImagemCapa().getImagemBinaryStr()}"
+								class="p-3 img-fluid" id="imagem-capa" alt="Imagem da Capa">
 
-						<!-- Modal Deletar Obra-->
-						<div class="modal fade" th:id="'modalDeletar' + ${peca.id}" data-bs-backdrop="static"
-							data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalDeletarLabel"
-							aria-hidden="true">
-							<div class="modal-dialog modal-dialog-centered">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h1 class="modal-title fs-5" id="staticBackdropLabel">Deletar Obra</h1>
-										<button type="button" class="btn-close" data-bs-dismiss="modal"
-											aria-label="Close"></button>
-									</div>
-									<div class="modal-body">
-										Deseja realmente deletar essa obra? <span
-											data-th-text="${peca.getTituloPeca()}"></span>
-									</div>
-									<div class="modal-footer">
-										<form th:action="@{/pecas/delete/{id}(id=${peca.getId()})}" method="get">
-											<button type="submit" class="btn btn-primary">Sim</button>
-											<button type="button" class="btn btn-danger"
-												data-bs-dismiss="modal">Não</button>
-										</form>
-									</div>
-								</div>
-							</div>
 						</div>
-						
-						<a th:href="@{'/pecas/editarObra/'+${peca.getId()}}" class="btn btn-primary">Editar</a>
-
-						<!--						<a href="#" class="btn btn-primary">Editar</a>-->
-						<!--						<a href="#" class="btn btn-danger">Deletar</a>-->
+						<div class="card-body">
+							<h4 class="card-title text-center mb-4 text-decoration-none" data-th-text="${peca.getTituloPeca()}"></h4>
+						</div>
 					</div>
-				</div>
-
+				</a>
 
 
 			</div>
