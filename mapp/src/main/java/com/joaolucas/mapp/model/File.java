@@ -9,22 +9,40 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Document(collection = "arquivos")
 public class File implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id // Primary key
+	@Id
 	private String id;
+
 	@Max(value = 50, message = "O nome do arquivo não pode ultrapassar 50 caracteres")
-	private String name; // File Name
-	private String contentType; // file type
+	private String name;
+
+	@NotBlank(message = "O tipo de conteúdo não pode estar em branco.")
+	private String contentType;
+
+	@NotNull(message = "O tamanho do arquivo não pode ser nulo.")
 	private long size;
+
+	@NotNull(message = "A data de upload não pode ser nula.")
 	private LocalDate uploadDate;
+
+	@NotBlank(message = "O MD5 não pode estar em branco.")
 	private String md5;
-	private Binary content; // File Content
-	private String path; // File Path
+
+	@NotNull(message = "O conteúdo do arquivo não pode ser nulo.")
+	private Binary content;
+
+	@NotBlank(message = "O caminho do arquivo não pode estar em branco.")
+	private String path;
+
 	private String idObra;
+
+	@NotBlank(message = "O nome original do arquivo não pode estar em branco.")
 	private String originalFileName;
 
 	public File() {

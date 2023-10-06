@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.joaolucas.mapp.services.exceptions.AccessDeniedException;
 import com.joaolucas.mapp.services.exceptions.AuthenticationException;
 import com.joaolucas.mapp.services.exceptions.DataBaseException;
+import com.joaolucas.mapp.services.exceptions.MissingServletRequestParameterException;
 import com.joaolucas.mapp.services.exceptions.ResourceNotFoundException;
 import com.joaolucas.mapp.services.exceptions.ValidationException;
 
@@ -20,8 +21,17 @@ public class ResourceExceptionHandler {
 
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ModelAndView resourceNotFound(ResourceNotFoundException e, HttpServletRequest request) {
-		String error = "Recurso não encontrado";
+		String error = "Página não encontrada";
 		HttpStatus status = HttpStatus.NOT_FOUND;
+		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(),
+				request.getRequestURI());
+		return createErrorModelAndView(err);
+	}
+
+	@ExceptionHandler(MissingServletRequestParameterException.class)
+	public ModelAndView resourceNotFound(MissingServletRequestParameterException e, HttpServletRequest request) {
+		String error = "Requisição Inválida";
+		HttpStatus status = HttpStatus.BAD_REQUEST;
 		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(),
 				request.getRequestURI());
 		return createErrorModelAndView(err);
@@ -62,7 +72,7 @@ public class ResourceExceptionHandler {
 				request.getRequestURI());
 		return createErrorModelAndView(err);
 	}
-	
+
 	private ModelAndView createErrorModelAndView(StandardError err) {
 		ModelAndView mv = new ModelAndView("erros/paginaErro");
 		mv.addObject("errorResponse", err);

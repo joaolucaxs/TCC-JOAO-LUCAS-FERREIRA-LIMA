@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +28,8 @@ public class FileResource {
 	private FileService fileService;
 
 	@GetMapping("/download/{id}")
-	public ResponseEntity<InputStreamResource> downloadFile(@PathVariable String id, HttpServletRequest request) {
+	public ResponseEntity<InputStreamResource> downloadFile(@PathVariable String id, HttpServletRequest request, BindingResult result) {
+		
 		File file = fileService.getFileById(id);
 		String contentType = "";
 
@@ -58,7 +60,7 @@ public class FileResource {
 		response.setHeader("Content-Disposition", "inline; filename=" + file.getOriginalFileName());
 		response.setHeader("Content-Length", String.valueOf(file.getSize()));
 
-        response.getOutputStream().write(file.getContent().getData());
+		response.getOutputStream().write(file.getContent().getData());
 		response.flushBuffer();
 	}
 

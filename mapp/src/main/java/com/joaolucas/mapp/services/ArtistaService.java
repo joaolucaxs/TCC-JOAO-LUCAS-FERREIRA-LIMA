@@ -1,7 +1,6 @@
 package com.joaolucas.mapp.services;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -47,7 +46,7 @@ public class ArtistaService {
 
 	public Artista findById(String id) {
 		Optional<Artista> obj = repo.findById(id);
-		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
+		return obj.orElseThrow(() -> new ResourceNotFoundException("Artista com ID " + id + " não foi encontrado."));
 	}
 
 	public Artista insert(Artista obj) {
@@ -59,7 +58,7 @@ public class ArtistaService {
 			findById(id);
 			repo.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
-			throw new ResourceNotFoundException(id);
+			throw new ResourceNotFoundException("Artista com ID " + id + " não foi encontrado.");
 		} catch (DataIntegrityViolationException e) {
 			throw new DataBaseException(e.getMessage());
 		}
@@ -71,7 +70,7 @@ public class ArtistaService {
 			updateData(oldArtista, newEditArtista);
 			return repo.save(oldArtista);
 		} catch (EmptyResultDataAccessException e) {
-			throw new ResourceNotFoundException(idOldArtista);
+			throw new ResourceNotFoundException("Artista com ID " + idOldArtista + " não foi encontrado.");
 		}
 	}
 
@@ -87,7 +86,7 @@ public class ArtistaService {
 	}
 
 	public void updateObras(Artista artistaUpdateObras) {
-
+		
 		List<Peca> atualizarObras = artistaUpdateObras.getListaObras();
 
 		for (Peca peca : atualizarObras) {
@@ -107,12 +106,5 @@ public class ArtistaService {
 		return artista;
 	}
 
-	public boolean equals(Artista obj, Artista other) {
-		return Objects.equals(obj.getApelido(), other.getApelido())
-				&& Objects.equals(obj.getCidade(), other.getCidade())
-				&& Objects.equals(obj.getEmail(), other.getEmail()) && Objects.equals(obj.getId(), other.getId())
-				&& Objects.equals(obj.getNome(), other.getNome())
-				&& Objects.equals(obj.getTelefone(), other.getTelefone());
-	}
 
 }

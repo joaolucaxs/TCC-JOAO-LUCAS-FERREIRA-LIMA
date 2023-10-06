@@ -24,6 +24,7 @@
 						<h1 id="imageTitle mb-2" class="text-center flex-grow lg:text-3xl align-middle text-hamdarkgray"
 							data-th-text="${errorResponse.getStatus()}">
 						</h1>
+						<h3 data-th-text="${errorResponse.getError()}" class="text-hamdarkgray lg:text-2xl"></h3>
 						<h2 data-th-text="${errorResponse.getMessage()}" class="text-hamdarkgray lg:text-2xl"></h2>
 						<h4 data-th-text="${errorResponse.getPath()}" class="text-hamdarkgray lg:text-2xl"></h4>
 						<span data-th-text="${errorResponse.getTimestampAsString()}"

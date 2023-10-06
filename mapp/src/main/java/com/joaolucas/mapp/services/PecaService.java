@@ -36,7 +36,7 @@ public class PecaService {
 
 	public Peca findById(String id) {
 		Optional<Peca> obj = repo.findById(id);
-		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
+		return obj.orElseThrow(() -> new ResourceNotFoundException("Obra com ID " + id + " não foi encontrado."));
 	}
 
 	public Peca novaObra(Peca obj) {
@@ -55,7 +55,7 @@ public class PecaService {
 			}
 			repo.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
-			throw new ResourceNotFoundException(id);
+			throw new ResourceNotFoundException("Obra com ID " + id + " não foi encontrado.");
 		} catch (DataIntegrityViolationException e) {
 			throw new DataBaseException(e.getMessage());
 		}
@@ -67,7 +67,7 @@ public class PecaService {
 			updateData(obj, newObj);
 			return repo.save(newObj);
 		} catch (EmptyResultDataAccessException e) {
-			throw new ResourceNotFoundException(id);
+			throw new ResourceNotFoundException("Obra com ID " + id + " não foi encontrado.");
 		}
 	}
 
@@ -83,7 +83,6 @@ public class PecaService {
 	}
 
 	public List<Peca> filtrarPorCampo(String filtro, String pesquisa) {
-
 		if (filtro.equals("dataAquisicao")) {
 			return filtrarPorDataAquisicao(stringToLocalDate(pesquisa));
 		}
