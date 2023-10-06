@@ -62,14 +62,4 @@ public class FileResource {
 		response.flushBuffer();
 	}
 
-//	@GetMapping(value = "/delete/{idMidia}")
-//	public ResponseEntity<File> deleteArquivo(@PathVariable String idMidia) {
-//		try {
-//            fileService.deleteFile(idMidia);
-//            return ResponseEntity.noContent().build();
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-//        }
-//	}
-
 }

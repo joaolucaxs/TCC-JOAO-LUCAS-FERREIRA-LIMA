@@ -8,10 +8,10 @@ body{
 	margin: 30px;
 	background-color: #ffffff;
 	border-radius: 30px;
-	padding-right: 50px; /* Padding no lado direito */
-    padding-bottom: 50px; /* Padding na parte inferior */
-    padding-left: 50px; /* Padding no lado esquerdo */
-	padding-top: 20px; /* Padding no lado esquerdo */
+	padding-right: 50px; 
+    padding-bottom: 50px; 
+    padding-left: 50px;
+	padding-top: 20px; 
 }
 
 .painelView{
@@ -31,33 +31,32 @@ body{
     display: flex;
 }
 #imagem-capa{
-    max-height: 300px; /* Ajuste para a altura máxima desejada */
+    max-height: 300px; 
 }
 
 
 #imagem-capa-view{
-    max-height: 200px; /* Ajuste para a altura máxima desejada */
+    max-height: 200px; 
 }
 
 .btn-primary {
     background-color: #3D4964;
     border-color: #3D4964;
-    color: white; /* Alterar a cor do texto */
+    color: white; 
 }
 
-/* Estilização para o hover */
 .btn-primary:hover {
-    background-color: #1E2434; /* Cor para o hover */
-    border-color: #1E2434; /* Cor para o hover */
-    color: white; /* Manter a cor do texto igual */
+    background-color: #1E2434; 
+    border-color: #1E2434; 
+    color: white; 
 }
 
 .btn-warning{
-    color: white; /* Alterar a cor do texto */
+    color: white; 
 }
 
 .btn-warning:hover{
-    color: white; /* Alterar a cor do texto */
+    color: white;
 }
 
 .accordion{
