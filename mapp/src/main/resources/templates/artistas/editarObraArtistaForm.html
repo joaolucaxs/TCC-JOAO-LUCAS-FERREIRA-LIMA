@@ -123,7 +123,6 @@
 		crossorigin="anonymous"></script>
 
 	<script>
-		// Chamada inicial para deixar os campos editáveis
 		updateArtistDetails();
 
 		function updateArtistDetails() {
@@ -173,48 +172,40 @@
 				telefoneInput.value = "";
 				emailInput.value = "";
 				cidadeInput.value = "";
-				idInput.value = null; // Definindo o valor do campo oculto
+				idInput.value = null;
 				editButtonLink.style.display = "none";
 				formulario.classList.remove('was-validated')
 				editButtonLink.href = `/pecas`;
 			}
 		}
 
-		// Função para remover a classe 'was-validated' do formulário
 		function resetValidation(form) {
 			form.classList.remove('was-validated');
 		}
 
-		// Função para adicionar a classe 'was-validated' e acionar a validação do Bootstrap
 		function enableValidation(form) {
 			form.classList.add('was-validated');
-			// Aciona a validação do Bootstrap manualmente
 			if (!form.checkValidity()) {
 				event.preventDefault();
 				event.stopPropagation();
 			}
 		}
 
-		// Evento para ativar as validações quando o botão de envio é clicado
 		document.getElementById('salvarOBra').addEventListener('click', function () {
 			enableValidation(document.getElementById('formArtista'));
 		});
 
-		// Evento para resetar a validação quando o formulário é resetado
 		document.getElementById('formArtista').addEventListener('reset', function () {
 			resetValidation(this);
 		});
 	</script>
 
 	<script>
-		// Example starter JavaScript for disabling form submissions if there are invalid fields
 		(() => {
 			'use strict'
 
-			// Fetch all the forms we want to apply custom Bootstrap validation styles to
 			const forms = document.querySelectorAll('.needs-validation')
 
-			// Loop over them and prevent submission
 			Array.from(forms).forEach(form => {
 				form.addEventListener('submit', event => {
 					if (!form.checkValidity()) {

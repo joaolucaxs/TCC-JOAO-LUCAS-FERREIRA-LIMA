@@ -1,10 +1,13 @@
 package com.joaolucas.mapp.resources;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -16,11 +19,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.joaolucas.mapp.dtos.FileDTOShow;
 import com.joaolucas.mapp.dtos.PecaDTOForm;
 import com.joaolucas.mapp.dtos.PecaDTOShow;
 import com.joaolucas.mapp.model.Artista;
+import com.joaolucas.mapp.model.File;
 import com.joaolucas.mapp.model.Peca;
+import com.joaolucas.mapp.resources.util.MD5Util;
 import com.joaolucas.mapp.services.ArtistaService;
+import com.joaolucas.mapp.services.FileService;
 import com.joaolucas.mapp.services.PecaService;
 
 import jakarta.validation.Valid;
@@ -34,6 +41,9 @@ public class PecaResource {
 
 	@Autowired
 	private ArtistaService artistaService;
+
+	@Autowired
+	private FileService fileService;
 
 	private Peca auxPecaEdition;
 
@@ -52,18 +62,7 @@ public class PecaResource {
 	public ModelAndView filtrarObras(@RequestParam(value = "filtro") String filtro,
 			@RequestParam(value = "pesquisa") String pesquisa) {
 
-		List<Peca> pecas = obraService.filtrarPorCampo(pesquisa);
-
-		if (filtro.equals("dataAquisicao")) {
-			pecas = obraService.filtrarPorDataAquisicao(obraService.stringToLocalDate(pesquisa));
-		}
-		if (filtro.equals("assinada")) {
-			pecas = obraService.filtrarPorAssinada(obraService.stringToBoolean(pesquisa));
-		}
-		if (filtro.equals("datada")) {
-			pecas = obraService.filtrarPorDatada(obraService.stringToBoolean(pesquisa));
-		}
-
+		List<Peca> pecas = obraService.filtrarPorCampo(filtro, pesquisa);
 		List<PecaDTOShow> pecasDto = pecas.stream().map(peca -> new PecaDTOShow(peca)).collect(Collectors.toList());
 
 		ModelAndView mv = new ModelAndView("obras/listarObras");
@@ -73,9 +72,12 @@ public class PecaResource {
 
 	@GetMapping(value = "/{id}")
 	public ModelAndView visualizarObra(@PathVariable String id) {
-		Peca editObra = obraService.findById(id);
+		Peca obra = obraService.findById(id);
+		List<File> files = fileService.listAllFilesByIdObra(id);
+		List<FileDTOShow> filesDto = files.stream().map(file -> new FileDTOShow(file)).collect(Collectors.toList());
 		ModelAndView mv = new ModelAndView("obras/visualizarObra");
-		mv.addObject("peca", editObra);
+		mv.addObject("files", filesDto);
+		mv.addObject("peca", obra);
 		return mv;
 	}
 
@@ -258,10 +260,38 @@ public class PecaResource {
 		return "redirect:/pecas";
 	}
 
-	@GetMapping(value = "/cancelarNovaObra/{id}")
-	public String cancelarNovaObra(@PathVariable String id) {
-		obraService.cancelarNovaObra(id);
-		return "redirect:/pecas";
+	@GetMapping(value = "/enviarMidia/{id}")
+	public ModelAndView novoArquivo(@PathVariable String id) {
+		Peca obra = obraService.findById(id);
+		ModelAndView mv = new ModelAndView("arquivos/novoArquivo");
+		mv.addObject("peca", obra);
+		return mv;
+	}
+
+	@PostMapping(value = "/enviarMidia/{idObra}")
+	public String novoArquivo(@RequestParam("file") @Valid MultipartFile file, @PathVariable String idObra,
+			@RequestParam("nomeArquivo") String nomeArquivo) throws IOException {
+		try {
+
+			File f = new File(file.getOriginalFilename(), file.getContentType(), file.getSize(),
+					new Binary(file.getBytes()));
+			f.setMd5(MD5Util.getMD5(file.getInputStream()));
+			f.setIdObra(idObra);
+			f.setName(nomeArquivo);
+			f.setUploadDate(LocalDate.now());
+			fileService.saveFile(f);
+			return "redirect:/pecas/" + idObra;
+
+		} catch (IOException | NoSuchAlgorithmException ex) {
+			ex.printStackTrace();
+			return "redirect:/pecas";
+		}
+	}
+
+	@GetMapping(value = "/deletarMidia/{idObra}/{idMidia}")
+	public String deleteArquivo(@PathVariable String idObra, @PathVariable String idMidia) {
+		fileService.deleteFile(idMidia);
+		return "redirect:/pecas/" + idObra;
 	}
 
 }

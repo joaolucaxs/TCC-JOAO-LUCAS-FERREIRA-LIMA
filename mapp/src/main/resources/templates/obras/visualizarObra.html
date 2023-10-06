@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 	<link rel="stylesheet" href="/css/style.css">
 	<title>Visualizar Obra</title>
 
@@ -13,14 +14,23 @@
 
 <body>
 	<div class="painelView">
+
 		<div class="row row-cols-1 row-cols-md-1 justify-content-around">
 			<div class="card h-100 rounded-5 border border-1 border-dark ">
+				<div class="d-flex justify-content-start align-items-center">
+					<a href="/pecas" class="btn btn-primary rounded-circle" id="botaoVoltar">
+						<i class="bi bi-arrow-left-square"></i>
+					</a>
+				</div>
 				<div class="flex flex-col items-center">
-					<h1 id="imageTitle mb-2" class="text-center flex-grow lg:text-3xl align-middle text-hamdarkgray"
-						data-th-text="${peca.getTituloPeca()}">
-					</h1>
-					<span data-th-text="${peca.getFichatecnica().getCodigoPeca()}"
-						class="text-hamdarkgray lg:text-2xl"></span>
+
+					<div class="flex flex-col items-center">
+						<h1 id="imageTitle mb-2" class="text-center flex-grow lg:text-3xl align-middle text-hamdarkgray"
+							data-th-text="${peca.getTituloPeca()}">
+						</h1>
+						<span data-th-text="${peca.getFichatecnica().getCodigoPeca()}"
+							class="text-hamdarkgray lg:text-2xl"></span>
+					</div>
 				</div>
 				<div class="d-flex justify-content-center align-items-center h-100">
 					<img th:src="${'data:image/*;base64,' + peca.getFichatecnica().getImagemCapa().getImagemBinaryStr()}"
@@ -36,8 +46,7 @@
 								Identificação e Criação
 							</button>
 						</h2>
-						<div id="collapseOne" class="accordion-collapse collapse show"
-							data-bs-parent="#accordionExample">
+						<div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
 							<div class="accordion-body">
 								<div class="row d-flex justify-content-around align-items-center">
 									<div class="col-md-4">
@@ -85,8 +94,7 @@
 								Descrição Física
 							</button>
 						</h2>
-						<div id="collapseTwo" class="accordion-collapse collapse show"
-							data-bs-parent="#accordionExample">
+						<div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
 							<div class="accordion-body">
 								<div class="row d-flex justify-content-around align-items-center">
 									<div class="col-md-4">
@@ -106,29 +114,102 @@
 								Mídias Associadas
 							</button>
 						</h2>
-						<div id="collapseThree" class="accordion-collapse collapse show"
-							data-bs-parent="#accordionExample">
+						<div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
 							<div class="accordion-body">
 								<div class="row d-flex justify-content-around align-items-center">
-									<div class="col-md-4">
-										<p class="card-text"><b>Mídia 1</b></p>
-										<p class="card-text"><b>Mídia 2</b></p>
-										<p class="card-text"><b>Mídia 3</b></p>
-										<p class="card-text"><b>Mídia 4</b></p>
+									<div class="col">
+										<div class="table-responsive-sm">
+											<table class="table table-hover">
+												<thead>
+													<tr>
+														<th scope="col">Nome</th>
+														<th scope="col">Tipo</th>
+														<th scope="col">Data de Upload</th>
+														<th scope="col"></th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr data-th-each="file : ${files}">
+														<th class="align-middle" data-th-text="${file.getName()}"
+															scope="row"></th>
+														<td class="align-middle col-2"
+															data-th-text="${file.getExtensao()}"></td>
+														<td class="align-middle col-2"
+															data-th-text="${file.getDataUploadAsStr()}"></td>
+														<td class="col-1">
+															<div
+																class="card-body d-flex justify-content-end align-items-center">
+																<button type="button" class="btn btn-primary"
+																	id="buttonMidia" data-bs-toggle="modal"
+																	th:attr="data-bs-target='#modalDeletarMidia' + ${file.getId()}">
+																	<i class="bi bi-file-earmark-excel"></i>
+																</button>
+																<div class="modal fade"
+																	th:id="'modalDeletarMidia' + ${file.getId()}"
+																	data-bs-backdrop="static" data-bs-keyboard="false"
+																	tabindex="-1" aria-labelledby="modalDeletarLabel"
+																	aria-hidden="true">
+																	<div class="modal-dialog modal-dialog-centered">
+																		<div class="modal-content">
+																			<div class="modal-header">
+																				<h1 class="modal-title fs-5"
+																					id="staticBackdropLabel">Deletar
+																					Mídia</h1>
+																				<button type="button" class="btn-close"
+																					data-bs-dismiss="modal"
+																					aria-label="Close"></button>
+																			</div>
+																			<div class="modal-body">
+																				Deseja realmente deletar essa mídia?
+																			</div>
+																			<div class="modal-footer">
+																				<form
+																					th:action="@{/pecas/deletarMidia/{idObra}/{idMidia}(idObra=${peca.getId()}, idMidia=${file.getId()})}"
+																					method="get">
 
+																					<button type="submit"
+																						class="btn btn-primary">Sim</button>
+																					<button type="button"
+																						class="btn btn-danger"
+																						data-bs-dismiss="modal">Não</button>
+																				</form>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+
+
+																<a th:href="@{'/arquivos/download/'+${file.getId()}}"
+																	id="buttonMidia" class="btn btn-primary"><i
+																		class="bi bi-file-earmark-arrow-down"></i></a>
+																<a th:href="@{'/arquivos/visualizar/'+${file.getId()}}"
+																	id="buttonMidia" class="btn btn-primary mr-1"
+																	target="_blank">
+																	<i class="bi bi-search"></i>
+																</a>
+
+															</div>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="card-body d-flex justify-content-around align-items-center">
-					<button type="button" class="btn btn-danger" data-bs-toggle="modal"
+
+				<div class="card-body d-flex justify-content-center align-items-center">
+
+
+
+					<button type="button" class="btn btn-danger" id="botaoCrudObra" data-bs-toggle="modal"
 						th:attr="data-bs-target='#modalDeletar' + ${peca.id}">
 						Deletar
 					</button>
 
-					<!-- Modal Deletar Obra-->
 					<div class="modal fade" th:id="'modalDeletar' + ${peca.id}" data-bs-backdrop="static"
 						data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalDeletarLabel" aria-hidden="true">
 						<div class="modal-dialog modal-dialog-centered">
@@ -152,10 +233,11 @@
 						</div>
 					</div>
 
-					<a th:href="@{'/pecas/editarObra/'+${peca.getId()}}" class="btn btn-primary">Editar</a>
+					<a th:href="@{'/pecas/editarObra/'+${peca.getId()}}" class="btn btn-primary"
+						id="botaoCrudObra">Editar</a>
+					<a th:href="@{'/pecas/enviarMidia/'+${peca.getId()}}" class="btn btn-warning"
+						id="botaoCrudObra">Enviar Mídia</a>
 
-					<!--						<a href="#" class="btn btn-primary">Editar</a>-->
-					<!--						<a href="#" class="btn btn-danger">Deletar</a>-->
 				</div>
 
 

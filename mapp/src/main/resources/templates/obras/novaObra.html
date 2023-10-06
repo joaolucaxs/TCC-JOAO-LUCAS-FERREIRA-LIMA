@@ -219,7 +219,7 @@
 		document.addEventListener("DOMContentLoaded", function () {
 			const imageInput = document.getElementById("validationServerImagemObra");
 			const previewImage = document.getElementById("imagem-capa");
-			const oldImageUrl = previewImage.src; // Salva a URL da imagem anterior
+			const oldImageUrl = previewImage.src; 
 
 			imageInput.addEventListener("change", function () {
 				const file = imageInput.files[0];
@@ -232,7 +232,6 @@
 					};
 					reader.readAsDataURL(file);
 				} else {
-					// Define a imagem anterior se nenhum arquivo for selecionado
 					previewImage.src = oldImageUrl;
 					previewImage.style.display = "block";
 				}
@@ -241,35 +240,27 @@
 			const uploadForm = document.getElementById("uploadForm");
 			uploadForm.addEventListener("submit", function (event) {
 				event.preventDefault();
-				// Aqui você pode enviar o formulário com a imagem para o servidor
-				// e lidar com o processo de salvamento.
 			});
 		});
 	</script>
 
 	<script>
-		// Função para formatar uma data no formato 'dd/MM/yyyy'
 		function formatDate(dateString) {
 			const options = {year: 'numeric', month: '2-digit', day: '2-digit'};
 			return new Date(dateString).toLocaleDateString('pt-BR', options);
 		}
 
-		// Selecione o campo de entrada de data
 		const dateInput = document.getElementById('validationServerDataAquisicao');
 
-		// Formate a data no campo de entrada quando a página carregar
 		dateInput.value = formatDate(dateInput.value);
 	</script>
 
 	<script>
-		// Example starter JavaScript for disabling form submissions if there are invalid fields
 		(() => {
 			'use strict'
 
-			// Fetch all the forms we want to apply custom Bootstrap validation styles to
 			const forms = document.querySelectorAll('.needs-validation')
 
-			// Loop over them and prevent submission
 			Array.from(forms).forEach(form => {
 				form.addEventListener('submit', event => {
 					if (!form.checkValidity()) {

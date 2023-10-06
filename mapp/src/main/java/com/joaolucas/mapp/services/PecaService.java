@@ -17,7 +17,6 @@ import com.joaolucas.mapp.dtos.PecaDTOForm;
 import com.joaolucas.mapp.model.FichaTecnicaObra;
 import com.joaolucas.mapp.model.Image;
 import com.joaolucas.mapp.model.Peca;
-import com.joaolucas.mapp.repositories.ArtistaRepository;
 import com.joaolucas.mapp.repositories.PecaRepository;
 import com.joaolucas.mapp.services.exceptions.DataBaseException;
 import com.joaolucas.mapp.services.exceptions.ResourceNotFoundException;
@@ -27,9 +26,6 @@ public class PecaService {
 
 	@Autowired
 	private PecaRepository repo;
-
-	@Autowired
-	private ArtistaRepository repoArtista;
 
 	@Autowired
 	private ArtistaService serviceArtista;
@@ -43,7 +39,7 @@ public class PecaService {
 		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 
-	public Peca insert(Peca obj) {
+	public Peca novaObra(Peca obj) {
 		return repo.save(obj);
 	}
 
@@ -53,31 +49,11 @@ public class PecaService {
 			Peca peca = findById(id);
 			peca.getArtesao().getListaObras().remove(peca);
 			serviceArtista.updateObras(peca.getArtesao());
-			repoArtista.save(peca.getArtesao());
+			serviceArtista.insert(peca.getArtesao());
+			if (peca.getArtesao().getListaObras().isEmpty()) {
+				serviceArtista.delete(peca.getArtesao().getId());
+			}
 			repo.deleteById(id);
-		} catch (EmptyResultDataAccessException e) {
-			throw new ResourceNotFoundException(id);
-		} catch (DataIntegrityViolationException e) {
-			throw new DataBaseException(e.getMessage());
-		}
-	}
-
-	public void cancelarNovaObra(String id) {
-		try {
-			findById(id);
-			repo.deleteById(id);
-		} catch (EmptyResultDataAccessException e) {
-			throw new ResourceNotFoundException(id);
-		} catch (DataIntegrityViolationException e) {
-			throw new DataBaseException(e.getMessage());
-		}
-	}
-
-	public void cancelarEdicaoObra(String id, Peca oldPecaData) {
-		try {
-			Peca canceledPecaData = findById(id);
-			updateData(oldPecaData, canceledPecaData);
-			repo.save(canceledPecaData);
 		} catch (EmptyResultDataAccessException e) {
 			throw new ResourceNotFoundException(id);
 		} catch (DataIntegrityViolationException e) {
@@ -106,10 +82,19 @@ public class PecaService {
 		newObj.setFichatecnica(obj.getFichatecnica());
 	}
 
-	public List<Peca> filtrarPorCampo(String pesquisa) {
+	public List<Peca> filtrarPorCampo(String filtro, String pesquisa) {
+
+		if (filtro.equals("dataAquisicao")) {
+			return filtrarPorDataAquisicao(stringToLocalDate(pesquisa));
+		}
+		if (filtro.equals("assinada")) {
+			return filtrarPorAssinada(stringToBoolean(pesquisa));
+		}
+		if (filtro.equals("datada")) {
+			return filtrarPorDatada(stringToBoolean(pesquisa));
+		}
 
 		return repo.filtrarPorCampo(pesquisa);
-
 	}
 
 	public List<Peca> filtrarPorDataAquisicao(LocalDate dataAquisicao) {
@@ -131,18 +116,14 @@ public class PecaService {
 	}
 
 	public boolean stringToBoolean(String input) {
-		String lowerCaseInput = input.toLowerCase(); // Transforma para minúsculas para ignorar caixa
-		lowerCaseInput = lowerCaseInput.replaceAll("[áàâã]", "a"); // Remove acentos de 'a'
-		lowerCaseInput = lowerCaseInput.replaceAll("[éèê]", "e"); // Remove acentos de 'e'
-		lowerCaseInput = lowerCaseInput.replaceAll("[íìî]", "i"); // Remove acentos de 'i'
-		lowerCaseInput = lowerCaseInput.replaceAll("[óòôõ]", "o"); // Remove acentos de 'o'
-		lowerCaseInput = lowerCaseInput.replaceAll("[úùû]", "u"); // Remove acentos de 'u'
+		String lowerCaseInput = input.toLowerCase();
+		lowerCaseInput = lowerCaseInput.replaceAll("[áàâã]", "a");
+		lowerCaseInput = lowerCaseInput.replaceAll("[éèê]", "e");
+		lowerCaseInput = lowerCaseInput.replaceAll("[íìî]", "i");
+		lowerCaseInput = lowerCaseInput.replaceAll("[óòôõ]", "o");
+		lowerCaseInput = lowerCaseInput.replaceAll("[úùû]", "u");
 
 		return lowerCaseInput.equals("sim");
-	}
-
-	public Peca novaObra(Peca obj) {
-		return repo.save(obj);
 	}
 
 	public Peca fromDTOFormulario(PecaDTOForm objDTO) throws IOException {

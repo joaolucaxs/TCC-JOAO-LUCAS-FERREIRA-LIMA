@@ -64,6 +64,17 @@ body{
 	padding:20px;
 }
 
+#buttonMidia, #botaoVoltar, #botaoCrudObra{
+	margin-right: 10px;
+}
 
+#logoImagem{
+	display:flex;
+	flex-direction: row;
+}
 
+ #botaoVoltar{
+	margin-top: 20px;
+	margin-left: 10px;
+}
 

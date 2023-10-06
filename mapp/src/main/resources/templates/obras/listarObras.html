@@ -16,7 +16,6 @@
 	<div class="painel">
 		<h1 class="text-center my-3">Listagem de Obras</h1>
 
-		<!-- Barra de Filtragem -->
 		<div class="mb-4">
 			<form th:action="@{/pecas/filtrar}" method="get">
 				<div class="d-flex flex-wrap justify-content-center align-items-center">
@@ -56,7 +55,6 @@
 
 		</div>
 
-		<!-- Listagem de Obras -->
 		<div class="row row-cols-1 row-cols-md-4 g-4">
 			<div class="col" data-th-each="peca : ${pecas}">
 				<a th:href="@{'/pecas/'+${peca.getId()}}" class="text-decoration-none">
