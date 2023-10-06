@@ -2,6 +2,9 @@ package com.joaolucas.mapp.resources.exceptions;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class StandardError implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -28,7 +31,16 @@ public class StandardError implements Serializable{
 	public Instant getTimestamp() {
 		return timestamp;
 	}
-
+	
+	public String getTimestampAsString() {
+        ZoneId zoneId = ZoneId.of("America/Sao_Paulo");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
+                .withZone(zoneId)
+                .withLocale(Locale.getDefault());
+        
+        String formattedDateTime = formatter.format(getTimestamp());
+		return formattedDateTime;
+	}
 	public void setTimestamp(Instant timestamp) {
 		this.timestamp = timestamp;
 	}
