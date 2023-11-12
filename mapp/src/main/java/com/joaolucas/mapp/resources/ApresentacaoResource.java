@@ -1,7 +1,6 @@
 package com.joaolucas.mapp.resources;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.joaolucas.mapp.dtos.ApresentacaoDTOForm;
 import com.joaolucas.mapp.model.Apresentacao;
-import com.joaolucas.mapp.model.Artista;
-import com.joaolucas.mapp.model.Peca;
+import com.joaolucas.mapp.model.File;
 import com.joaolucas.mapp.services.ApresentacaoService;
+import com.joaolucas.mapp.services.FileService;
 
 import jakarta.validation.Valid;
 
@@ -28,6 +27,9 @@ public class ApresentacaoResource {
 
 	@Autowired
 	private ApresentacaoService apresentacaoService;
+	
+	@Autowired
+	private FileService fileService;
 
 	private Apresentacao auxApresentacaoNew = new Apresentacao();
 	
@@ -71,7 +73,13 @@ public class ApresentacaoResource {
 	public ModelAndView montagemApresentacao() {
 		ModelAndView mv = new ModelAndView("apresentacoes/montagemApresentacao");
 		Apresentacao montagemApresentacao = auxApresentacaoNew;
+		List<File> imagens = fileService.listAllImages();
+		List<File> videos = fileService.listAllVideos();
+		List<File> audios = fileService.listAllAudios();
 		mv.addObject("apresentacao", montagemApresentacao);
+		mv.addObject("audios", audios);
+		mv.addObject("videos", videos);
+		mv.addObject("imagens", imagens);
 		return mv;
 	}
 

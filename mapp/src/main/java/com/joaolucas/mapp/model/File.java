@@ -2,6 +2,7 @@ package com.joaolucas.mapp.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Base64;
 import java.util.Objects;
 
 import org.bson.types.Binary;
@@ -163,6 +164,10 @@ public class File implements Serializable {
 			}
 		}
 		return "";
+	}
+
+	public String getBinaryAsStr() {
+		return Base64.getEncoder().encodeToString(content.getData());
 	}
 
 }

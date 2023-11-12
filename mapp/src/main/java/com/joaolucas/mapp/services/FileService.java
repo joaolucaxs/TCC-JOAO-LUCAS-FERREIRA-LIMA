@@ -45,4 +45,16 @@ public class FileService {
 		}
 		return fileRepository.findByIdObra(idObra);
 	}
+	
+	public List<File> listAllImages() {
+		return fileRepository.findByContentTypeContaining("image/");
+	}
+
+	public List<File> listAllVideos() {
+		return fileRepository.findByContentTypeContaining("video/");
+	}
+	
+	public List<File> listAllAudios() {
+		return fileRepository.findByContentTypeContaining("audio/");
+	}
 }

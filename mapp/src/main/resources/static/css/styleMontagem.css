@@ -4,6 +4,11 @@
   padding: 0;
 }
 
+#capa-video{
+    max-height: 300px; 
+    width: 100%;
+}
+
 body {
   font-family: Arial, sans-serif;
   background-color: #f2f2f2;
@@ -95,6 +100,18 @@ h2 {
 
 .sidebar button:hover {
   background-color: #45a049;
+}
+
+.btn-primary {
+    background-color: #3D4964;
+    border-color: #3D4964;
+    color: white; 
+}
+
+.btn-primary:hover {
+    background-color: #1E2434; 
+    border-color: #1E2434; 
+    color: white; 
 }
 
 @media screen and (max-width: 375px) {

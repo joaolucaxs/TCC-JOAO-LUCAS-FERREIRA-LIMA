@@ -12,4 +12,6 @@ public interface FileRepository extends MongoRepository<File, String> {
 
 	List<File> findByIdObra(String idObra);
 
+	List<File> findByContentTypeContaining(String contentType);
+
 }
