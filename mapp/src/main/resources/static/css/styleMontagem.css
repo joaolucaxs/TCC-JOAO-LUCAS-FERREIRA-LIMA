@@ -72,19 +72,16 @@ body {
 
 .droppable {
   width: 100%;
-  height: auto;
+  min-height: 250px;
   border: 2px dashed #ddd;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
-.draggable {
-width: 100%;
-  height: auto;
-margin: 10px;
-cursor: move;
+.droppable.drag-over {
+  border: none;
 }
 
 #dropArea img{
@@ -98,10 +95,28 @@ cursor: move;
     max-height: none;
 }
 
-h2 {
-  font-size: 16px;
-  color: #999;
-  margin-top: 10px;
+#dropArea audio{
+    width: 100%;
+}
+
+#dropArea h1, #dropArea h2, #dropArea h3 {
+   cursor: move;
+   word-break: break-word;  /* Quebrar linha ao atingir 100% da largura */
+   background-color: none;
+   margin-bottom: none;
+   text-align: center;
+}
+
+#dropArea p {
+   cursor: move;
+   word-break: break-word;  /* Quebrar linha ao atingir 100% da largura */
+   background-color: none;
+   margin-bottom: none;
+      text-align: justify;
+}
+
+.editable {
+   user-select: text;
 }
 
 .sidebar {

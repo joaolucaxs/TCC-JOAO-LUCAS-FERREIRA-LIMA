@@ -22,16 +22,15 @@
 		<div class="phone">
 			<div class="screen">
 				<div class="presentation-content">
-					<input type="text" class="presentation-title" placeholder="Digite o título da apresentação">
 					<div class="media-containers" id="mediaContainers">
 						<div id="dropArea" class="media-container droppable" ondrop="drop(event)"
-							ondragover="allowDrop(event)">
+							ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)">
 							<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
 								data-bs-target="#offcanvasMidia" aria-controls="offcanvasMidia">Adicionar Mídia
 							</button>
 						</div>
 						<div id="dropArea" class="media-container droppable" ondrop="drop(event)"
-							ondragover="allowDrop(event)">
+							ondragover="allowDrop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)">
 							<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
 								data-bs-target="#offcanvasMidia" aria-controls="offcanvasMidia">Adicionar Mídia
 							</button>
@@ -66,8 +65,9 @@
 					<button class="btn btn-primary mb-3" type="button" data-bs-toggle="offcanvas"
 						data-bs-target="#offcanvasAudios" aria-controls="offcanvasAudios">Audios</button>
 
-					<button class="btn btn-primary mb-3" data-bs-target="#modalTextos"
-						data-bs-toggle="modal">Textos</button>
+					<button class="btn btn-primary mb-3" type="button" data-bs-toggle="offcanvas"
+						data-bs-target="#offcanvasTextos" aria-controls="offcanvasTextos">Textos</button>
+
 					<button class="btn btn-primary mb-3" data-bs-target="#modalLinks"
 						data-bs-toggle="modal">Links</button>
 				</div>
@@ -86,8 +86,8 @@
 			<div class="d-flex flex-column justify-content-center">
 				<div class="row row-cols-1 row-cols-md-2 g-4">
 					<div class="col" th:each="imagem : ${imagens}">
-						<div class="d-flex flex-column justify-content-center align-items-center h-100"
-							draggable="true" ondragstart="drag(event)">
+						<div class="d-flex flex-column justify-content-center align-items-center h-100" draggable="true"
+							ondragstart="drag(event)">
 							<img th:src="@{/arquivos/visualizar/{id}(id=${imagem.getId()})}" class="img-fluid"
 								id="imagens" alt="Imagem">
 						</div>
@@ -108,8 +108,7 @@
 				<div class="row row-cols-1 row-cols-md-1 g-4">
 					<div class="col" data-th-each="video : ${videos}">
 						<div class="d-flex flex-column justify-content-center align-items-center h-100">
-							<video id="capa-video" draggable="true" ondragstart="drag(event)"
-								controls>
+							<video id="capa-video" draggable="true" ondragstart="drag(event)" controls>
 								<source th:src="@{/arquivos/visualizar/{id}(id=${video.getId()})}" type="video/mp4">
 							</video>
 						</div>
@@ -130,12 +129,29 @@
 				<div class="row row-cols-2 row-cols-md-1 g-4">
 					<div class="col" data-th-each="audio : ${audios}">
 						<div class="d-flex flex-column justify-content-center align-items-center h-100">
-							<audio width="100%" height="auto" draggable="true"
-								ondragstart="drag(event)" controls>
+							<audio width="100%" height="auto" draggable="true" ondragstart="drag(event)" controls>
 								<source th:src="@{/arquivos/visualizar/{id}(id=${audio.getId()})}" type="audio/mpeg">
 							</audio>
 						</div>
 					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+		id="offcanvasTextos" aria-labelledby="offcanvasTextosLabel">
+		<div class="offcanvas-header">
+			<h5 class="offcanvas-title" id="offcanvasTextosLabel">Textos Disponíveis</h5>
+			<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+		</div>
+		<div class="offcanvas-body">
+			<div class="d-flex flex-column justify-content-center">
+				<div class="row row-cols-2 row-cols-md-1 g-4">
+					<h1 class="draggable editable" draggable="true" ondragstart="drag(event)">Título</h1>
+					<h2 class="draggable editable" draggable="true" ondragstart="drag(event)">Sub-Título</h2>
+					<h3 class="draggable editable" draggable="true" ondragstart="drag(event)">Citações</h3>
+					<p class="draggable editable" draggable="true" ondragstart="drag(event)">Parágrafo</p>
 				</div>
 			</div>
 		</div>
@@ -156,6 +172,8 @@
 			newMediaContainer.setAttribute('id', 'dropArea');
 			newMediaContainer.ondrop = function (event) {drop(event)};
 			newMediaContainer.ondragover = function (event) {allowDrop(event)};
+			newMediaContainer.ondragenter = function (event) {dragEnter(event)};
+			newMediaContainer.ondragleave = function (event) {dragLeave(event)};
 			newMediaContainer.innerHTML = '<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"' +
 				'data-bs-target="#offcanvasMidia" aria-controls="offcanvasMidia" >' +
 				'Adicionar Mídia </button >';
@@ -180,8 +198,37 @@
 
 			if (dropArea.id === 'dropArea') {
 				dropArea.innerHTML = data;
+				makeEditable(dropArea);
+			}
+
+			// Ajuste dinâmico da altura com base na altura da mídia adicionada
+			var mediaHeight = dropArea.querySelector('img, video, audio, h1, h2, h3, p').clientHeight;
+			dropArea.style.minHeight = mediaHeight + 'px';
+		}
+
+		function makeEditable(dropArea) {
+			// Encontrar os elementos editáveis dentro da dropArea e torná-los editáveis
+			var editableElements = dropArea.querySelectorAll('.editable');
+			editableElements.forEach(function (element) {
+				element.contentEditable = true;
+			});
+		}
+
+		function dragEnter(event) {
+			var dropArea = event.target;
+			if (dropArea.classList.contains('droppable')) {
+				dropArea.classList.add('drag-over');
 			}
 		}
+
+		function dragLeave(event) {
+			var dropArea = event.target;
+			if (dropArea.classList.contains('droppable')) {
+				dropArea.classList.remove('drag-over');
+			}
+		}
+
+
 	</script>
 
 </body>
