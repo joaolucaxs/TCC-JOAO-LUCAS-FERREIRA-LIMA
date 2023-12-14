@@ -44,6 +44,19 @@ public class Peca implements Serializable {
 		this.produto = produto;
 		this.fichatecnica = fichatecnica;
 	}
+	
+	public Peca(Peca obj) {
+		this.id = obj.id;
+		this.artesao = obj.artesao;
+		this.tituloPeca = obj.tituloPeca;
+		this.tipologia = obj.tipologia;
+		this.formaAssociativa = obj.formaAssociativa;
+		this.relacaoCultural = obj.relacaoCultural;
+		this.tecnica = obj.tecnica;
+		this.classificacao = obj.classificacao;
+		this.produto = obj.produto;
+		this.fichatecnica = obj.fichatecnica;
+	}
 
 	public String getId() {
 		return id;

@@ -14,11 +14,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.joaolucas.mapp.dtos.ApresentacaoDTOForm;
-import com.joaolucas.mapp.dtos.PecaDTOForm;
 import com.joaolucas.mapp.model.Apresentacao;
-import com.joaolucas.mapp.model.FichaTecnicaObra;
 import com.joaolucas.mapp.model.Image;
-import com.joaolucas.mapp.model.Peca;
 import com.joaolucas.mapp.repositories.ApresentacaoRepository;
 import com.joaolucas.mapp.services.exceptions.DataBaseException;
 import com.joaolucas.mapp.services.exceptions.ResourceNotFoundException;

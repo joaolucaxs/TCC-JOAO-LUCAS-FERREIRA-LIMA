@@ -2,6 +2,7 @@ package com.joaolucas.mapp.resources;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.joaolucas.mapp.dtos.ApresentacaoDTOForm;
+import com.joaolucas.mapp.dtos.FileApresentacaoDTOShow;
+import com.joaolucas.mapp.dtos.FileDTOShow;
 import com.joaolucas.mapp.model.Apresentacao;
 import com.joaolucas.mapp.model.File;
 import com.joaolucas.mapp.services.ApresentacaoService;
@@ -68,18 +71,18 @@ public class ApresentacaoResource {
 		auxApresentacaoNew = newApresentacao;
 		return "redirect:/apresentacoes/criarApresentacao/montagem";
 	}
-	
+
 	@GetMapping(value = "/criarApresentacao/montagem")
 	public ModelAndView montagemApresentacao() {
 		ModelAndView mv = new ModelAndView("apresentacoes/montagemApresentacao");
 		Apresentacao montagemApresentacao = auxApresentacaoNew;
-		List<File> imagens = fileService.listAllImages();
-		List<File> videos = fileService.listAllVideos();
-		List<File> audios = fileService.listAllAudios();
+		List<FileApresentacaoDTOShow> imagensDTO = fileService.listAllImagesDTO();
+		List<FileApresentacaoDTOShow> videosDTO = fileService.listAllVideosDTO();
+		List<FileApresentacaoDTOShow> audiosDTO = fileService.listAllAudiosDTO();
 		mv.addObject("apresentacao", montagemApresentacao);
-		mv.addObject("audios", audios);
-		mv.addObject("videos", videos);
-		mv.addObject("imagens", imagens);
+		mv.addObject("audios", audiosDTO);
+		mv.addObject("videos", videosDTO);
+		mv.addObject("imagens", imagensDTO);
 		return mv;
 	}
 
