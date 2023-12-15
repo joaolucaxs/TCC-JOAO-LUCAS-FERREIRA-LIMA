@@ -66,6 +66,13 @@ body{
 	margin-right: 10px;
 }
 
+#btnToObras #btnToApresentacao{
+	margin-top: 20px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+
 #logoImagem{
 	display:flex;
 	flex-direction: row;

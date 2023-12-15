@@ -2,7 +2,6 @@ package com.joaolucas.mapp.resources;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,11 +15,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.joaolucas.mapp.dtos.ApresentacaoDTOForm;
 import com.joaolucas.mapp.dtos.FileApresentacaoDTOShow;
-import com.joaolucas.mapp.dtos.FileDTOShow;
 import com.joaolucas.mapp.model.Apresentacao;
-import com.joaolucas.mapp.model.File;
+import com.joaolucas.mapp.model.Peca;
 import com.joaolucas.mapp.services.ApresentacaoService;
 import com.joaolucas.mapp.services.FileService;
+import com.joaolucas.mapp.services.PecaService;
 
 import jakarta.validation.Valid;
 
@@ -33,6 +32,9 @@ public class ApresentacaoResource {
 	
 	@Autowired
 	private FileService fileService;
+	
+	@Autowired
+	private PecaService pecaService;
 
 	private Apresentacao auxApresentacaoNew = new Apresentacao();
 	
@@ -79,10 +81,12 @@ public class ApresentacaoResource {
 		List<FileApresentacaoDTOShow> imagensDTO = fileService.listAllImagesDTO();
 		List<FileApresentacaoDTOShow> videosDTO = fileService.listAllVideosDTO();
 		List<FileApresentacaoDTOShow> audiosDTO = fileService.listAllAudiosDTO();
+		List<Peca> pecas = pecaService.findAll();
 		mv.addObject("apresentacao", montagemApresentacao);
 		mv.addObject("audios", audiosDTO);
 		mv.addObject("videos", videosDTO);
 		mv.addObject("imagens", imagensDTO);
+		mv.addObject("pecas", pecas);
 		return mv;
 	}
 

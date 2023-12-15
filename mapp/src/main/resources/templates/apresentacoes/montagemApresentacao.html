@@ -89,9 +89,22 @@
 			<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 		</div>
 		<div class="offcanvas-body">
-			<div class="d-flex flex-column justify-content-center">
+			<div class="d-flex flex-wrap justify-content-around align-items-center mb-4">
+				<div class="p-1">
+					<h6>Filtrar por Obra:</h6>
+				</div>
+				<div class="p-1 col-md-7">
+					<select class="form-select" id="obraSelectimagens" onchange="filtrarMidias('imagens')">
+						<option value="">Todas as imagens</option>
+						<option th:each="peca : ${pecas}" th:value="${peca.tituloPeca}" th:text="${peca.tituloPeca}">
+						</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="d-flex flex-column justify-content-center" id="imagensContainer">
 				<div class="row row-cols-1 row-cols-md-2 g-4">
-					<div class="col" th:each="imagem : ${imagens}">
+					<div class="col imagens" th:each="imagem : ${imagens}">
 						<div class="d-flex flex-column justify-content-center align-items-center h-100" draggable="true"
 							ondragstart="drag(event)">
 							<img th:src="@{/arquivos/visualizar/{id}(id=${imagem.getId()})}" class="img-fluid mb-4"
@@ -116,9 +129,21 @@
 			<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 		</div>
 		<div class="offcanvas-body">
+			<div class="d-flex flex-wrap justify-content-around align-items-center mb-4">
+				<div class="p-1">
+					<h6>Filtrar por Obra:</h6>
+				</div>
+				<div class="p-1 col-md-7">
+					<select class="form-select" id="obraSelectvideos" onchange="filtrarMidias('videos')">
+						<option value="">Todos os Vídeos</option>
+						<option th:each="peca : ${pecas}" th:value="${peca.tituloPeca}" th:text="${peca.tituloPeca}">
+						</option>
+					</select>
+				</div>
+			</div>
 			<div class="d-flex flex-column justify-content-center">
 				<div class="row row-cols-1 row-cols-md-1 g-4">
-					<div class="col" data-th-each="video : ${videos}">
+					<div class="col videos" th:each="video : ${videos}">
 						<div class="d-flex flex-column justify-content-center align-items-center h-100">
 							<video class="mb-4" id="capa-video" draggable="true" ondragstart="drag(event)" controls>
 								<source th:src="@{/arquivos/visualizar/{id}(id=${video.getId()})}" type="video/mp4">
@@ -143,11 +168,24 @@
 			<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 		</div>
 		<div class="offcanvas-body">
+			<div class="d-flex flex-wrap justify-content-around align-items-center mb-4">
+				<div class="p-1">
+					<h6>Filtrar por Obra:</h6>
+				</div>
+				<div class="p-1 col-md-7">
+					<select class="form-select" id="obraSelectaudios" onchange="filtrarMidias('audios')">
+						<option value="">Todos os Áudios</option>
+						<option th:each="peca : ${pecas}" th:value="${peca.tituloPeca}" th:text="${peca.tituloPeca}">
+						</option>
+					</select>
+				</div>
+			</div>
 			<div class="d-flex flex-column justify-content-center">
 				<div class="row row-cols-2 row-cols-md-1 g-4">
-					<div class="col" data-th-each="audio : ${audios}">
+					<div class="col audios" data-th-each="audio : ${audios}">
 						<div class="d-flex flex-column justify-content-center align-items-center h-100">
-							<audio class="mb-4" width="100%" height="auto" draggable="true" ondragstart="drag(event)" controls>
+							<audio class="mb-4" width="100%" height="auto" draggable="true" ondragstart="drag(event)"
+								controls>
 								<source th:src="@{/arquivos/visualizar/{id}(id=${audio.getId()})}" type="audio/mpeg">
 							</audio>
 							<div class="card-body">
@@ -284,6 +322,21 @@
 			// Resetar a altura do mediaContainer
 			clearMediaContainer.style.minHeight = '250px';
 			clearMediaContainer.classList.remove('drag-over');
+		}
+
+		function filtrarMidias(tipoMidia) {
+			var selectedObra = document.getElementById('obraSelect' + tipoMidia).value;
+
+			var medias = document.querySelectorAll('.' + tipoMidia);
+
+			medias.forEach(function (media) {
+				var obraDaMidia = media.querySelector('.card-title.mb-4').innerText.trim();
+				if (obraDaMidia === selectedObra || selectedObra === '') {
+					media.style.display = 'block';
+				} else {
+					media.style.display = 'none';
+				}
+			});
 		}
 
 	</script>
