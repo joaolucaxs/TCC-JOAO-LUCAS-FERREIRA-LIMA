@@ -1,0 +1,158 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f2f2f2;
+}
+
+#presentation {
+  width: 100%;
+  max-width: 375px; /* Largura máxima para dispositivos móveis */
+  margin: 0 auto;
+  background-color: #fff;
+    /* padding: 10px;*/ /* Ajuste de padding para dispositivos móveis */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ccc;
+}
+
+#header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#header h1{
+  font-size: 30px;
+  margin-bottom: 40px;
+  text-align: center;
+  color: #333;
+}
+
+.slide {
+  margin-bottom: 40px;
+}
+
+.slide h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  text-align: center;
+  color: #333;
+}
+
+.slide img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.slide p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #666;
+  text-align: justify; /* Justifica o texto */
+    margin-left:10px;
+  margin-right:10px;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* Proporção de aspecto 16:9 para vídeos */
+  height: 0;
+  overflow: hidden;
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+audio,
+video {
+  width: 100%;
+}
+
+.apresentacoes-relacionadas {
+  text-align: center;
+}
+
+.apresentacoes-relacionadas h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.apresentacoes-relacionadas img {
+  width: 300px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.apresentacoes-relacionadas h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-left:30px;
+  margin-right:30px;
+}
+
+h4 {
+  font-size: 15px;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+a {
+  text-decoration: none;
+    color: #333;
+}
+
+/* Media queries para smartphones principais */
+
+/* iPhone X e dispositivos com largura semelhante */
+@media only screen and (max-width: 375px) and (max-height: 812px) {
+ 
+  #presentation {
+    /*padding: 15px;*/
+  }
+
+  .slide h2 {
+    font-size: 22px;
+  }
+
+  .slide p {
+    font-size: 15px;
+  }
+}
+
+/* Samsung Galaxy S9/S10 e dispositivos com largura semelhante */
+@media only screen and (max-width: 360px) {
+  
+  #presentation {
+   /* padding: 10px;*/
+  }
+
+  .slide h2 {
+    font-size: 18px;
+  }
+
+  .slide p {
+    font-size: 13px;
+  }
+}
+
+/* Google Pixel 2/3 e dispositivos com largura semelhante */
+@media only screen and (max-width: 411px) {
+  
+  #presentation {
+   /* padding: 10px;*/
+  }
+
+  .slide h2 {
+    font-size: 18px;
+  }
+
+  .slide p {
+    font-size: 13

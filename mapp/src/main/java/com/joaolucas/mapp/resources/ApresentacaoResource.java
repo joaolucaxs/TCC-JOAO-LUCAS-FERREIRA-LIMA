@@ -16,9 +16,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.joaolucas.mapp.dtos.ApresentacaoDTOForm;
 import com.joaolucas.mapp.dtos.FileApresentacaoDTOShow;
 import com.joaolucas.mapp.model.Apresentacao;
+import com.joaolucas.mapp.model.Html;
 import com.joaolucas.mapp.model.Peca;
 import com.joaolucas.mapp.services.ApresentacaoService;
 import com.joaolucas.mapp.services.FileService;
+import com.joaolucas.mapp.services.HtmlService;
 import com.joaolucas.mapp.services.PecaService;
 
 import jakarta.validation.Valid;
@@ -29,15 +31,18 @@ public class ApresentacaoResource {
 
 	@Autowired
 	private ApresentacaoService apresentacaoService;
-	
+
 	@Autowired
 	private FileService fileService;
 	
 	@Autowired
+	private HtmlService htmlService;
+
+	@Autowired
 	private PecaService pecaService;
 
 	private Apresentacao auxApresentacaoNew = new Apresentacao();
-	
+
 	@GetMapping()
 	public ModelAndView findAll() {
 		List<Apresentacao> apresentacoes = apresentacaoService.findAll();
@@ -45,7 +50,7 @@ public class ApresentacaoResource {
 		mv.addObject("apresentacoes", apresentacoes);
 		return mv;
 	}
-	
+
 	@GetMapping(value = "/filtrar")
 	public ModelAndView filtrarApresentacoes(@RequestParam(value = "filtro") String filtro,
 			@RequestParam(value = "pesquisa") String pesquisa) {
@@ -55,7 +60,7 @@ public class ApresentacaoResource {
 		mv.addObject("apresentacoes", apresentacoes);
 		return mv;
 	}
-	
+
 	@GetMapping(value = "/criarApresentacao")
 	public ModelAndView novaObra() {
 		ModelAndView mv = new ModelAndView("apresentacoes/criarApresentacao");
@@ -91,14 +96,24 @@ public class ApresentacaoResource {
 	}
 
 	@PostMapping(value = "/criarApresentacao/montagem")
-	public String inserirMontagem(@Valid Apresentacao apresentacao, BindingResult result) {
+	public String inserirMontagem(@RequestParam("phoneContent") String phoneContent) {
 
-		if (result.hasErrors()) {
-			return "redirect:/apresentacoes";
-		}
 		Apresentacao newApresentacao = auxApresentacaoNew;
+		
+        System.out.println("Conteudo antes: "+ phoneContent);
 
+		Html html = new Html();
+		html.setContent(htmlService.limparConteudo(phoneContent));
+		html.setName(newApresentacao.getTituloApresentacao());
+		htmlService.saveHtml(html);
+		
+        System.out.println("Conteudo depois: "+ html.getContent());
+
+
+		newApresentacao.setHtml(html);		
+		
 		apresentacaoService.novaApresentacao(newApresentacao);
+
 		return "redirect:/apresentacoes";
 	}
 
