@@ -37,12 +37,11 @@ public class HtmlService {
 		// Remover ícones e botões indesejados
 		doc.select("i, button").remove();
 
-		Elements elementsToRemove = doc.select("[ondrop], [ondragover], [ondragenter], [ondragleave]");
+//		Elements elementsToRemove = doc.select("[ondrop], [ondragover], [ondragenter], [ondragleave]");
 
-		elementsToRemove.remove();
+//		elementsToRemove.remove();
 
-		doc.select("[ondrop], [ondragover], [ondragenter], [ondragleave]")
-				.removeAttr("ondrop ondragover ondragenter ondragleave");
+		doc.select("[contenteditable]").removeAttr("contenteditable");
 
 		// Obter o conteúdo limpo
 		String conteudoLimpo = doc.select("div.presentation-content").html();

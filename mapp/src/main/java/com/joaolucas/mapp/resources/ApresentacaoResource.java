@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,7 +35,7 @@ public class ApresentacaoResource {
 
 	@Autowired
 	private FileService fileService;
-	
+
 	@Autowired
 	private HtmlService htmlService;
 
@@ -99,22 +100,27 @@ public class ApresentacaoResource {
 	public String inserirMontagem(@RequestParam("phoneContent") String phoneContent) {
 
 		Apresentacao newApresentacao = auxApresentacaoNew;
-		
-        System.out.println("Conteudo antes: "+ phoneContent);
 
 		Html html = new Html();
 		html.setContent(htmlService.limparConteudo(phoneContent));
+
 		html.setName(newApresentacao.getTituloApresentacao());
 		htmlService.saveHtml(html);
-		
-        System.out.println("Conteudo depois: "+ html.getContent());
 
 
-		newApresentacao.setHtml(html);		
-		
+		newApresentacao.setHtml(html);
+
 		apresentacaoService.novaApresentacao(newApresentacao);
 
 		return "redirect:/apresentacoes";
+	}
+
+	@GetMapping(value = "/{id}")
+	public ModelAndView visualizarApresentacao(@PathVariable String id) {
+		Apresentacao apresentacao = apresentacaoService.findById(id);
+		ModelAndView mv = new ModelAndView("apresentacoes/visualizarApresentacao");
+		mv.addObject("apresentacao", apresentacao);
+		return mv;
 	}
 
 }
