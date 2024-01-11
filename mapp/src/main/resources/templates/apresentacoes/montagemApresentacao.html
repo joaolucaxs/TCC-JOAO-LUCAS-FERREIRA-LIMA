@@ -279,7 +279,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary" data-bs-dismiss="modal"
-						onclick="updateLinkHref(this.parentNode.previousElementSibling.querySelector('a'), this.getAttribute('data-dropzone-id'))">Ok</button>
+						onclick="updateLink()">Ok</button>
 				</div>
 			</div>
 		</div>
@@ -295,9 +295,6 @@
 		crossorigin="anonymous"></script>
 
 	<script>
-
-		var dropAreaCounter = 0; // Variável global para contar dropAreas
-
 
 		function addMediaContainer() {
 			var mediaContainers = document.getElementById('mediaContainers');
@@ -342,8 +339,14 @@
 
 			if (linkElement) {
 				// Se o elemento for encontrado, faça alguma coisa
-				var urlButton = '<button class="btn btn-info" id="btnAddUrl" type="button" data-bs-toggle="modal" data-bs-target="#addUrlModal" data-dropzone-id="' + dropArea.id + '"><i class="bi bi-link"></i></button>';
+				var urlButton = '<button class="btn btn-info url-button" id="btnAddUrl" type="button" data-bs-toggle="modal" data-bs-target="#addUrlModal" data-dropzone-id="' + dropArea.id + '"><i class="bi bi-link"></i></button>';
 				dropArea.innerHTML += urlButton;
+
+				// Adiciona um ouvinte de evento ao botão de URL recém-criado
+				var newUrlButton = dropArea.querySelector('.url-button');
+				newUrlButton.addEventListener('click', function () {
+					window.currentDropzone = dropArea;
+				});
 			}
 
 
@@ -351,6 +354,15 @@
 			var mediaHeight = dropArea.querySelector('img, video, audio, h1, h2, h3, p, b, i, big, em, blockquote, q, del, u').clientHeight;
 			dropArea.style.minHeight = mediaHeight + 'px';
 		}
+
+		document.getElementById('addUrlModal').addEventListener('show.bs.modal', function (event) {
+			var relatedTarget = event.relatedTarget;
+			if (relatedTarget && relatedTarget.dataset.dropzoneId) {
+				// Armazene a referência à dropzone associada em uma variável global ou em um elemento HTML oculto
+				var currentDropzone = document.getElementById(relatedTarget.dataset.dropzoneId);
+				window.currentDropzone = currentDropzone;
+			}
+		});
 
 		function makeEditable(dropArea) {
 			// Encontrar os elementos editáveis dentro da dropArea e torná-los editáveis
@@ -429,25 +441,18 @@
 			}
 		});
 
-		function updateLinkHref(linkElement) {
-			// Obtém o valor do textarea
+		function updateLink() {
 			var newUrl = document.getElementById('message-text').value;
 
-			// Atualiza o atributo 'href' do link específico com o novo URL
-			if (linkElement) {
-				linkElement.href = newUrl;
-
-				// Fecha o modal
-				var modal = new bootstrap.Modal(document.getElementById('addUrlModal'));
-				modal.hide();
-
-				// Acesse a dropzone associada usando a variável global ou o elemento HTML oculto
-				if (window.currentDropzone) {
-					console.log("Dropzone ID: " + window.currentDropzone.id);
+			if (window.currentDropzone) {
+				var linkInDropzone = window.currentDropzone.querySelector('a#linkTexto');
+				if (linkInDropzone) {
+					linkInDropzone.href = newUrl;
 				}
 			}
+			var modal = new bootstrap.Modal(document.getElementById('addUrlModal'));
+			modal.hide();
 		}
-
 
 	</script>
 
