@@ -256,7 +256,8 @@
 					<blockquote class="draggable editable" draggable="true" ondragstart="drag(event)">Citação Longa
 					</blockquote>
 					<q class="draggable editable" draggable="true" ondragstart="drag(event)">Citação Curta</q>
-					<a id="linkTexto" class="draggable editable" draggable="true" ondragstart="drag(event)">Link</a>
+					<a id="linkTexto" class="draggable editable" draggable="true" ondragstart="drag(event)"
+						target="_blank">Link</a>
 					<del class="draggable editable" draggable="true" ondragstart="drag(event)">Deletar</del>
 					<u class="draggable editable" draggable="true" ondragstart="drag(event)">Sublinhado</u>
 				</div>
@@ -452,6 +453,9 @@
 			}
 			var modal = new bootstrap.Modal(document.getElementById('addUrlModal'));
 			modal.hide();
+
+			document.getElementById('message-text').value = '';
+
 		}
 
 	</script>
