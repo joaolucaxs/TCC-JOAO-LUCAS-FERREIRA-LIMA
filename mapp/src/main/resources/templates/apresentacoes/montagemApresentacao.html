@@ -78,11 +78,9 @@
 						<button class="btn btn-primary mb-3" type="button" data-bs-toggle="offcanvas"
 							data-bs-target="#offcanvasTextos" aria-controls="offcanvasTextos">Textos</button>
 
-						<button class="btn btn-primary mb-3" data-bs-target="#modalLinks" data-bs-toggle="modal">Links
-							Específicos</button>
-
-						<button class="btn btn-primary mb-3" data-bs-target="#modalApresentacoes"
-							data-bs-toggle="modal">Apresentações</button>
+						<button class="btn btn-primary mb-3" type="button" data-bs-toggle="offcanvas"
+							data-bs-target="#offcanvasApresentacoes"
+							aria-controls="offcanvasApresentacoes">Apresentações</button>
 					</div>
 				</div>
 			</div>
@@ -210,6 +208,37 @@
 	</div>
 
 	<div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+		id="offcanvasApresentacoes" aria-labelledby="offcanvasApresentacoesLabel">
+		<div class="offcanvas-header">
+			<h5 class="offcanvas-title" id="offcanvasApresentacoesLabel">Apresentações Disponíveis</h5>
+			<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+		</div>
+		<div class="offcanvas-body">
+			<div class="d-flex flex-column justify-content-center">
+				<div class="row row-cols-1 row-cols-md-1 g-4">
+					<div class="col apresentacoes" th:each="apresentacao : ${apresentacoes}">
+						<div class="d-flex flex-column justify-content-center align-items-center h-100" draggable="true"
+							ondragstart="drag(event)">
+							<div class="d-flex justify-content-center align-items-center h-100" draggable="false">
+								<img th:src="${'data:image/*;base64,' + apresentacao.getImagemCapa().getImagemBinaryStr()}"
+									class="p-3 img-fluid" id="imagem-capa" alt="Imagem da Capa" draggable="false">
+							</div>
+							<div class="card-body">
+								<a th:href="@{'/apresentacoes/'+${apresentacao.getId()}}" class="disabled-link"
+									target="_blank">
+									<h4 class="card-title text-center mb-4 text-decoration-none"
+										data-th-text="${apresentacao.getTituloApresentacao()}"></h4>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
 		id="offcanvasTextos" aria-labelledby="offcanvasTextosLabel">
 		<div class="offcanvas-header">
 			<h5 class="offcanvas-title" id="offcanvasTextosLabel">Inserir um</h5>
@@ -227,12 +256,36 @@
 					<blockquote class="draggable editable" draggable="true" ondragstart="drag(event)">Citação Longa
 					</blockquote>
 					<q class="draggable editable" draggable="true" ondragstart="drag(event)">Citação Curta</q>
+					<a id="linkTexto" class="draggable editable" draggable="true" ondragstart="drag(event)">Link</a>
 					<del class="draggable editable" draggable="true" ondragstart="drag(event)">Deletar</del>
 					<u class="draggable editable" draggable="true" ondragstart="drag(event)">Sublinhado</u>
 				</div>
 			</div>
 		</div>
 	</div>
+
+	<div class="modal fade" id="addUrlModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="modalDeletarLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="staticBackdropLabel">Digite a URL deste link:</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="mb-3">
+						<textarea class="form-control" id="message-text"></textarea>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+						onclick="updateLinkHref(this.parentNode.previousElementSibling.querySelector('a'), this.getAttribute('data-dropzone-id'))">Ok</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
 
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
 		integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
@@ -242,6 +295,10 @@
 		crossorigin="anonymous"></script>
 
 	<script>
+
+		var dropAreaCounter = 0; // Variável global para contar dropAreas
+
+
 		function addMediaContainer() {
 			var mediaContainers = document.getElementById('mediaContainers');
 			var newMediaContainer = document.createElement('div');
@@ -280,6 +337,16 @@
 				dropArea.innerHTML = updateButton + deleteButton + data;
 				makeEditable(dropArea);
 			}
+
+			var linkElement = dropArea.querySelector('#linkTexto');
+
+			if (linkElement) {
+				// Se o elemento for encontrado, faça alguma coisa
+				var urlButton = '<button class="btn btn-info" id="btnAddUrl" type="button" data-bs-toggle="modal" data-bs-target="#addUrlModal" data-dropzone-id="' + dropArea.id + '"><i class="bi bi-link"></i></button>';
+				dropArea.innerHTML += urlButton;
+			}
+
+
 			// Ajuste dinâmico da altura com base na altura da mídia adicionada
 			var mediaHeight = dropArea.querySelector('img, video, audio, h1, h2, h3, p, b, i, big, em, blockquote, q, del, u').clientHeight;
 			dropArea.style.minHeight = mediaHeight + 'px';
@@ -318,6 +385,7 @@
 			mediaContainer.style.minHeight = '250';
 		}
 
+
 		function clearContainer(clearMediaContainer) {
 			// Remove todos os elementos filhos do mediaContainer
 			while (clearMediaContainer.firstChild) {
@@ -351,6 +419,35 @@
 			var phoneContent = document.getElementById('phoneContent').innerHTML;
 			document.getElementById('phoneContentInput').value = phoneContent;
 		}
+
+		document.getElementById('addUrlModal').addEventListener('show.bs.modal', function (event) {
+			var relatedTarget = event.relatedTarget;
+			if (relatedTarget && relatedTarget.dataset.dropzoneId) {
+				// Armazene a referência à dropzone associada em uma variável global ou em um elemento HTML oculto
+				var currentDropzone = document.getElementById(relatedTarget.dataset.dropzoneId);
+				window.currentDropzone = currentDropzone;
+			}
+		});
+
+		function updateLinkHref(linkElement) {
+			// Obtém o valor do textarea
+			var newUrl = document.getElementById('message-text').value;
+
+			// Atualiza o atributo 'href' do link específico com o novo URL
+			if (linkElement) {
+				linkElement.href = newUrl;
+
+				// Fecha o modal
+				var modal = new bootstrap.Modal(document.getElementById('addUrlModal'));
+				modal.hide();
+
+				// Acesse a dropzone associada usando a variável global ou o elemento HTML oculto
+				if (window.currentDropzone) {
+					console.log("Dropzone ID: " + window.currentDropzone.id);
+				}
+			}
+		}
+
 
 	</script>
 

@@ -87,12 +87,14 @@ public class ApresentacaoResource {
 		List<FileApresentacaoDTOShow> imagensDTO = fileService.listAllImagesDTO();
 		List<FileApresentacaoDTOShow> videosDTO = fileService.listAllVideosDTO();
 		List<FileApresentacaoDTOShow> audiosDTO = fileService.listAllAudiosDTO();
+		List<Apresentacao> apresentacoesDTO = apresentacaoService.findAll();
 		List<Peca> pecas = pecaService.findAll();
 		mv.addObject("apresentacao", montagemApresentacao);
 		mv.addObject("audios", audiosDTO);
 		mv.addObject("videos", videosDTO);
 		mv.addObject("imagens", imagensDTO);
 		mv.addObject("pecas", pecas);
+		mv.addObject("apresentacoes", apresentacoesDTO);
 		return mv;
 	}
 
@@ -106,8 +108,6 @@ public class ApresentacaoResource {
 
 		html.setName(newApresentacao.getTituloApresentacao());
 		htmlService.saveHtml(html);
-
-
 		newApresentacao.setHtml(html);
 
 		apresentacaoService.novaApresentacao(newApresentacao);
