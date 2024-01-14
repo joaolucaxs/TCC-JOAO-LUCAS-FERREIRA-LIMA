@@ -217,17 +217,19 @@
 			<div class="d-flex flex-column justify-content-center">
 				<div class="row row-cols-1 row-cols-md-1 g-4">
 					<div class="col apresentacoes" th:each="apresentacao : ${apresentacoes}">
-						<div class="d-flex flex-column justify-content-center align-items-center h-100" draggable="true"
-							ondragstart="drag(event)">
+						<div class="d-flex flex-column justify-content-center align-items-center h-100 apresentacoes-relacionadas"
+							draggable="true" ondragstart="drag(event)">
 							<div class="d-flex justify-content-center align-items-center h-100" draggable="false">
 								<img th:src="${'data:image/*;base64,' + apresentacao.getImagemCapa().getImagemBinaryStr()}"
-									class="p-3 img-fluid" id="imagem-capa" alt="Imagem da Capa" draggable="false">
+									class="p-3 img-fluid" id="imagem-apresentacao" alt="Imagem da Capa"
+									draggable="false">
 							</div>
 							<div class="card-body">
 								<a th:href="@{'/apresentacoes/'+${apresentacao.getId()}}" class="disabled-link"
-									target="_blank">
+									target="_blank" id="link-apresentacao">
 									<h4 class="card-title text-center mb-4 text-decoration-none"
-										data-th-text="${apresentacao.getTituloApresentacao()}"></h4>
+										data-th-text="${apresentacao.getTituloApresentacao()}" id="titulo-apresentacao">
+									</h4>
 								</a>
 							</div>
 						</div>
