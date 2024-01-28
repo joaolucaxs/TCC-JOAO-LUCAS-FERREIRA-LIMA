@@ -16,8 +16,7 @@ public class QRCodeUtil {
 	public static byte[] generateByteQRCode(Apresentacao apresentacao, int width, int height) {
 		ByteArrayOutputStream outputStream = null;
 		QRCodeWriter qrCodeWriter = new QRCodeWriter();
-		String endpointUrl = "http://192.168.18.211:8080/apresentacao/" + apresentacao.getId();
-
+		String endpointUrl = "http://192.168.18.211:8080/apresentacoes/" + apresentacao.getId();
 		try {
 			outputStream = new ByteArrayOutputStream();
 			BitMatrix bitMatrix = qrCodeWriter.encode(endpointUrl, BarcodeFormat.QR_CODE, width, height);

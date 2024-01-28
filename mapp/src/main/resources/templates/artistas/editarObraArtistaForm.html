@@ -50,7 +50,7 @@
 					<input type="text" class="form-control" id="validationServerNomeArtesao" name="nome"
 						placeholder="Nome do Artesão"
 						aria-describedby="inputGroupPrepend3 validationServerNomeArtesaoFeedBack" required readonly
-						th:value="${peca.getArtesao()}">
+						th:value="${peca.getArtesao().getNome()}">
 					<div id="validationServerNomeArtesaoFeedBack" class="invalid-feedback">
 						Nome do Artesão Obrigatório.
 					</div>
@@ -64,7 +64,7 @@
 					<label for="validationServerApelido" class="form-label"><b>Apelido</b></label>
 					<input type="text" class="form-control" id="validationServerApelido" name="apelido"
 						placeholder="Apelido" aria-describedby="inputGroupPrepend3 validationServerApelidoFeedBack"
-						required readonly>
+						required readonly th:value="${peca.getArtesao().getApelido()}">
 					<div id="validationServerApelidoFeedBack" class="invalid-feedback">
 						Apelido do Artesão Obrigatório.
 					</div>
@@ -76,7 +76,7 @@
 					<label for="validationServerTelefone" class="form-label"><b>Telefone</b></label>
 					<input type="text" class="form-control" id="validationServerTelefone" name="telefone"
 						placeholder="Telefone" aria-describedby="inputGroupPrepend3 validationServerTelefoneFeedBack"
-						required readonly>
+						required readonly th:value="${peca.getArtesao().getTelefone()}">
 					<div id="validationServerTelefoneFeedBack" class="invalid-feedback">
 						Telefone do Artesão Obrigatório.
 					</div>
@@ -87,7 +87,7 @@
 				<div class="mb-3">
 					<label for="validationServerEmail" class="form-label"><b>Email</b></label>
 					<input type="text" class="form-control" id="validationServerEmail" name="email" placeholder="Email"
-						aria-describedby="inputGroupPrepend3 validationServerEmailFeedBack" required readonly>
+						aria-describedby="inputGroupPrepend3 validationServerEmailFeedBack" required readonly th:value="${peca.getArtesao().getEmail()}">
 					<div id="validationServerEmailFeedBack" class="invalid-feedback">
 						Email do Artesão Obrigatório.
 					</div>
@@ -99,7 +99,7 @@
 					<label for="validationServerCidade" class="form-label"><b>Cidade</b></label>
 					<input type="text" class="form-control" id="validationServerCidade" name="cidade"
 						placeholder="Cidade" aria-describedby="inputGroupPrepend3 validationServerCidadeFeedBack"
-						required readonly>
+						required readonly th:value="${peca.getArtesao().getCidade()}">
 					<div id="validationServerCidadeFeedBack" class="invalid-feedback">
 						Cidade do Artesão Obrigatório.
 					</div>
@@ -123,6 +123,24 @@
 		integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
 		crossorigin="anonymous"></script>
 
+	<script>
+		(() => {
+			'use strict'
+
+			const forms = document.querySelectorAll('.needs-validation')
+
+			Array.from(forms).forEach(form => {
+				form.addEventListener('submit', event => {
+					if (!form.checkValidity()) {
+						event.preventDefault()
+						event.stopPropagation()
+					}
+
+					form.classList.add('was-validated')
+				}, false)
+			})
+		})()
+	</script>
 
 </body>
 

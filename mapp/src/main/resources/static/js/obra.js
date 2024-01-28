@@ -1,20 +1,3 @@
-(() => {
-	'use strict'
-
-	const forms = document.querySelectorAll('.needs-validation')
-
-	Array.from(forms).forEach(form => {
-		form.addEventListener('submit', event => {
-			if (!form.checkValidity()) {
-				event.preventDefault()
-				event.stopPropagation()
-			}
-
-			form.classList.add('was-validated')
-		}, false)
-	})
-})()
-
 document.addEventListener("DOMContentLoaded", function() {
 	const imageInput = document.getElementById("validationServerImagemObra");
 	const previewImage = document.getElementById("imagem-capa");
@@ -34,11 +17,6 @@ document.addEventListener("DOMContentLoaded", function() {
 			previewImage.src = oldImageUrl;
 			previewImage.style.display = "block";
 		}
-	});
-
-	const uploadForm = document.getElementById("uploadForm");
-	uploadForm.addEventListener("submit", function(event) {
-		event.preventDefault();
 	});
 });
 

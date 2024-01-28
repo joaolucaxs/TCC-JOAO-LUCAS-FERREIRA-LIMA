@@ -122,6 +122,25 @@
 		integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
 		crossorigin="anonymous"></script>
 
+	<script>
+		(() => {
+			'use strict'
+
+			const forms = document.querySelectorAll('.needs-validation')
+
+			Array.from(forms).forEach(form => {
+				form.addEventListener('submit', event => {
+					if (!form.checkValidity()) {
+						event.preventDefault()
+						event.stopPropagation()
+					}
+
+					form.classList.add('was-validated')
+				}, false)
+			})
+		})()
+	</script>
+	
 </body>
 
 </html>
