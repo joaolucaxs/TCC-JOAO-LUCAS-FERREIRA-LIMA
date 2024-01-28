@@ -2,7 +2,7 @@ package com.joaolucas.mapp.dtos;
 
 import com.joaolucas.mapp.model.Artista;
 
-public class ArtistaDTO {
+public class ArtistaDTOShow {
 
 	private String nome;
 	private String apelido;
@@ -10,10 +10,10 @@ public class ArtistaDTO {
 	private String email;
 	private String cidade;
 
-	public ArtistaDTO() {
+	public ArtistaDTOShow() {
 	}
 
-	public ArtistaDTO(Artista obj) {
+	public ArtistaDTOShow(Artista obj) {
 		this.nome = obj.getNome();
 		this.apelido = obj.getApelido();
 		this.telefone = obj.getTelefone();

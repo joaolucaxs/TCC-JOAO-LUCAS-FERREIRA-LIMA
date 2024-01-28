@@ -58,17 +58,29 @@
 		<div class="row row-cols-1 row-cols-md-4 g-4">
 			<div class="col" data-th-each="apresentacao : ${apresentacoes}">
 				<a th:href="@{'/apresentacoes/'+${apresentacao.getId()}}" class="text-decoration-none">
+
 					<div class="card h-100 rounded-3">
 						<div class="d-flex justify-content-center align-items-center h-100">
 							<img th:src="${'data:image/*;base64,' + apresentacao.getImagemCapa().getImagemBinaryStr()}"
 								class="p-3 img-fluid" id="imagem-capa" alt="Imagem da Capa">
 						</div>
+
+						<a th:href="@{/apresentacoes/{id}/qrCode(id=${apresentacao.getId()})}" id="qrCodeButton"
+							class="text-center" target="_blank">
+							<i class="bi bi-qr-code text-dark"></i>
+						</a>
+
 						<div class="card-body">
+
 							<h4 class="card-title text-center mb-4 text-decoration-none"
 								data-th-text="${apresentacao.getTituloApresentacao()}"></h4>
-							<p class="card-text" data-th-text="${apresentacao.getDescricaoApresentacao()}"></p>
+							<p class="card-text text-center" data-th-text="${apresentacao.getDescricaoApresentacao()}">
+							</p>
+
 						</div>
+
 					</div>
+
 				</a>
 			</div>
 		</div>

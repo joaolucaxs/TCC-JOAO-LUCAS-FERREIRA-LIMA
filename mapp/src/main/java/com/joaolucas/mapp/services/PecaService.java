@@ -2,7 +2,6 @@ package com.joaolucas.mapp.services;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +19,7 @@ import com.joaolucas.mapp.model.Peca;
 import com.joaolucas.mapp.repositories.PecaRepository;
 import com.joaolucas.mapp.services.exceptions.DataBaseException;
 import com.joaolucas.mapp.services.exceptions.ResourceNotFoundException;
+import com.joaolucas.mapp.utils.Utils;
 
 @Service
 public class PecaService {
@@ -39,7 +39,7 @@ public class PecaService {
 		return obj.orElseThrow(() -> new ResourceNotFoundException("Obra com ID " + id + " não foi encontrado."));
 	}
 
-	public Peca novaObra(Peca obj) {
+	public Peca insert(Peca obj) {
 		return repo.save(obj);
 	}
 
@@ -84,13 +84,13 @@ public class PecaService {
 
 	public List<Peca> filtrarPorCampo(String filtro, String pesquisa) {
 		if (filtro.equals("dataAquisicao")) {
-			return filtrarPorDataAquisicao(stringToLocalDate(pesquisa));
+			return filtrarPorDataAquisicao(Utils.stringToLocalDate(pesquisa));
 		}
 		if (filtro.equals("assinada")) {
-			return filtrarPorAssinada(stringToBoolean(pesquisa));
+			return filtrarPorAssinada(Utils.stringToBoolean(pesquisa));
 		}
 		if (filtro.equals("datada")) {
-			return filtrarPorDatada(stringToBoolean(pesquisa));
+			return filtrarPorDatada(Utils.stringToBoolean(pesquisa));
 		}
 
 		return repo.filtrarPorCampo(pesquisa);
@@ -106,23 +106,6 @@ public class PecaService {
 
 	public List<Peca> filtrarPorDatada(Boolean datada) {
 		return repo.filtrarPorDatada(datada);
-	}
-
-	public LocalDate stringToLocalDate(String data) {
-		DateTimeFormatter formatterInput = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		LocalDate dataAquisicao = LocalDate.parse(data, formatterInput);
-		return dataAquisicao;
-	}
-
-	public boolean stringToBoolean(String input) {
-		String lowerCaseInput = input.toLowerCase();
-		lowerCaseInput = lowerCaseInput.replaceAll("[áàâã]", "a");
-		lowerCaseInput = lowerCaseInput.replaceAll("[éèê]", "e");
-		lowerCaseInput = lowerCaseInput.replaceAll("[íìî]", "i");
-		lowerCaseInput = lowerCaseInput.replaceAll("[óòôõ]", "o");
-		lowerCaseInput = lowerCaseInput.replaceAll("[úùû]", "u");
-
-		return lowerCaseInput.equals("sim");
 	}
 
 	public Peca fromDTOFormulario(PecaDTOForm objDTO) throws IOException {

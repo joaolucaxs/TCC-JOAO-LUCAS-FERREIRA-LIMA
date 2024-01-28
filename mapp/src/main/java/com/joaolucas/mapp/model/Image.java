@@ -12,7 +12,6 @@ public class Image implements Serializable {
 	private Binary image;
 	
 	public Image() {
-
 	}
 
 	public Image(Binary image) {

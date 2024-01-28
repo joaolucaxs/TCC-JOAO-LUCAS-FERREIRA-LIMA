@@ -25,11 +25,11 @@ public class FileResource {
 
 	@Autowired
 	private FileService fileService;
-
+	
 	@GetMapping("/download/{id}")
 	public ResponseEntity<InputStreamResource> downloadFile(@PathVariable String id, HttpServletRequest request) {
 		
-		File file = fileService.getFileById(id);
+		File file = fileService.findById(id);
 		String contentType = "";
 
 		try {
@@ -52,15 +52,9 @@ public class FileResource {
 	@GetMapping("/visualizar/{id}")
 	public void visualizarArquivo(@PathVariable String id, HttpServletResponse response) throws IOException {
 
-		File file = fileService.getFileById(id);
-
-		response.setContentType(file.getContentType());
-
-		response.setHeader("Content-Disposition", "inline; filename=" + file.getOriginalFileName());
-		response.setHeader("Content-Length", String.valueOf(file.getSize()));
-
-		response.getOutputStream().write(file.getContent().getData());
-		response.flushBuffer();
+		File file = fileService.findById(id);
+		fileService.visualizarArquivo(response, file);
 	}
 
+	
 }

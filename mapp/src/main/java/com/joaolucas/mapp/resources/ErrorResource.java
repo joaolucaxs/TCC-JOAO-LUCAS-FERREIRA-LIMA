@@ -17,7 +17,6 @@ public class ErrorResource implements ErrorController {
 
 	@RequestMapping("/error")
 	public ModelAndView handleError(HttpServletRequest request) {
-
 		String error = "Requisição Inválida";
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		StandardError err = new StandardError(Instant.now(), status.value(), error, "URL inválida",

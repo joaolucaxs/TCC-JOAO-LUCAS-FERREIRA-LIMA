@@ -24,6 +24,7 @@ import com.joaolucas.mapp.services.FileService;
 import com.joaolucas.mapp.services.HtmlService;
 import com.joaolucas.mapp.services.PecaService;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 @Controller
@@ -42,6 +43,7 @@ public class ApresentacaoResource {
 	@Autowired
 	private PecaService pecaService;
 
+	// variável auxiliar
 	private Apresentacao auxApresentacaoNew = new Apresentacao();
 
 	@GetMapping()
@@ -110,7 +112,7 @@ public class ApresentacaoResource {
 		htmlService.saveHtml(html);
 		newApresentacao.setHtml(html);
 
-		apresentacaoService.novaApresentacao(newApresentacao);
+		apresentacaoService.insert(newApresentacao);
 
 		return "redirect:/apresentacoes";
 	}
@@ -123,4 +125,9 @@ public class ApresentacaoResource {
 		return mv;
 	}
 
+	@GetMapping("{id}/qrCode")
+	public void visualizarQrCode(@PathVariable String id, HttpServletResponse response) throws IOException {
+		Apresentacao apresentacao = apresentacaoService.findById(id);
+		apresentacaoService.visualizarQrCode(response, apresentacao);
+	}
 }

@@ -2,12 +2,10 @@ package com.joaolucas.mapp.resources;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -25,7 +23,6 @@ import com.joaolucas.mapp.dtos.PecaDTOShow;
 import com.joaolucas.mapp.model.Artista;
 import com.joaolucas.mapp.model.File;
 import com.joaolucas.mapp.model.Peca;
-import com.joaolucas.mapp.resources.util.MD5Util;
 import com.joaolucas.mapp.services.ArtistaService;
 import com.joaolucas.mapp.services.FileService;
 import com.joaolucas.mapp.services.PecaService;
@@ -45,7 +42,7 @@ public class PecaResource {
 	@Autowired
 	private FileService fileService;
 
-	private Peca auxPecaEdition;
+	private Peca auxPecaEdit;
 
 	private Peca auxPecaNew = new Peca();
 
@@ -73,7 +70,7 @@ public class PecaResource {
 	@GetMapping(value = "/{id}")
 	public ModelAndView visualizarObra(@PathVariable String id) {
 		Peca obra = obraService.findById(id);
-		List<File> files = fileService.listAllFilesByIdObra(id);
+		List<File> files = fileService.findAllByIdObra(id);
 		List<FileDTOShow> filesDto = files.stream().map(file -> new FileDTOShow(file)).collect(Collectors.toList());
 		ModelAndView mv = new ModelAndView("obras/visualizarObra");
 		mv.addObject("files", filesDto);
@@ -125,11 +122,11 @@ public class PecaResource {
 
 		var artistaAssociado = artistaService.findById(artista.getId());
 
-		obraService.novaObra(newObra);
+		obraService.insert(newObra);
 		artistaAssociado.getListaObras().addAll(Arrays.asList(newObra));
 		artistaService.updateObras(artistaAssociado);
 		newObra.setArtesao(artistaAssociado);
-		obraService.novaObra(newObra);
+		obraService.insert(newObra);
 		artistaService.insert(artistaAssociado);
 		return "redirect:/pecas";
 	}
@@ -173,14 +170,14 @@ public class PecaResource {
 		}
 
 		Peca obraPersisted = obraService.findById(id);
-		auxPecaEdition = obraPersisted;
+		auxPecaEdit = obraPersisted;
 		Peca newObraEdited = obraService.fromDTOFormulario(objDTO);
 		if (imagemPecaFile.isEmpty()) {
 			newObraEdited.getFichatecnica().setImagemCapa(obraPersisted.getFichatecnica().getImagemCapa());
 		}
-		auxPecaEdition = newObraEdited;
-		auxPecaEdition.setArtesao(obraPersisted.getArtesao());
-		auxPecaEdition.setId(id);
+		auxPecaEdit = newObraEdited;
+		auxPecaEdit.setArtesao(obraPersisted.getArtesao());
+		auxPecaEdit.setId(id);
 		return "redirect:/pecas/editarObra/" + id + "/associarArtista";
 	}
 
@@ -188,7 +185,7 @@ public class PecaResource {
 	public ModelAndView editarObraFormulario(@PathVariable String id) {
 		ModelAndView mv = new ModelAndView("artistas/editarObraArtistaForm");
 		List<Artista> artistas = artistaService.findAll();
-		Peca obraEdited = auxPecaEdition;
+		Peca obraEdited = auxPecaEdit;
 		mv.addObject("artesaos", artistas);
 		mv.addObject("peca", obraEdited);
 		return mv;
@@ -201,7 +198,7 @@ public class PecaResource {
 			return "redirect:/pecas";
 		}
 
-		Peca editedObra = auxPecaEdition;
+		Peca editedObra = auxPecaEdit;
 
 		if (artista.getId().isBlank()) {
 			artista.setId(null);
@@ -226,7 +223,7 @@ public class PecaResource {
 
 		editedObra.setArtesao(artistaAssociado);
 
-		obraService.novaObra(editedObra);
+		obraService.insert(editedObra);
 
 		return "redirect:/pecas";
 	}
@@ -248,7 +245,6 @@ public class PecaResource {
 		if (result.hasErrors()) {
 			return "redirect:/pecas";
 		}
-
 		artistaService.update(idArtista, artista);
 
 		return "redirect:/pecas/editarObra/" + idObra + "/associarArtista";
@@ -273,13 +269,8 @@ public class PecaResource {
 			@RequestParam("nomeArquivo") String nomeArquivo) throws IOException {
 		try {
 
-			File f = new File(file.getOriginalFilename(), file.getContentType(), file.getSize(),
-					new Binary(file.getBytes()));
-			f.setMd5(MD5Util.getMD5(file.getInputStream()));
-			f.setIdObra(idObra);
-			f.setName(nomeArquivo);
-			f.setUploadDate(LocalDate.now());
-			fileService.saveFile(f);
+			File f = fileService.buildFile(file, idObra, nomeArquivo);
+			fileService.save(f);
 			return "redirect:/pecas/" + idObra;
 
 		} catch (IOException | NoSuchAlgorithmException ex) {
@@ -290,7 +281,7 @@ public class PecaResource {
 
 	@GetMapping(value = "/deletarMidia/{idObra}/{idMidia}")
 	public String deleteArquivo(@PathVariable String idObra, @PathVariable String idMidia) {
-		fileService.deleteFile(idMidia);
+		fileService.delete(idMidia);
 		return "redirect:/pecas/" + idObra;
 	}
 

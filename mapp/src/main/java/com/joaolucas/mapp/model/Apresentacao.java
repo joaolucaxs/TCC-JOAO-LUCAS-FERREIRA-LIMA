@@ -2,6 +2,7 @@ package com.joaolucas.mapp.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Base64;
 import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
@@ -26,6 +27,8 @@ public class Apresentacao implements Serializable {
 	private Image imagemCapa;
 
 	private Html html;
+	
+	private byte[] qrCode;
 
 	public Apresentacao() {
 	}
@@ -108,6 +111,18 @@ public class Apresentacao implements Serializable {
 
 	public void setHtml(Html html) {
 		this.html = html;
+	}
+
+	public byte[] getQrCode() {
+		return qrCode;
+	}
+
+	public void setQrCode(byte[] qrCode) {
+		this.qrCode = qrCode;
+	}
+	
+	public String getQrCodeBinaryStr() {
+		return Base64.getEncoder().encodeToString(qrCode);
 	}
 
 }

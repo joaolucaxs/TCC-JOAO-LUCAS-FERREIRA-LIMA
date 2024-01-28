@@ -9,7 +9,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.joaolucas.mapp.dtos.ArtistaDTO;
+import com.joaolucas.mapp.dtos.ArtistaDTOShow;
 import com.joaolucas.mapp.model.Artista;
 import com.joaolucas.mapp.model.Peca;
 import com.joaolucas.mapp.repositories.ArtistaRepository;
@@ -30,12 +30,12 @@ public class ArtistaService {
 		return repo.findAll();
 	}
 
-	public List<ArtistaDTO> findAllDto() {
+	public List<ArtistaDTOShow> findAllDto() {
 		return findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
 	}
 
-	private ArtistaDTO convertToDTO(Artista peca) {
-		ArtistaDTO artistaDTO = new ArtistaDTO();
+	private ArtistaDTOShow convertToDTO(Artista peca) {
+		ArtistaDTOShow artistaDTO = new ArtistaDTOShow();
 		artistaDTO.setNome(peca.getNome());
 		artistaDTO.setApelido(peca.getApelido());
 		artistaDTO.setTelefone(peca.getTelefone());
@@ -95,14 +95,13 @@ public class ArtistaService {
 		}
 	}
 
-	public Artista fromDTO(ArtistaDTO objDTO) {
+	public Artista fromDTO(ArtistaDTOShow objDTO) {
 		Artista artista = new Artista();
 		artista.setNome(objDTO.getNome());
 		artista.setApelido(objDTO.getApelido());
 		artista.setCidade(objDTO.getCidade());
 		artista.setEmail(objDTO.getEmail());
 		artista.setTelefone(objDTO.getTelefone());
-
 		return artista;
 	}
 
