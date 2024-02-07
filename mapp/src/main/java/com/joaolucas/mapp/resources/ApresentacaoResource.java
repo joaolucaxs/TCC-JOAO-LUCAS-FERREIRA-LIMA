@@ -125,7 +125,7 @@ public class ApresentacaoResource {
 		return mv;
 	}
 
-	@GetMapping("{id}/qrCode")
+	@GetMapping(value = "/{id}/qrCode")
 	public void visualizarQrCode(@PathVariable String id, HttpServletResponse response) throws IOException {
 		Apresentacao apresentacao = apresentacaoService.findById(id);
 		apresentacaoService.visualizarQrCode(response, apresentacao);

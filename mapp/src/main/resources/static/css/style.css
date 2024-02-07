@@ -32,6 +32,7 @@ body{
 }
 #imagem-capa{
     max-height: 300px; 
+        height: 300px;
 }
 
 #imagem-capa-video{
