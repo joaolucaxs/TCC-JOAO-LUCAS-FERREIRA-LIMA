@@ -17,9 +17,12 @@ import com.joaolucas.mapp.model.FichaTecnicaObra;
 import com.joaolucas.mapp.model.Image;
 import com.joaolucas.mapp.model.Peca;
 import com.joaolucas.mapp.repositories.PecaRepository;
+import com.joaolucas.mapp.resources.util.QRCodeUtil;
 import com.joaolucas.mapp.services.exceptions.DataBaseException;
 import com.joaolucas.mapp.services.exceptions.ResourceNotFoundException;
 import com.joaolucas.mapp.utils.Utils;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 @Service
 public class PecaService {
@@ -30,12 +33,15 @@ public class PecaService {
 	@Autowired
 	private ArtistaService serviceArtista;
 
+	private static String URLPeca = "pecas/obra/";
+
 	public List<Peca> findAll() {
 		return repo.findAll();
 	}
 
 	public Peca findById(String id) {
 		Optional<Peca> obj = repo.findById(id);
+		obj.get().setQrCode(QRCodeUtil.generateByteQRCode(URLPeca + obj.get().getId(), 250, 250));
 		return obj.orElseThrow(() -> new ResourceNotFoundException("Obra com ID " + id + " não foi encontrado."));
 	}
 
@@ -125,6 +131,13 @@ public class PecaService {
 
 		peca.setFichatecnica(fichaTecnicaObra);
 		return peca;
+	}
+
+	public void visualizarQrCode(HttpServletResponse response, Peca obra) throws IOException {
+		response.setContentType("image/png");
+		response.setHeader("Content-Disposition", "inline; filename=" + obra.getTituloPeca());
+		response.getOutputStream().write(obra.getQrCode());
+		response.flushBuffer();
 	}
 
 }

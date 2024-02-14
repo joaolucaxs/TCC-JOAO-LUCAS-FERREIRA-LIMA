@@ -72,6 +72,11 @@
 							<img th:src="${'data:image/*;base64,' + peca.getFichatecnica().getImagemCapa().getImagemBinaryStr()}"
 								class="p-3 img-fluid" id="imagem-capa" alt="Imagem da Capa">
 						</div>
+
+						<a th:href="@{/pecas/{id}/qrCode(id=${peca.getId()})}" id="qrCodeButton" class="text-center"
+							target="_blank">
+							<i class="bi bi-qr-code text-dark"></i>
+						</a>
 						<div class="card-body">
 							<h4 class="card-title text-center mb-4 text-decoration-none"
 								data-th-text="${peca.getTituloPeca()}"></h4>

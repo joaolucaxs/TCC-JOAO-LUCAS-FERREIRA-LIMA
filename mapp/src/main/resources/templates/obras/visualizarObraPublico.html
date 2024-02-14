@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<title>Visualizar Obra</title>
+
+</head>
+
+<body>
+	<div class="painelViewObraPublico">
+
+		<div class="row row-cols-1 row-cols-md-1">
+			<div class="card h-100">
+				<div class="flex flex-col items-center">
+
+					<div class="flex flex-col items-center">
+						<h1 id="imageTitle mb-2" class="text-center flex-grow lg:text-3xl align-middle text-hamdarkgray"
+							data-th-text="${peca.getTituloPeca()}">
+						</h1>
+					</div>
+				</div>
+				<div class="d-flex justify-content-center align-items-center h-100">
+					<img th:src="${'data:image/*;base64,' + peca.getFichatecnica().getImagemCapa().getImagemBinaryStr()}"
+						class="p-3 img-fluid rounderd-start" id="imagem-capa" alt="Imagem da Capa">
+				</div>
+
+				<div class="col d-flex justify-content-center align-items-center">
+					<div class="row-md-4">
+						<p class="card-text"><b>Nome da Peça:</b> <span data-th-text="${peca.getTituloPeca()}"></span>
+						</p>
+						<p class="card-text"><b>Nome do Artesão:</b> <span
+								data-th-text="${peca.getArtesao().getNome()}"></span></p>
+						<p class="card-text"><b>Forma Associativa:</b> <span
+								data-th-text="${peca.getFormaAssociativa()}"></span></p>
+						<p class="card-text"><b>Tipologia:</b> <span data-th-text="${peca.getTipologia()}"></span>
+						</p>
+						<p class="card-text"><b>Relação Cultural:</b> <span
+								data-th-text="${peca.getRelacaoCultural()}"></span></p>
+						<p class="card-text"><b>Técnica:</b> <span data-th-text="${peca.getTecnica()}"></span>
+						</p>
+						<p class="card-text"><b>Classificação:</b> <span
+								data-th-text="${peca.getClassificacao()}"></span></p>
+
+						<p class="card-text"><b>Produto:</b> <span data-th-text="${peca.getProduto()}"></span>
+						</p>
+
+						<p class="card-text"><b>Data de Aquisição:</b> <span
+								data-th-text="${peca.getFichatecnica().getDataAquisicaoAsStr()}"></span>
+						</p>
+						<p class="card-text"><b>Assinada:</b> <span
+								data-th-text="${peca.getFichatecnica().getAssinada() ? 'Sim' : 'Não'}"></span>
+						</p>
+						<p class="card-text"><b>Datada:</b> <span
+								data-th-text="${peca.getFichatecnica().getDatada()} ? 'Sim' : 'Não'"></span>
+						</p>
+						<p class="card-text"><b>Dimensão:</b> <span
+								data-th-text="${peca.getFichatecnica().getDimensao()}"></span></p>
+						<p class="card-text"><b>Peso:</b> <span
+								data-th-text="${peca.getFichatecnica().getPeso()}"></span></p>
+						<p class="card-text"><b> </b> <span> </span> </p>
+						<p class="card-text"><b> </b> <span> </span> </p>
+						<p class="card-text"><b> </b> <span> </span> </p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+		integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
+		integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
+		crossorigin="anonymous"></script>
+
+</body>
+
+</html>

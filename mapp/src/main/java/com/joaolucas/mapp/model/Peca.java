@@ -1,6 +1,7 @@
 package com.joaolucas.mapp.model;
 
 import java.io.Serializable;
+import java.util.Base64;
 import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
@@ -26,12 +27,14 @@ public class Peca implements Serializable {
 	private String classificacao;
 	private String produto;
 	private FichaTecnicaObra fichatecnica;
+	private byte[] qrCode;
 
 	public Peca() {
 	};
 
 	public Peca(String id, Artista artesao, String tituloPeca, String tipologia, String formaAssociativa,
-			String relacaoCultural, String tecnica, String classificacao, String produto, FichaTecnicaObra fichatecnica) {
+			String relacaoCultural, String tecnica, String classificacao, String produto,
+			FichaTecnicaObra fichatecnica) {
 		super();
 		this.id = id;
 		this.artesao = artesao;
@@ -44,7 +47,7 @@ public class Peca implements Serializable {
 		this.produto = produto;
 		this.fichatecnica = fichatecnica;
 	}
-	
+
 	public Peca(Peca obj) {
 		this.id = obj.id;
 		this.artesao = obj.artesao;
@@ -138,6 +141,18 @@ public class Peca implements Serializable {
 		this.fichatecnica = fichatecnica;
 	}
 
+	public byte[] getQrCode() {
+		return qrCode;
+	}
+
+	public void setQrCode(byte[] qrCode) {
+		this.qrCode = qrCode;
+	}
+
+	public String getQrCodeBinaryStr() {
+		return Base64.getEncoder().encodeToString(qrCode);
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -154,9 +169,5 @@ public class Peca implements Serializable {
 		Peca other = (Peca) obj;
 		return Objects.equals(id, other.id);
 	}
-
-	
-	
-	
 
 }

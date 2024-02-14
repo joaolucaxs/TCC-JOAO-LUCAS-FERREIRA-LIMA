@@ -29,13 +29,15 @@ public class ApresentacaoService {
 	@Autowired
 	private ApresentacaoRepository repo;
 
+	private static String URLApresentacao = "apresentacoes/";
+
 	public List<Apresentacao> findAll() {
 		return repo.findAll();
 	}
 
 	public Apresentacao findById(String id) {
 		Optional<Apresentacao> obj = repo.findById(id);
-		obj.get().setQrCode(QRCodeUtil.generateByteQRCode(obj.get(), 250, 250));
+		obj.get().setQrCode(QRCodeUtil.generateByteQRCode(URLApresentacao + obj.get().getId(), 250, 250));
 		return obj
 				.orElseThrow(() -> new ResourceNotFoundException("Apresentacao com ID " + id + " não foi encontrado."));
 	}
@@ -77,7 +79,7 @@ public class ApresentacaoService {
 		apresentacao.setImagemCapa(imagemCapa);
 		return apresentacao;
 	}
-	
+
 	public void visualizarQrCode(HttpServletResponse response, Apresentacao apresentacao) throws IOException {
 		response.setContentType("image/png");
 		response.setHeader("Content-Disposition", "inline; filename=" + apresentacao.getTituloApresentacao());

@@ -13,13 +13,13 @@ import com.joaolucas.mapp.model.Apresentacao;
 
 public class QRCodeUtil {
 
-	public static byte[] generateByteQRCode(Apresentacao apresentacao, int width, int height) {
-		ByteArrayOutputStream outputStream = null;
+	private static String URL = "http://192.168.18.211:8080/";
+
+	public static byte[] generateByteQRCode(String endpointUrl, int width, int height) {
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		QRCodeWriter qrCodeWriter = new QRCodeWriter();
-		String endpointUrl = "http://192.168.18.211:8080/apresentacoes/" + apresentacao.getId();
 		try {
-			outputStream = new ByteArrayOutputStream();
-			BitMatrix bitMatrix = qrCodeWriter.encode(endpointUrl, BarcodeFormat.QR_CODE, width, height);
+			BitMatrix bitMatrix = qrCodeWriter.encode(URL + endpointUrl, BarcodeFormat.QR_CODE, width, height);
 			MatrixToImageConfig config = new MatrixToImageConfig(0xFF000000, 0xFFFFFFFF);
 			MatrixToImageWriter.writeToStream(bitMatrix, "PNG", outputStream, config);
 		} catch (WriterException | IOException e) {

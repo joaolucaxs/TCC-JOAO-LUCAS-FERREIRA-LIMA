@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.joaolucas.mapp.dtos.FileDTOShow;
 import com.joaolucas.mapp.dtos.PecaDTOForm;
 import com.joaolucas.mapp.dtos.PecaDTOShow;
+import com.joaolucas.mapp.model.Apresentacao;
 import com.joaolucas.mapp.model.Artista;
 import com.joaolucas.mapp.model.File;
 import com.joaolucas.mapp.model.Peca;
@@ -27,6 +28,7 @@ import com.joaolucas.mapp.services.ArtistaService;
 import com.joaolucas.mapp.services.FileService;
 import com.joaolucas.mapp.services.PecaService;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 @Controller
@@ -76,6 +78,23 @@ public class PecaResource {
 		mv.addObject("files", filesDto);
 		mv.addObject("peca", obra);
 		return mv;
+	}
+	
+	@GetMapping(value = "/obra/{id}")
+	public ModelAndView visualizarObraPublico(@PathVariable String id) {
+		Peca obra = obraService.findById(id);
+		List<File> files = fileService.findAllByIdObra(id);
+		List<FileDTOShow> filesDto = files.stream().map(file -> new FileDTOShow(file)).collect(Collectors.toList());
+		ModelAndView mv = new ModelAndView("obras/visualizarObraPublico");
+		mv.addObject("files", filesDto);
+		mv.addObject("peca", obra);
+		return mv;
+	}
+	
+	@GetMapping(value = "/{id}/qrCode")
+	public void visualizarQrCode(@PathVariable String id, HttpServletResponse response) throws IOException {
+		Peca obra = obraService.findById(id);
+		obraService.visualizarQrCode(response, obra);
 	}
 
 	@GetMapping(value = "/novaObra")

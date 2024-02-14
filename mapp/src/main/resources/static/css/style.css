@@ -1,4 +1,8 @@
-
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 body{
 	background-color: #DDDDDD;
@@ -20,6 +24,16 @@ body{
 	padding: 50px;
 	margin:2%;
 }
+
+.painelViewObraPublico {
+  width: 100%;
+  max-width: 375px;
+  margin: 0 auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+
 .items-center {
     align-items: center;
 }

@@ -82,10 +82,12 @@
 						<button class="btn btn-primary mb-3" type="button" data-bs-toggle="offcanvas"
 							data-bs-target="#offcanvasApresentacoes"
 							aria-controls="offcanvasApresentacoes">Apresentações</button>
+
+						<button class="btn btn-primary mb-3" type="button" data-bs-toggle="offcanvas"
+							data-bs-target="#offcanvasObras" aria-controls="offcanvasObras">Obras</button>
 					</div>
 				</div>
 			</div>
-
 		</div>
 	</form>
 
@@ -231,6 +233,41 @@
 									<h4 class="card-title text-center mb-4 text-decoration-none"
 										data-th-text="${apresentacao.getTituloApresentacao()}" id="titulo-apresentacao">
 									</h4>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+		id="offcanvasObras" aria-labelledby="offcanvasObrasLabel">
+		<div class="offcanvas-header">
+			<h5 class="offcanvas-title" id="offcanvasObrasLabel">Obras Disponíveis</h5>
+			<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+		</div>
+		<div class="offcanvas-body">
+			<div class="d-flex flex-column justify-content-center">
+				<div class="row row-cols-1 row-cols-md-1 g-4">
+					<div class="col apresentacoes" th:each="obra : ${pecas}">
+						<div class="d-flex flex-column justify-content-center align-items-center h-100 apresentacoes-relacionadas"
+							draggable="true" ondragstart="drag(event)">
+							<div class="d-flex justify-content-center align-items-center h-100" draggable="false">
+								<img th:src="${'data:image/*;base64,' + obra.getFichatecnica().getImagemCapa().getImagemBinaryStr()}"
+									class="p-3 img-fluid" id="imagem-apresentacao" alt="Imagem da Capa"
+									draggable="false">
+							</div>
+							<div class="card-body">
+								<a th:href="@{'/pecas/obra/'+${obra.getId()}}" class="disabled-link" target="_blank"
+									id="link-apresentacao">
+									<h5 class="card-title text-center mb-1 text-decoration-none"
+										data-th-text="${obra.getTituloPeca()}" id="titulo-apresentacao">
+									</h5>
+									<p class="card-title text-center mb-4 text-decoration-none"
+										data-th-text="${obra.getArtesao().getNome()}">
+									</p>
 								</a>
 							</div>
 						</div>
